@@ -1,0 +1,32 @@
+{
+  "name": "local-ai-anonymizer",
+  "version": "1.0.0",
+  "description": "Kỹ năng che giấu dữ liệu nhạy cảm cá nhân (PII) cục bộ bằng Regex kết hợp Local LLM",
+  "type": "utility",
+  "entrypoint": "src/anonymizer.py",
+  "inputs": {
+    "text": {
+      "type": "string",
+      "description": "Đoạn văn bản chứa thông tin cần quét và che giấu dữ liệu nhạy cảm cá nhân PII",
+      "required": true
+    }
+  },
+  "outputs": {
+    "redacted_text": {
+      "type": "string",
+      "description": "Đoạn văn bản đã được lọc sạch thông tin nhạy cảm và thay thế bằng các nhãn REDACTED"
+    },
+    "needs_human_review": {
+      "type": "boolean",
+      "description": "Cờ cảnh báo kích hoạt kiểm duyệt thủ công bởi con người (HITL)"
+    },
+    "pii_counts": {
+      "type": "object",
+      "description": "Số lượng các trường dữ liệu nhạy cảm đã phát hiện và che giấu theo từng loại"
+    }
+  },
+  "compatibility": {
+    "ollama": ">=0.1.30",
+    "python": ">=3.10"
+  }
+}

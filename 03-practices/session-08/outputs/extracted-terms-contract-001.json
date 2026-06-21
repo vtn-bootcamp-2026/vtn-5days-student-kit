@@ -1,0 +1,85 @@
+{
+  "contract_id": "HD-DV-2026-001",
+  "contract_type": "Cung cấp dịch vụ truyền dẫn liên quận",
+  "parties": {
+    "party_a": {
+      "name": "Công ty Cổ phần Viễn thông Mô phỏng (VTN-Sim)",
+      "representative": "Nguyễn Văn An - Giám đốc",
+      "tax_id": "0301234567-001 (mô phỏng)"
+    },
+    "party_b": {
+      "name": "Công ty TNHH Giải pháp Số Demo",
+      "representative": "Trần Thị Bình - Trưởng phòng Mua hàng",
+      "tax_id": "0309876543-001 (mô phỏng)"
+    }
+  },
+  "effective_date": "2026-01-01",
+  "expiry_date": "2026-12-31",
+  "contract_value": {
+    "amount": 360000000,
+    "currency": "VNĐ",
+    "payment_terms": "Hàng quý, trong vòng 15 ngày kể từ ngày nhận hóa đơn. Mỗi quý: 90.000.000 VNĐ."
+  },
+  "scope": "Dịch vụ truyền dẫn liên quận, băng thông 100 Mbps, cam kết sẵn sàng 99.5%, hỗ trợ kỹ thuật 24/7",
+  "sla": {
+    "uptime_commitment": "99.5%",
+    "scope": "Truyền dẫn dữ liệu giữa điểm kết nối Quận 1 và Quận 5"
+  },
+  "penalty_clause": "Phạt 1% giá trị hợp đồng hàng tháng cho mỗi 0.5% giảm hiệu suất, tối đa 10% giá trị hợp đồng hàng quý.",
+  "penalty_amount": "Tối đa 10% giá trị hợp đồng hàng quý = 36.000.000 VNĐ/qúy",
+  "auto_renewal": false,
+  "renewal_notice_period": "30 ngày trước khi hết hạn, bằng văn bản",
+  "confidentiality": {
+    "duration": "2 năm sau khi hợp đồng hết hạn",
+    "scope": "Dữ liệu kỹ thuật, thông tin khách hàng, giá cả và điều khoản thương mại"
+  },
+  "liability_cap": null,
+  "dispute_resolution": "Thương lượng → Trọng tài thương mại TP. HCM (sau 30 ngày không thương lượng được)",
+  "source_evidence": [
+    {
+      "field": "effective_date",
+      "quote": "Hợp đồng có hiệu lực kể từ ngày 01 tháng 01 năm 2026.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "expiry_date",
+      "quote": "Hợp đồng có thời hạn 12 (mười hai) tháng, hết hạn vào ngày 31 tháng 12 năm 2026.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "auto_renewal",
+      "quote": "Không tự động gia hạn. Các bên cần thỏa thuận gia hạn bằng văn bản trước 30 ngày.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "contract_value",
+      "quote": "Giá trị hợp đồng: 360.000.000 VNĐ (Ba trăm sáu mươi triệu đồng).",
+      "section": "Điều 3"
+    },
+    {
+      "field": "penalty_clause",
+      "quote": "Phạt 1% giá trị hợp đồng hàng tháng cho mỗi 0.5% giảm hiệu suất. Tối đa phạt không quá 10% giá trị hợp đồng hàng quý.",
+      "section": "Điều 4"
+    },
+    {
+      "field": "sla.uptime_commitment",
+      "quote": "Cam kết sẵn sàng 99.5% thời gian hoạt động",
+      "section": "Điều 1"
+    },
+    {
+      "field": "confidentiality.duration",
+      "quote": "Nghĩa vụ bảo mật kéo dài 2 năm sau khi hợp đồng hết hạn.",
+      "section": "Điều 5"
+    },
+    {
+      "field": "dispute_resolution",
+      "quote": "Nếu không thương lượng được trong 30 ngày, tranh chấp sẽ được đưa ra Trọng tài thương mại TP. HCM.",
+      "section": "Điều 7"
+    }
+  ],
+  "confidence": 0.92,
+  "needs_human_review": false,
+  "red_flags": [],
+  "missing_fields": [],
+  "extraction_notes": "Hợp đồng đầy đủ, rõ ràng. SLA 99.5% hợp lý cho dịch vụ truyền dẫn liên quận. Có giới hạn phạt tối đa. Có điều khoản bảo mật. Không phát hiện cờ đỏ."
+}

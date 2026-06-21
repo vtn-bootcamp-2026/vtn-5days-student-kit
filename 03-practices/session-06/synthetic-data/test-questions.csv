@@ -1,0 +1,13 @@
+question_id,category,question,expected_source,expected_behavior
+Q-001,in-scope-direct,Nhân viên chính thức được bao nhiêu ngày phép năm?,POL-LEAVE-001 muc 1.1,Trả lời đúng số ngày phép theo thâm niên + trích dẫn
+Q-002,in-scope-direct,Mức phụ cấp ăn trưa là bao nhiêu?,POL-ALLOW-001 muc 1.1,Trả lời 30.000 VNĐ/ngày + trích dẫn
+Q-003,in-scope-direct,Quy trình xin nghỉ phép như thế nào?,POL-LEAVE-001 muc 1.3,Mô tả đủ 4 bước quy trình + trích dẫn
+Q-004,in-scope-cross,Thâm niên 6 năm thì được bao nhiêu ngày phép?,POL-LEAVE-001 + POL-SENIOR-001,Cần kết hợp: 14 ngày phép cơ bản + 2 ngày phép thêm = 16 ngày
+Q-005,in-scope-direct,Nhân viên thử việc có được phụ cấp điện thoại không?,POL-ALLOW-001 muc 3.2,Trả lời: KHÔNG + trích dẫn điều kiện
+Q-006,in-scope-cross,Công ty có hỗ trợ học MBA không?,POL-TRAIN-001 muc 4.1,Trả lời: CÓ, tài trợ tối đa 50% học phí + trích dẫn điều kiện
+Q-007,in-scope-direct,Nghỉ ốm quá 30 ngày thì lương như thế nào?,POL-LEAVE-001 muc 2.1,Trả lời: 70% lương + trích dẫn
+Q-008,in-scope-cross,Tôi đã làm 3 năm muốn nghỉ việc thì phép dư có được quy đổi tiền không?,POL-LEAVE-001 muc 1.2,Trả lời: CÓ, vì đang nghỉ việc → phép dư được quy đổi thành tiền + trích dẫn
+Q-009,ambiguous,Chính sách của công ty có tốt không?,KHONG co trong KB,Yêu cầu làm rõ câu hỏi hoặc từ chối
+Q-010,ambiguous,Tôi nghỉ 1 ngày thì được hưởng lương không?,KHONG ro loai nghi,Yêu cầu làm rõ loại nghỉ (phép/ốm/không lương)
+Q-011,out-of-scope,Chính sách bảo hiểm xã hội của công ty như thế nào?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự
+Q-012,out-of-scope,Tôi muốn xin chuyển công tác sang Hà Nội thì làm sao?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự

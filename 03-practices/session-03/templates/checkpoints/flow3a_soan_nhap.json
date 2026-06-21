@@ -1,0 +1,426 @@
+{
+  "name": "Flow 3a: Soạn thảo và tạo email nháp (Gemini)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "eda404ff-3af7-4890-88d5-7f387221ee6a",
+      "name": "Bấm soạn nháp",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4",
+          "mode": "list",
+          "cachedResultName": "ggsheet3_soan_thao.xlsx",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1437319754,
+          "mode": "list",
+          "cachedResultName": "SoanThao",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4/edit#gid=1437319754"
+        },
+        "options": {}
+      },
+      "id": "5271c9ce-384c-4d03-b3cd-fb79d3053dda",
+      "name": "Đọc yêu cầu soạn",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1040,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8nZVFVwQRFWIcZdK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 1
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "8edd3b6f-51b0-4e07-b608-350cf11c44d4",
+              "leftValue": "={{ $json['Trạng thái'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b2c14548-d3b7-4ce5-a25b-99cf341521b4",
+      "name": "Chỉ soạn dòng chưa xử lý",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -784,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là trợ lý hành chính của Viettel Network, soạn văn bản công sở tiếng Việt chuẩn mực, đúng văn phong doanh nghiệp. Dựa trên thông tin bên dưới, soạn nội dung HOÀN CHỈNH có lời chào mở đầu và lời kết phù hợp với giọng văn yêu cầu.\n\nLoại văn bản: {{ $json['Loại văn bản'] }}\nNgười nhận: {{ $json['Người nhận'] }}\nGiọng văn: {{ $json['Giọng văn'] }}\nCác ý chính cần triển khai: {{ $json['Ý chính'] }}\n\nTrả về DUY NHẤT một JSON gồm 2 trường: tieu_de (dòng tiêu đề ngắn gọn) và noi_dung (toàn bộ nội dung văn bản hoàn chỉnh)."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "13cae3ed-22e4-4be7-b108-948b06a2541d",
+      "name": "Gemini soạn thảo",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -64
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XjSXx9d0VAYZdaBO",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6bfa731d-45ca-4fb5-b2ca-0d1c7954b86d",
+              "name": "row_number",
+              "value": "={{ $('Đọc yêu cầu soạn').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "174076c3-9711-4b04-9fb7-bc386973c6f4",
+              "name": "Tiêu đề",
+              "value": "={{ JSON.parse($json.content.parts[0].text).tieu_de }}",
+              "type": "string"
+            },
+            {
+              "id": "1aaff449-f33c-4672-ba92-259bceea4863",
+              "name": "Nội dung hoàn chỉnh",
+              "value": "={{ JSON.parse($json.content.parts[0].text).noi_dung }}",
+              "type": "string"
+            },
+            {
+              "id": "e1c02784-f575-409c-a55d-c73ff6f3e941",
+              "name": "Trạng thái",
+              "value": "Chờ duyệt",
+              "type": "string"
+            },
+            {
+              "id": "6d3dacd5-2a5e-4c8d-8fcd-49d608426a27",
+              "name": "Email người nhận",
+              "value": "={{ $('Đọc yêu cầu soạn').item.json['Email người nhận'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "63d02795-ec0f-4785-99b9-df0af167d4d0",
+      "name": "Tách nháp (Edit Fields)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $json['Tiêu đề'] }}",
+        "message": "={{ $json['Nội dung hoàn chỉnh'] }}",
+        "options": {
+          "sendTo": "={{ $json['Email người nhận'] }}"
+        }
+      },
+      "id": "5438ae62-eb64-4d1d-9e86-d2d884e59b84",
+      "name": "Tạo email nháp (Gmail Draft)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "234497a8-153f-4d69-84fb-7ef769fdbecc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oqxATtBmr7iFG3zg",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4",
+          "mode": "list",
+          "cachedResultName": "ggsheet3_soan_thao.xlsx",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1437319754,
+          "mode": "list",
+          "cachedResultName": "SoanThao",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aG2LwMm2bgJ4NMvRCEuAY__kJgGnH9xufZiJZUvmog4/edit#gid=1437319754"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "Email người nhận": "={{ $json['Email người nhận'] }}",
+            "Tiêu đề": "={{ $json['Tiêu đề'] }}",
+            "Nội dung hoàn chỉnh": "={{ $json['Nội dung hoàn chỉnh'] }}",
+            "Trạng thái": "={{ $json['Trạng thái'] }}",
+            "row_number": 0
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Loại văn bản",
+              "displayName": "Loại văn bản",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Người nhận",
+              "displayName": "Người nhận",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email người nhận",
+              "displayName": "Email người nhận",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ý chính",
+              "displayName": "Ý chính",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Giọng văn",
+              "displayName": "Giọng văn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tiêu đề",
+              "displayName": "Tiêu đề",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nội dung hoàn chỉnh",
+              "displayName": "Nội dung hoàn chỉnh",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Trạng thái",
+              "displayName": "Trạng thái",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Duyệt gửi",
+              "displayName": "Duyệt gửi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ngày gửi",
+              "displayName": "Ngày gửi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a33ab7fb-3e1d-48db-8d9c-66aa427c14dc",
+      "name": "Ghi nháp vào Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        0,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8nZVFVwQRFWIcZdK",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Bấm soạn nháp": {
+      "main": [
+        [
+          {
+            "node": "Đọc yêu cầu soạn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Đọc yêu cầu soạn": {
+      "main": [
+        [
+          {
+            "node": "Chỉ soạn dòng chưa xử lý",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chỉ soạn dòng chưa xử lý": {
+      "main": [
+        [
+          {
+            "node": "Gemini soạn thảo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini soạn thảo": {
+      "main": [
+        [
+          {
+            "node": "Tách nháp (Edit Fields)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tách nháp (Edit Fields)": {
+      "main": [
+        [
+          {
+            "node": "Tạo email nháp (Gmail Draft)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Ghi nháp vào Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "5134f527-c23e-4e6b-8813-2e6c9dcd834f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "feb05a57fcb423f75b42cae3d02a90a43f0afa9d09bec80a128bb5a0e6b742df"
+  },
+  "nodeGroups": [],
+  "id": "DzTVKsvUgFNJdLHJ",
+  "tags": []
+}

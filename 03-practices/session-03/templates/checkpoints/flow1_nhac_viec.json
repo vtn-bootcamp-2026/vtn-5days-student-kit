@@ -1,0 +1,295 @@
+{
+  "name": "Flow 1: Nhắc việc (Sheets + Gmail)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "a4e1f86c-41e5-466c-8a76-1e11ace8ccc2",
+      "name": "Lịch 8h sáng (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -784,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI",
+          "mode": "list",
+          "cachedResultName": " ggsheet1_nhac_viec.xlsx",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 281857055,
+          "mode": "list",
+          "cachedResultName": "CongViec",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI/edit#gid=281857055"
+        },
+        "options": {}
+      },
+      "id": "1028bd50-c145-4c1d-bf9d-79543306f94b",
+      "name": "Đọc danh sách công việc",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -528,
+        80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8nZVFVwQRFWIcZdK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a288218f-949c-4672-bf71-a7b6e12e0d4c",
+              "leftValue": "={{ $json['Trạng thái'] }}",
+              "rightValue": "Hoàn thành",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "411889f3-d2d8-42d4-b0c0-8777e879756c",
+      "name": "Lọc việc chưa hoàn thành",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "82f33b2d-6f66-4941-b27b-3c6422d45766",
+              "name": "Nội dung nhắc",
+              "value": "={{ \"Việc '\" + $json['Tên công việc'] + \"' (phụ trách: \" + $json['Người phụ trách'] + \") CHƯA HOÀN THÀNH NHIỆM VỤ. Hạn chót: \" + $json['Hạn chót'] }}",
+              "type": "string"
+            },
+            {
+              "id": "348ffd57-e288-408e-af9f-045d6d6696cc",
+              "name": "Người phụ trách",
+              "value": "={{ $json['Người phụ trách'] }}",
+              "type": "string"
+            },
+            {
+              "id": "74d5f762-6c0f-477d-8fe0-23c1ac082691",
+              "name": "Ngày nhắc",
+              "value": "={{ $now.format('dd/MM/yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "8cdd9477-1e12-439e-a1eb-a55444f4b529",
+              "name": "Email",
+              "value": "={{ $json['Email'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "255adb94-be68-406d-89a3-dad3e6e48870",
+      "name": "Soạn nội dung nhắc (Edit Fields)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI",
+          "mode": "list",
+          "cachedResultName": " ggsheet1_nhac_viec.xlsx",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 208865185,
+          "mode": "list",
+          "cachedResultName": "NhacViec",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uECXEB1DLwZKRSnWSZ-0e7UF1lvaerpEb7i-uFGTwmI/edit#gid=208865185"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nội dung nhắc": "={{ $json['Nội dung nhắc'] }}",
+            "Người phụ trách": "={{ $json['Người phụ trách'] }}",
+            "Ngày nhắc": "={{ $json['Ngày nhắc'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nội dung nhắc",
+              "displayName": "Nội dung nhắc",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Người phụ trách",
+              "displayName": "Người phụ trách",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ngày nhắc",
+              "displayName": "Ngày nhắc",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "d514b75d-94af-4130-8e7e-e768c493e28a",
+      "name": "Ghi vào bảng Nhắc việc",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        272,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8nZVFVwQRFWIcZdK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email'] }}",
+        "subject": "=[Viettel Network] Nhắc việc chưa hoàn thành",
+        "emailType": "text",
+        "message": "={{ 'Kính gửi ' + $json['Người phụ trách'] + ',\\n\\n' + $json['Nội dung nhắc'] + '\\n\\n' + 'Đề nghị anh/chị cập nhật tiến độ công việc. Trân trọng,\\nViettel Network' }}",
+        "options": {}
+      },
+      "id": "4b4ff3cd-6526-4cc0-a692-bca3fff6fe13",
+      "name": "Gửi email nhắc việc (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        272,
+        160
+      ],
+      "webhookId": "0e03dd57-3b53-4673-9c47-9d872c505c79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oqxATtBmr7iFG3zg",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Lịch 8h sáng (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "Đọc danh sách công việc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Đọc danh sách công việc": {
+      "main": [
+        [
+          {
+            "node": "Lọc việc chưa hoàn thành",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lọc việc chưa hoàn thành": {
+      "main": [
+        [
+          {
+            "node": "Soạn nội dung nhắc (Edit Fields)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Soạn nội dung nhắc (Edit Fields)": {
+      "main": [
+        [
+          {
+            "node": "Ghi vào bảng Nhắc việc",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gửi email nhắc việc (Gmail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0513241e-3d94-45f6-9f0f-6c0c82063e92",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "feb05a57fcb423f75b42cae3d02a90a43f0afa9d09bec80a128bb5a0e6b742df"
+  },
+  "nodeGroups": [],
+  "id": "nBReV1X4buHwwLNi",
+  "tags": []
+}

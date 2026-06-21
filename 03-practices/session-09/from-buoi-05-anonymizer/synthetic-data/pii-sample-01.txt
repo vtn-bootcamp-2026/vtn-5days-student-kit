@@ -1,0 +1,13 @@
+TAI LIEU MO PHONG - KHONG PHAI DU LIEU THAT
+
+Bien ban tiep nhan yeu cau ho tro noi bo
+
+Nguoi yeu cau: Nguyen Van A
+So CCCD: 012345678901
+So dien thoai: 0987654321
+Email: nguyenvana.demo@example.local
+Dia chi mo phong: So 12 duong Mo Phong, phuong Du Lieu Mau, thanh pho Demo
+
+Noi dung yeu cau:
+Can ho tro kiem tra checklist van hanh truoc khi gui tai lieu sang nhom xu ly tiep theo.
+
