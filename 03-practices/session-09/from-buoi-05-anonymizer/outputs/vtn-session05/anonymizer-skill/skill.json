@@ -1,0 +1,32 @@
+{
+  "name": "anonymizer-skill",
+  "version": "1.0.0",
+  "description": "PII Anonymizer Skill - Công cụ che giấu dữ liệu nhận dạng cá nhân bằng Regex + LLM lai",
+  "author": "{Tên nhóm}",
+  "created_at": "{Ngày}",
+  "triggers": {
+    "file_patterns": [".txt", ".csv", ".md"],
+    "keywords": ["ẩn danh", "che giấu", "PII", "cá nhân", "redact", "anonymize"],
+    "api_endpoint": "scripts/anonymizer.py"
+  },
+  "permissions": {
+    "read_files": ["synthetic-data/", "kb/"],
+    "write_files": ["outputs/", "logs/"],
+    "execute_scripts": ["scripts/anonymizer.py", "scripts/validator.py"],
+    "network_access": "ollama_local_only"
+  },
+  "required_files": {
+    "config": "skill.json",
+    "instructions": "SKILL.md",
+    "schema": "schemas/anonymized-output.schema.json",
+    "knowledge_base": ["kb/pii-categories.md", "kb/regex-patterns.md", "kb/safe-terms.md"],
+    "scripts": ["scripts/anonymizer.py", "scripts/validator.py"]
+  },
+  "quality_gates": {
+    "min_test_pass_rate": ">=6/8 test cases PASS",
+    "no_pii_in_logs": true,
+    "ollama_resilience": "Regex fallback PASS khi Ollama disconnected",
+    "hook_enforcement": "write_file và terminal bị block",
+    "injection_defense": "prompt injection bị phát hiện + needs_human_review = True"
+  }
+}

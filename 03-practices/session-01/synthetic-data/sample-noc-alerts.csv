@@ -1,0 +1,116 @@
+alert_id,timestamp,site_code,device_type,severity,summary,status
+ALERT-001,2026-05-01 08:02:00,TEST_SITE_018,server,high,database query latency spike in performance test [Contact: Nguyen Van A (0987654321)],open
+ALERT-002,2026-05-01 21:16:00,TEST_SITE_009,switch,low,interface flap in synthetic log,open
+ALERT-003,2026-05-01 23:59:00,TEST_SITE_026,server,high,unauthorized login attempt simulated in audit log,resolved
+ALERT-004,2026-05-01 21:35:00,TEST_SITE_010,server,low,disk space low on simulated system drive,in-progress
+ALERT-005,2026-05-01 22:56:00,TEST_SITE_004,firewall,high,session table capacity warning (simulated),in-progress
+ALERT-006,2026-05-02 01:25:00,TEST_SITE_010,base-station,low,RF module communication failure in lab environment,in-progress
+ALERT-007,2026-05-01 10:31:00,TEST_SITE_018,ups,high,communication failure with network card in test,open
+ALERT-008,2026-05-01 21:37:00,TEST_SITE_027,base-station,low,power backup warning in training scenario,resolved
+ALERT-009,2026-05-01 21:52:00,TEST_SITE_012,base-station,high,RF module communication failure in lab environment [Assigned to: Nguyen Hoang E (0912345678)],open
+ALERT-010,2026-05-01 15:21:00,TEST_SITE_022,ups,medium,communication failure with network card in test,resolved
+ALERT-011,2026-05-01 11:56:00,TEST_SITE_008,ups,low,bypass mode activated for maintenance demo,resolved
+ALERT-012,2026-05-01 09:50:00,TEST_SITE_023,router,medium,packet loss above simulated threshold on uplink,in-progress
+ALERT-013,2026-05-01 18:03:00,TEST_SITE_020,firewall,medium,high memory usage alert on training cluster [Contact: Nguyen Van A (0987654321)],in-progress
+ALERT-014,2026-05-01 14:22:00,TEST_SITE_020,server,medium,disk space low on simulated system drive,in-progress
+ALERT-015,2026-05-01 11:50:00,TEST_SITE_026,firewall,medium,session table capacity warning (simulated),open
+ALERT-016,2026-05-01 21:54:00,TEST_SITE_005,router,low,packet loss above simulated threshold on uplink,resolved
+ALERT-017,2026-05-01 16:32:00,TEST_SITE_011,ups,critical,communication failure with network card in test,in-progress
+ALERT-018,2026-05-01 17:53:00,TEST_SITE_019,base-station,low,RF module communication failure in lab environment,open
+ALERT-019,2026-05-01 09:24:00,TEST_SITE_010,firewall,medium,security policy update failed in sandbox,resolved
+ALERT-020,2026-05-02 02:45:00,TEST_SITE_006,server,medium,unauthorized login attempt simulated in audit log,in-progress
+ALERT-021,2026-05-02 01:48:00,TEST_SITE_005,router,low,OSPF adjacency loss in training network,open
+ALERT-022,2026-05-02 00:59:00,TEST_SITE_022,server,medium,database query latency spike in performance test [Contact: Tran Thi B (tran.b@vtn.com.vn)],open
+ALERT-023,2026-05-01 09:14:00,TEST_SITE_027,base-station,medium,clock synchronization out of bounds (simulated),open
+ALERT-024,2026-05-01 17:41:00,TEST_SITE_026,switch,low,spanning tree topology change detected,in-progress
+ALERT-025,2026-05-01 16:18:00,TEST_SITE_004,switch,high,interface flap in synthetic log [Contact: Tran Thi B (tran.b@vtn.com.vn)],open
+ALERT-026,2026-05-01 18:35:00,TEST_SITE_001,switch,high,high broadcast traffic detected in lab subnet,in-progress
+ALERT-027,2026-05-01 19:37:00,TEST_SITE_013,ups,medium,bypass mode activated for maintenance demo,in-progress
+ALERT-028,2026-05-01 16:17:00,TEST_SITE_003,switch,low,interface flap in synthetic log,open
+ALERT-029,2026-05-01 21:54:00,TEST_SITE_029,base-station,low,temperature warning on lab device,open
+ALERT-030,2026-05-01 08:27:00,TEST_SITE_032,base-station,high,clock synchronization out of bounds (simulated),resolved
+ALERT-031,2026-05-01 19:19:00,TEST_SITE_023,switch,critical,high broadcast traffic detected in lab subnet,in-progress
+ALERT-032,2026-05-01 09:55:00,TEST_SITE_020,switch,critical,high broadcast traffic detected in lab subnet,resolved
+ALERT-033,2026-05-01 23:08:00,TEST_SITE_028,ups,medium,high load capacity warning on bench unit,in-progress
+ALERT-034,2026-05-01 09:26:00,TEST_SITE_012,router,critical,packet loss above simulated threshold on uplink,in-progress
+ALERT-035,2026-05-01 10:45:00,TEST_SITE_003,base-station,low,power backup warning in training scenario,in-progress
+ALERT-036,2026-05-01 18:25:00,TEST_SITE_032,server,low,docker daemon crash warning in test node,in-progress
+ALERT-037,2026-05-01 15:31:00,TEST_SITE_015,firewall,low,VPN tunnel down in test configuration,resolved
+ALERT-038,2026-05-01 20:59:00,TEST_SITE_013,firewall,low,VPN tunnel down in test configuration,in-progress
+ALERT-039,2026-05-02 00:31:00,TEST_SITE_029,server,high,docker daemon crash warning in test node,in-progress
+ALERT-040,2026-05-01 23:56:00,TEST_SITE_034,base-station,critical,power backup warning in training scenario,open
+ALERT-041,2026-05-01 22:45:00,TEST_SITE_003,server,medium,swap space exhausted in sandbox environment [Contact: Nguyen Van A (0987654321)],in-progress
+ALERT-042,2026-05-01 08:56:00,TEST_SITE_033,switch,high,spanning tree topology change detected [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],in-progress
+ALERT-043,2026-05-01 14:05:00,TEST_SITE_009,server,medium,unauthorized login attempt simulated in audit log,in-progress
+ALERT-044,2026-05-01 12:36:00,TEST_SITE_004,server,low,disk space low on simulated system drive,open
+ALERT-045,2026-05-01 09:38:00,TEST_SITE_034,server,low,disk space low on simulated system drive [Contact: Nguyen Van A (0987654321)],open
+ALERT-046,2026-05-01 14:16:00,TEST_SITE_014,base-station,high,power backup warning in training scenario,in-progress
+ALERT-047,2026-05-01 08:46:00,TEST_SITE_020,ups,low,input voltage fluctuation detected in lab,open
+ALERT-048,2026-05-01 21:48:00,TEST_SITE_019,server,medium,unauthorized login attempt simulated in audit log,resolved
+ALERT-049,2026-05-01 08:05:00,TEST_SITE_024,base-station,low,temperature warning on lab device,open
+ALERT-050,2026-05-01 13:58:00,TEST_SITE_006,server,medium,disk space low on simulated system drive,in-progress
+ALERT-051,2026-05-01 10:21:00,TEST_SITE_009,router,high,packet loss above simulated threshold on uplink,resolved
+ALERT-052,2026-05-01 12:33:00,TEST_SITE_030,ups,critical,battery replacement warning (simulated),in-progress
+ALERT-053,2026-05-02 03:49:00,TEST_SITE_028,ups,medium,communication failure with network card in test,open
+ALERT-054,2026-05-01 19:24:00,TEST_SITE_023,server,low,database query latency spike in performance test,resolved
+ALERT-055,2026-05-01 11:29:00,TEST_SITE_021,router,low,high CPU usage due to synthetic routing traffic,resolved
+ALERT-056,2026-05-01 23:12:00,TEST_SITE_023,router,medium,OSPF adjacency loss in training network,open
+ALERT-057,2026-05-01 18:14:00,TEST_SITE_016,switch,medium,mac address table overflow simulated alert,open
+ALERT-058,2026-05-01 19:41:00,TEST_SITE_013,base-station,critical,RF module communication failure in lab environment,open
+ALERT-059,2026-05-01 20:13:00,TEST_SITE_030,server,low,database query latency spike in performance test,in-progress
+ALERT-060,2026-05-02 00:04:00,TEST_SITE_030,ups,medium,high load capacity warning on bench unit,in-progress
+ALERT-061,2026-05-01 12:32:00,TEST_SITE_018,switch,medium,spanning tree topology change detected [Contact: Nguyen Van A (0987654321)],open
+ALERT-062,2026-05-02 01:38:00,TEST_SITE_014,ups,medium,communication failure with network card in test,in-progress
+ALERT-063,2026-05-01 15:53:00,TEST_SITE_004,firewall,critical,session table capacity warning (simulated),in-progress
+ALERT-064,2026-05-02 00:12:00,TEST_SITE_013,ups,medium,bypass mode activated for maintenance demo,resolved
+ALERT-065,2026-05-01 11:20:00,TEST_SITE_013,ups,medium,input voltage fluctuation detected in lab,in-progress
+ALERT-066,2026-05-01 18:32:00,TEST_SITE_016,router,low,interface gigabitethernet0/1 down in test bed,in-progress
+ALERT-067,2026-05-01 17:56:00,TEST_SITE_008,firewall,medium,high memory usage alert on training cluster [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],resolved
+ALERT-068,2026-05-01 11:42:00,TEST_SITE_034,server,medium,unauthorized login attempt simulated in audit log [Contact: Tran Thi B (tran.b@vtn.com.vn)],resolved
+ALERT-069,2026-05-01 22:06:00,TEST_SITE_018,switch,medium,spanning tree topology change detected,resolved
+ALERT-070,2026-05-01 20:55:00,TEST_SITE_004,firewall,high,session table capacity warning (simulated) [Ticket owner: Pham Xuan D - px.d@vtn.com.vn],open
+ALERT-071,2026-05-01 18:00:00,TEST_SITE_028,router,medium,OSPF adjacency loss in training network,in-progress
+ALERT-072,2026-05-01 11:22:00,TEST_SITE_005,ups,low,bypass mode activated for maintenance demo,in-progress
+ALERT-073,2026-05-01 22:46:00,TEST_SITE_027,base-station,medium,synthetic VSWR alarm on sector antenna A,resolved
+ALERT-074,2026-05-01 21:38:00,TEST_SITE_007,switch,low,interface flap in synthetic log,in-progress
+ALERT-075,2026-05-01 13:39:00,TEST_SITE_024,base-station,medium,temperature warning on lab device,resolved
+ALERT-076,2026-05-01 08:01:00,TEST_SITE_030,firewall,medium,VPN tunnel down in test configuration,resolved
+ALERT-077,2026-05-02 03:56:00,TEST_SITE_002,firewall,medium,simulated brute force attack blocked on local port [Contact: Tran Thi B (tran.b@vtn.com.vn)],resolved
+ALERT-078,2026-05-01 14:02:00,TEST_SITE_011,switch,low,link aggregation bundle degraded in test lab,in-progress
+ALERT-079,2026-05-01 12:57:00,TEST_SITE_016,server,low,disk space low on simulated system drive,in-progress
+ALERT-080,2026-05-01 08:50:00,TEST_SITE_023,ups,medium,input voltage fluctuation detected in lab,open
+ALERT-081,2026-05-01 13:48:00,TEST_SITE_020,switch,critical,high broadcast traffic detected in lab subnet,open
+ALERT-082,2026-05-02 02:11:00,TEST_SITE_016,server,medium,disk space low on simulated system drive,open
+ALERT-083,2026-05-01 18:07:00,TEST_SITE_029,switch,low,high broadcast traffic detected in lab subnet,in-progress
+ALERT-084,2026-05-01 15:15:00,TEST_SITE_034,server,high,docker daemon crash warning in test node [Contact: Tran Thi B (tran.b@vtn.com.vn)],open
+ALERT-085,2026-05-01 18:00:00,TEST_SITE_002,router,low,BGP session flapping on simulated interface [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],resolved
+ALERT-086,2026-05-01 21:05:00,TEST_SITE_011,router,low,packet loss above simulated threshold on uplink,in-progress
+ALERT-087,2026-05-01 22:02:00,TEST_SITE_018,firewall,critical,simulated brute force attack blocked on local port,resolved
+ALERT-088,2026-05-01 17:25:00,TEST_SITE_029,switch,low,spanning tree topology change detected,open
+ALERT-089,2026-05-01 19:57:00,TEST_SITE_017,ups,medium,high load capacity warning on bench unit,in-progress
+ALERT-090,2026-05-01 14:52:00,TEST_SITE_026,router,high,BGP session flapping on simulated interface,in-progress
+ALERT-091,2026-05-01 14:47:00,TEST_SITE_011,ups,medium,bypass mode activated for maintenance demo,open
+ALERT-092,2026-05-01 23:03:00,TEST_SITE_028,firewall,medium,high memory usage alert on training cluster,resolved
+ALERT-093,2026-05-01 10:20:00,TEST_SITE_009,ups,medium,input voltage fluctuation detected in lab [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],in-progress
+ALERT-094,2026-05-02 03:20:00,TEST_SITE_024,router,low,BGP session flapping on simulated interface,open
+ALERT-095,2026-05-02 00:45:00,TEST_SITE_021,base-station,medium,RF module communication failure in lab environment [Assigned to: Nguyen Hoang E (0912345678)],resolved
+ALERT-096,2026-05-01 13:25:00,TEST_SITE_003,ups,medium,high load capacity warning on bench unit [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],resolved
+ALERT-097,2026-05-01 15:43:00,TEST_SITE_002,firewall,low,simulated brute force attack blocked on local port,open
+ALERT-098,2026-05-01 17:10:00,TEST_SITE_029,firewall,low,VPN tunnel down in test configuration,in-progress
+ALERT-099,2026-05-01 17:11:00,TEST_SITE_019,firewall,low,high memory usage alert on training cluster,resolved
+ALERT-100,2026-05-01 09:09:00,TEST_SITE_024,base-station,low,power backup warning in training scenario,in-progress
+ALERT-101,2026-05-02 03:44:00,TEST_SITE_007,ups,high,battery replacement warning (simulated),resolved
+ALERT-102,2026-05-02 00:46:00,TEST_SITE_024,server,medium,unauthorized login attempt simulated in audit log [Contact: Nguyen Van A (0987654321)],in-progress
+ALERT-103,2026-05-02 01:02:00,TEST_SITE_027,switch,medium,spanning tree topology change detected,in-progress
+ALERT-104,2026-05-01 23:22:00,TEST_SITE_001,base-station,low,synthetic VSWR alarm on sector antenna A,resolved
+ALERT-105,2026-05-01 18:05:00,TEST_SITE_030,ups,medium,bypass mode activated for maintenance demo,resolved
+ALERT-106,2026-05-02 02:11:00,TEST_SITE_025,firewall,critical,high memory usage alert on training cluster,resolved
+ALERT-107,2026-05-01 14:13:00,TEST_SITE_027,router,low,BGP session flapping on simulated interface,resolved
+ALERT-108,2026-05-01 11:33:00,TEST_SITE_021,firewall,low,session table capacity warning (simulated),resolved
+ALERT-109,2026-05-01 17:08:00,TEST_SITE_002,ups,low,input voltage fluctuation detected in lab [Contact: Nguyen Van A (0987654321)],open
+ALERT-110,2026-05-02 03:47:00,TEST_SITE_025,base-station,medium,RF module communication failure in lab environment [Operator notes: contact engineer Le Van C at le.c@vtn.vn if alert persists],in-progress
+ALERT-111,2026-05-01 10:23:00,TEST_SITE_009,router,medium,high CPU usage due to synthetic routing traffic,resolved
+ALERT-112,2026-05-01 20:38:00,TEST_SITE_004,switch,low,high broadcast traffic detected in lab subnet,resolved
+ALERT-113,2026-05-02 02:35:00,TEST_SITE_027,server,medium,unauthorized login attempt simulated in audit log,open
+ALERT-114,2026-05-02 01:13:00,TEST_SITE_006,server,medium,disk space low on simulated system drive,resolved
+ALERT-115,2026-05-02 00:31:00,TEST_SITE_005,base-station,critical,power backup warning in training scenario [Ticket owner: Pham Xuan D - px.d@vtn.com.vn],in-progress

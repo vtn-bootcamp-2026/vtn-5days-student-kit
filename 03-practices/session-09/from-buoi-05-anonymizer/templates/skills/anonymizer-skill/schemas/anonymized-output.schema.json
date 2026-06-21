@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Anonymized Output",
+  "description": "Schema đầu ra cho PII Anonymizer Skill",
+  "type": "object",
+  "required": ["anonymized_text", "pii_found", "confidence", "needs_human_review", "processing_notes"],
+  "properties": {
+    "anonymized_text": {
+      "type": "string",
+      "description": "Văn bản đã che giấu PII"
+    },
+    "pii_found": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "original_placeholder", "position"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["CCCD", "PHONE", "EMAIL", "IP", "NAME", "ADDRESS", "OTHER"],
+            "description": "Loại PII phát hiện"
+          },
+          "original_placeholder": {
+            "type": "string",
+            "description": "Placeholder thay thế (vd: [REDACTED_CCCD])"
+          },
+          "position": {
+            "type": "integer",
+            "description": "Vị trí trong văn bản gốc"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Độ tin cậy tổng thể của quá trình che giấu"
+    },
+    "needs_human_review": {
+      "type": "boolean",
+      "description": "true khi phát hiện injection, fallback, hoặc confidence thấp"
+    },
+    "processing_notes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Ghi chú xử lý: fallback used, injection detected, v.v."
+    },
+    "source_file": {
+      "type": "string",
+      "description": "Tên file đầu vào"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,171 @@
+---
+mo-ta: so do kien truc agent contract term extractor
+trang-thai: active
+phien-ban: v1.0
+created-at: 2026-05-26 16:00 +07:00
+updated-at: 2026-05-26 16:00 +07:00
+---
+
+# Sơ đồ kiến trúc tác nhân AI: Expected Agent Architecture
+
+## Kiến trúc tổng thể
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                    CONTRACT TERM EXTRACTOR                       │
+│                    AI Agent Architecture                         │
+└──────────────────────────────────────────────────────────────────┘
+
+ĐẦU VÀO
+   │
+   ▼
+┌─────────────────────────────────────────┐
+│         INTAKE: Nạp hợp đồng            │
+│  ┌─────────────────────────────────┐    │
+│  │ Đọc file .txt                   │    │
+│  │ Kiểm tra metadata               │    │
+│  │ Kiểm tra rỗng / encoding        │    │
+│  │ Ghi intake log                  │    │
+│  └──────────┬──────────────────────┘    │
+└─────────────┼───────────────────────────┘
+              │
+     ┌────────┴────────┐
+     │  Lỗi intake?    │
+     │  (rỗng/encode)  │
+     └────┬───────┬────┘
+       Có │       │ Không
+          ▼       ▼
+    ┌──────────┐  ┌──────────────────────────────┐
+    │ Nhánh    │  │   EXTRACTION: Trích xuất      │
+    │ lỗi      │  │   ┌────────────────────────┐  │
+    │ intake   │  │   │ System Prompt          │  │
+    │          │  │   │ + User Prompt Template  │  │
+    └──────────┘  │   │ → Gọi LLM API          │  │
+                  │   │ → Parse JSON response   │  │
+                  │   └───────────┬────────────┘  │
+                  └───────────────┼────────────────┘
+                                  │
+                                  ▼
+                  ┌───────────────────────────────┐
+                  │   SELF-CHECK: Tự kiểm tra      │
+                  │   ┌─────────────────────────┐  │
+                  │   │ 1. Schema validation    │  │
+                  │   │    - required fields?    │  │
+                  │   │    - types correct?      │  │
+                  │   │ 2. Source evidence       │  │
+                  │   │    - every field có?     │  │
+                  │   │    - quote thực sự có?   │  │
+                  │   │ 3. Confidence đánh giá   │  │
+                  │   │    - dựa evidence,       │  │
+                  │   │      không phải cảm tính │  │
+                  │   └───────────┬─────────────┘  │
+                  └───────────────┼─────────────────┘
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │ Self-check phát hiện lỗi?  │
+                    └───────┬───────────┬───────┘
+                       Có   │           │ Không
+                            ▼           ▼
+                  ┌──────────────┐ ┌──────────────────┐
+                  │ Sửa lỗi và   │ │   RED-FLAG CHECK  │
+                  │ chạy lại     │ │   ┌────────────┐  │
+                  │ (tối đa 2lần)│ │   │ Đối chiếu  │  │
+                  └──────┬───────┘ │   │ JSON output│  │
+                         │         │   │ với rules  │  │
+                         │         │   └─────┬──────┘  │
+                         │         └─────────┼─────────┘
+                         │                   │
+                         ▼                   ▼
+                  ┌──────────────────────────────────┐
+                  │     ROUTING: Định tuyến đầu ra    │
+                  │  ┌──────────────────────────────┐ │
+                  │  │ IF needs_human_review=true    │ │
+                  │  │    OR confidence < 0.7        │ │
+                  │  │    OR red_flags.length > 0    │ │
+                  │  │    OR missing_fields.length>0 │ │
+                  │  │ → HITL: chuyển người xem xét  │ │
+                  │  │ ELSE                           │ │
+                  │  │ → AUTO: xuất kết quả           │ │
+                  │  └──────────────────────────────┘ │
+                  └──────────────┬───────────────────┘
+                                 │
+                    ┌────────────┴────────────┐
+                    │                         │
+                    ▼                         ▼
+          ┌─────────────────┐     ┌─────────────────────┐
+          │ AUTO OUTPUT     │     │ HITL OUTPUT          │
+          │ - JSON file     │     │ - JSON file          │
+          │ - Execution log │     │ - Red-flag report    │
+          │                 │     │ - Execution log      │
+          │                 │     │ - Flag: cần xem xét  │
+          └─────────────────┘     └─────────────────────┘
+```
+
+## Bảng branching specs
+
+| Node | Điều kiện chuyển nhánh | Đích | Ghi chú |
+| --- | --- | --- | --- |
+| Intake | File rỗng hoặc encoding lỗi | Nhánh lỗi intake | Ghi log, bỏ qua hợp đồng |
+| Intake | File hợp lệ | Extraction | Tiếp tục xử lý |
+| Extraction | LLM trả về JSON hợp lệ | Self-check | Parse thành công |
+| Extraction | LLM trả về text không phải JSON | Retry extraction (tối đa 2 lần) | Strip markdown wrapper |
+| Self-check | Schema hợp lệ + đủ source_evidence | Red-flag check | Pass self-check |
+| Self-check | Thiếu trường hoặc sai kiểu | Retry extraction (tối đa 2 lần) | Kèm ghi chú lỗi cụ thể |
+| Red-flag check | Có red_flags hoặc missing_fields | HITL output | needs_human_review = true |
+| Red-flag check | Không có red flag, đầy đủ | AUTO output | needs_human_review = false |
+
+## Ví dụ JSON routing
+
+### Hợp đồng bình thường (contract-001) → AUTO
+
+```json
+{
+  "confidence": 0.92,
+  "needs_human_review": false,
+  "red_flags": [],
+  "missing_fields": []
+}
+```
+
+→ Route: **AUTO** — xuất JSON + execution log.
+
+### Hợp đồng thiếu dữ liệu (contract-002) → HITL
+
+```json
+{
+  "confidence": 0.71,
+  "needs_human_review": true,
+  "red_flags": [],
+  "missing_fields": ["expiry_date", "confidentiality"]
+}
+```
+
+→ Route: **HITL** — xuất JSON + execution log + flag thiếu trường.
+
+### Hợp đồng rủi ro (contract-003) → HITL
+
+```json
+{
+  "confidence": 0.65,
+  "needs_human_review": true,
+  "red_flags": [
+    "Tự gia hạn bất lợi",
+    "Phạt không giới hạn",
+    "Giới hạn trách nhiệm quá thấp"
+  ],
+  "missing_fields": ["dispute_resolution"]
+}
+```
+
+→ Route: **HITL** — xuất JSON + red-flag report + execution log.
+
+## So sánh với workflow session-02
+
+| Tiêu chí | Session 02 (n8n Workflow) | Session 03 (AI Agent) |
+| --- | --- | --- |
+| Nền tảng | n8n visual editor | Python + LLM API |
+| Routing | Switch node (visual) | Code logic (if/else) |
+| Self-check | Không có | Có (schema + evidence + confidence) |
+| Error handling | Fallback node | Retry (tối đa 2 lần) |
+| HITL trigger | Review queue (Switch) | needs_human_review flag |
+| Output | Google Sheet rows | JSON files + CSV log |

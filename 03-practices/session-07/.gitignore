@@ -1,0 +1,8 @@
+# Bỏ qua tệp biến môi trường cục bộ để bảo vệ an toàn thông tin
+.env
+.env.*
+
+# Thư mục cache và các tệp tin kết quả kiểm thử đầu ra
+__pycache__/
+outputs/*.txt
+outputs/*.csv
