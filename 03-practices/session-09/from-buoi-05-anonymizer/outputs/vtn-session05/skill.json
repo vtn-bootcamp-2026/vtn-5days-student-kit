@@ -1,0 +1,31 @@
+{
+  "name": "anonymizer-skill",
+  "version": "1.0.0",
+  "description": "PII Anonymizer Skill — {Tên nhóm}",
+  "author": "{Tên nhóm}",
+  "created_at": "{Ngày}",
+  "triggers": {
+    "file_patterns": [],
+    "keywords": [],
+    "anti_triggers": []
+  },
+  "permissions": {
+    "read_files": [],
+    "write_files": [],
+    "execute_scripts": [],
+    "network_access": ""
+  },
+  "required_files": {
+    "config": "skill.json",
+    "instructions": "SKILL.md",
+    "schema": "schemas/anonymized-output.schema.json",
+    "knowledge_base": [],
+    "scripts": []
+  },
+  "quality_gates": {
+    "min_test_pass_rate": "",
+    "no_pii_in_logs": true,
+    "ollama_resilience": "",
+    "injection_defense": ""
+  }
+}

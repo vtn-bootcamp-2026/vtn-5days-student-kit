@@ -1,0 +1,34 @@
+{
+  "contract_id": "contract-001",
+  "effective_date": "2026-01-01",
+  "expiry_date": "2026-12-31",
+  "penalty_clause": "Phạt 1% giá trị hợp đồng hàng tháng cho mỗi 0.5% giảm hiệu suất",
+  "penalty_amount": "1% giá trị hợp đồng hàng tháng cho mỗi 0.5% giảm hiệu suất",
+  "source_evidence": [
+    {
+      "field": "effective_date",
+      "quote": "01 tháng 01 năm 2026",
+      "section": "Điều 2"
+    },
+    {
+      "field": "expiry_date",
+      "quote": "31 tháng 12 năm 2026",
+      "section": "Điều 2"
+    },
+    {
+      "field": "penalty_clause",
+      "quote": "Phạt 1% giá trị hợp đồng",
+      "section": "Điều 4"
+    },
+    {
+      "field": "confidentiality",
+      "quote": "bảo mật thông tin trong thời hạn hai năm",
+      "section": "Điều 5"
+    }
+  ],
+  "confidence": 0.92,
+  "needs_human_review": false,
+  "red_flags": [],
+  "missing_fields": [],
+  "extraction_notes": "Hợp đồng đầy đủ, rõ ràng."
+}

@@ -1,0 +1,495 @@
+{
+  "name": "checkpoint-step-3",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "45c80cfb-3672-4cb7-b0af-2dd54d7852a2",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CGDEsYlHjHie8BZCLNWwx4QP2nqU8hEd4wLGVUwEd-8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "input",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "116f123a-b40c-4621-b21f-86b1eaa2a0fa",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        176,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c77c5899-0e6d-4ff6-b392-4982309c0498",
+              "leftValue": "={{ $json.workflow_status }}",
+              "rightValue": "New",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        368,
+        0
+      ],
+      "id": "eaa9b600-779c-45a6-a10c-303a287a7392",
+      "name": "Filter, workflow_status = New"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c6115ee5-a0b8-4a37-8d36-7a281f817ef3",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "66f5b2b7-9f24-491d-82d6-dc2e0a17f07a",
+              "name": "ticket_id",
+              "value": "={{ $json.ticket_id }}",
+              "type": "string"
+            },
+            {
+              "id": "079a958f-19ed-4df7-93fe-5699d40c0a19",
+              "name": "requester",
+              "value": "={{ $json.requester }}",
+              "type": "string"
+            },
+            {
+              "id": "205bfa36-632c-4116-8dff-81d4ebf3a510",
+              "name": "department",
+              "value": "={{ $json.department }}",
+              "type": "string"
+            },
+            {
+              "id": "76cc155f-591f-40d2-a4d9-500f9525e06c",
+              "name": "issue_description",
+              "value": "={{ $json.issue_description }}",
+              "type": "string"
+            },
+            {
+              "id": "254cd27d-15f1-4d78-b17b-24935f8a777d",
+              "name": "submitted_at",
+              "value": "={{ $json.submitted_at }}",
+              "type": "number"
+            },
+            {
+              "id": "40fee477-31cc-44e1-a185-91df81e6d5ab",
+              "name": "priority_hint",
+              "value": "={{ $json.priority_hint }}",
+              "type": "string"
+            },
+            {
+              "id": "2569a22c-8bee-4d4d-a05f-2b2889a6ca4f",
+              "name": "expected_category",
+              "value": "={{ $json.expected_category }}",
+              "type": "string"
+            },
+            {
+              "id": "78f57356-4fa6-4cdc-9a20-147e42b0ce44",
+              "name": "expected_route",
+              "value": "={{ $json.expected_route }}",
+              "type": "string"
+            },
+            {
+              "id": "eb29017f-64d6-4136-9632-8c34315250fd",
+              "name": "workflow_status",
+              "value": "={{ $json.workflow_status }}",
+              "type": "string"
+            },
+            {
+              "id": "1c613414-9501-464c-a2ca-d8ff690d7c52",
+              "name": "notes",
+              "value": "={{ $json.notes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        0
+      ],
+      "id": "31d9afa4-2353-4b3f-8f0b-345d01fdf508",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f07d79a1-f52c-41a2-be3b-b54046481a63",
+              "leftValue": "={{ $json.issue_description }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "66d81b41-5819-45ac-a899-38fd0efa54d4",
+              "leftValue": "={{ $json.issue_description.length }}",
+              "rightValue": 10,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        784,
+        0
+      ],
+      "id": "335f32ec-f8a7-41a9-9442-661a026c2b98",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8e0be3e1-c02b-4cb6-9154-d1127e984b5f",
+              "name": "ai_category",
+              "value": "Format_Error",
+              "type": "string"
+            },
+            {
+              "id": "3db1489e-ffd5-4d63-819c-fc885b0571f6",
+              "name": "ai_confidence",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "10a421c5-5198-4aec-aca9-3673416b02ca",
+              "name": "ai_reason",
+              "value": "Mô tả quá ngắn hoặc không đủ thông tin.",
+              "type": "string"
+            },
+            {
+              "id": "46231183-d8a9-4200-9a62-0a3026ce4765",
+              "name": "branch_taken",
+              "value": "Fallback",
+              "type": "string"
+            },
+            {
+              "id": "c73ab9b4-fa5d-458f-b97b-4702d791b4a6",
+              "name": "final_status",
+              "value": "Rejected before AI",
+              "type": "string"
+            },
+            {
+              "id": "0017a655-d6d4-4170-b094-8089a2ee02e8",
+              "name": "error_code",
+              "value": "SHORT_OR_EMPTY_DESCRIPTION",
+              "type": "string"
+            },
+            {
+              "id": "43b29712-346c-4d9b-97de-5da4bfb12a83",
+              "name": "workflow_status",
+              "value": "workflow_status",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        496,
+        208
+      ],
+      "id": "9c9c5e8d-69a4-43da-92b1-497136f2c992",
+      "name": "Edit Fields, Mark Format_Error"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CGDEsYlHjHie8BZCLNWwx4QP2nqU8hEd4wLGVUwEd-8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "execution_log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ $('Edit Fields').item.json.ticket_id }}",
+            "timestamp": "={{ $now }}",
+            "ai_category": "={{ $json.ai_category }}",
+            "ai_confidence": "={{ $json.ai_confidence }}",
+            "branch_taken": "={{ $json.branch_taken }}",
+            "final_status": "={{ $json.final_status }}",
+            "error_code": "={{ $json.error_code }}",
+            "final_action": "Rejected",
+            "run_id": "={{ $execution.id }}",
+            "input_summary": "mô tả ngắn hoặc rỗng"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "input_summary",
+              "displayName": "input_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_category",
+              "displayName": "ai_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_confidence",
+              "displayName": "ai_confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "branch_taken",
+              "displayName": "branch_taken",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "final_status",
+              "displayName": "final_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_code",
+              "displayName": "error_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "final_action",
+              "displayName": "final_action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "trace_url",
+              "displayName": "trace_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        800,
+        208
+      ],
+      "id": "ae49bf0c-7831-4714-844f-b0248699b193",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter, workflow_status = New",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter, workflow_status = New": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields, Mark Format_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields, Mark Format_Error": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0f3e5e92-373c-4722-87b4-75a19fb92d7a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "65226d3875108f845d3681e367ff6618aa774c2f123805e72b2f698883d7ac86"
+  },
+  "id": "QKm6xFVlaSqmaql9",
+  "tags": []
+}
