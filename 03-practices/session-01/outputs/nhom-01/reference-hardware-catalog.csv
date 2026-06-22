@@ -1,0 +1,7 @@
+PartID,PartName,UnitCostUSD,WarrantyMonths,Description
+HW-SSD-256,Samsung SSD 256GB Evo,45,60,Ổ cứng thể rắn SSD SATA III 256GB
+HW-SSD-512,Crucial SSD 512GB NVMe,65,60,Ổ cứng thể rắn SSD NVMe M.2 512GB
+HW-HDD-1000,Seagate HDD 1TB,40,36,Ổ cứng cơ HDD 3.5 inch 1TB
+HW-CPU-FAN,Intel Stock Cooler Fan,12,12,Quạt tản nhiệt CPU socket LGA1700
+HW-THERMAL-PASTE,Arctic MX-4 Thermal Paste,8,0,Keo tản nhiệt CPU chất lượng cao
+HW-BATT-LPT,Replacement Laptop Battery,55,12,Pin laptop thay thế tiêu chuẩn

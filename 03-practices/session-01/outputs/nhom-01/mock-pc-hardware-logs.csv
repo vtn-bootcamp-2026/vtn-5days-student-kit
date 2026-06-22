@@ -1,0 +1,6 @@
+Timestamp,MachineID,Department,CPUTempC,RAMUsagePct,SSDHealthPct,SMARTErrorCount,BatteryWearPct
+2026-06-22 08:00:00,PC-001,Marketing,55,62,94,0,12
+2026-06-22 08:00:00,PC-002,Finance,92,85,98,0,25
+2026-06-22 08:00:00,PC-003,Engineering,68,91,42,8,18
+2026-06-22 08:00:00,PC-004,HR,45,45,99,0,85
+2026-06-22 08:00:00,PC-005,CustomerService,50,55,12,14,20

@@ -40,10 +40,12 @@ Sau khi hoàn thành lab, học viên sẽ:
 - Quy trình mẫu (as-is) để GV demo + HV tham chiếu: [`synthetic-data/sample-process-as-is-hcns-baocao-tuan.md`](synthetic-data/sample-process-as-is-hcns-baocao-tuan.md) — quy trình HCNS tổng hợp báo cáo nhân sự hằng tuần.
 - Template design doc để HV điền: [`templates/workflow-design-doc-template.md`](templates/workflow-design-doc-template.md).
 - Mẫu câu lệnh (prompt templates) cho học viên:
+  - Phân tích quy trình bằng ESIA: [`templates/prompt/prompt-esia-analysis.md`](templates/prompt/prompt-esia-analysis.md)
   - Vẽ quy trình mới: [`templates/prompt/prompt-generate-mermaid.md`](templates/prompt/prompt-generate-mermaid.md)
   - Xuất ảnh sơ đồ: [`templates/prompt/prompt-render-mermaid.md`](templates/prompt/prompt-render-mermaid.md)
   - Vẽ sơ đồ so sánh Trước & Sau: [`templates/prompt/prompt-before-after-infographic.md`](templates/prompt/prompt-before-after-infographic.md)
   - Vẽ sơ đồ kể chuyện: [`templates/prompt/prompt-storytelling-infographic.md`](templates/prompt/prompt-storytelling-infographic.md)
+  - Đánh giá tuân thủ & HITL: [`templates/prompt/prompt-compliance-check.md`](templates/prompt/prompt-compliance-check.md)
 - Lý thuyết kèm theo (just-in-time): [`01-slides/designs/session-02-theory.md`](../../01-slides/designs/session-02-theory.md).
 - Thẻ xử lý lỗi thường gặp: [`trouble-cards.md`](trouble-cards.md).
 - Nhóm chậm — fallback input: [`fallback-inputs/README.md`](fallback-inputs/README.md).
@@ -109,7 +111,7 @@ Sau khi hoàn thành lab, học viên sẽ:
 > [!WARNING]
 > **Đừng đánh dấu "Automate" cho mọi bước.** Quy tắc vàng: bước nào sai thì hậu quả nặng (phê duyệt chi phí, quyết định ảnh hưởng người dùng, xử lý khiếu nại) → KHÔNG tự động hoàn toàn, mà phải có **điểm HITL** (con người duyệt) trước khi đi tiếp. Ghi rõ ở cột Ghi chú: `"HITL: trưởng phòng duyệt trước khi gửi"`.
 
-- **Mẹo dùng AI để phân tích ESIA nhanh:** Học viên có thể sao chép prompt mẫu dưới đây, dán vào Antigravity / Codex để được AI hỗ trợ phân tích quy trình as-is của nhóm và gợi ý phân loại ESIA:
+- **Mẹo dùng AI để phân tích ESIA nhanh:** Học viên có thể sử dụng mẫu câu lệnh tại [templates/prompt/prompt-esia-analysis.md](templates/prompt/prompt-esia-analysis.md) (hoặc sao chép prompt dưới đây), dán vào Antigravity / Codex để được AI hỗ trợ phân tích quy trình as-is của nhóm và gợi ý phân loại ESIA:
 
   ```text
   [BỐI CẢNH]
@@ -233,7 +235,7 @@ The fourth, "Trải nghiệm Nhân viên", has a happy employee collaborating wi
 
   1. Bước này có ảnh hưởng quyền lợi / tiền bạc / dữ liệu cá nhân của người khác không? → Có → **bắt buộc HITL**.
   2. Nếu AI làm sai ở bước này, ai phát hiện và phát hiện trong bao lâu? → Ghi vào Ghi chú.
-- **Mẹo dùng AI để phân tích tuân thủ (compliance) nhanh:** Học viên sao chép prompt mẫu sau, dán tiếp vào cuộc hội thoại với Antigravity / Codex để AI hỗ trợ rà soát rủi ro tuân thủ Luật TTNT và tự động soạn dòng compliance:
+- **Mẹo dùng AI để phân tích tuân thủ (compliance) nhanh:** Học viên có thể sử dụng mẫu câu lệnh tại [templates/prompt/prompt-compliance-check.md](templates/prompt/prompt-compliance-check.md) (hoặc sao chép prompt dưới đây), dán tiếp vào cuộc hội thoại với Antigravity / Codex để AI hỗ trợ rà soát rủi ro tuân thủ Luật TTNT và tự động soạn dòng compliance:
 
   ```text
   [BỐI CẢNH]
