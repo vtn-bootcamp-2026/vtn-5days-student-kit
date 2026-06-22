@@ -1,4 +1,4 @@
----
+﻿---
 mo-ta: tong quan bai thuc hanh session 04 Agentic RAG Skill cho HR Policy QA
 trang-thai: active
 phien-ban: v3.0
