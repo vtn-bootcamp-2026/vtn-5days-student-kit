@@ -1,5 +1,0 @@
-run_id,contract_id,status,error_type,needs_human_review,confidence,red_flag_count,missing_field_count,source_evidence_count,route_reason,created_at
-RUN-001,contract-001,AUTO,,false,0.92,0,0,8,AUTO,2026-05-27T10:00:00+07:00
-RUN-002,contract-002,HITL,MISSING_FIELDS,true,0.71,0,2,5,HITL:missing_fields,2026-05-27T10:00:05+07:00
-RUN-003,contract-003-risky,HITL,RED_FLAGS,true,0.65,3,1,7,HITL:red_flags,2026-05-27T10:00:12+07:00
-RUN-004,contract-004-telecom-sla,HITL,RED_FLAGS,true,0.78,2,1,6,HITL:red_flags+sla_risk,2026-05-27T10:00:20+07:00
