@@ -10,7 +10,6 @@ updated-at: 2026-06-23 08:15 +07:00
 
 ### Tự động hóa công việc văn phòng với n8n + AI Gemini
 
-> **Giảng viên:** Th.S Nguyễn Minh Cường
 > **Đối tượng:** Nhân viên văn phòng Viettel Network
 > **Mạch học:** 3 bài tăng dần độ khó — từ cơ bản thuần (chỉ dùng Google Sheets), nâng cao tích hợp đa dịch vụ (Sheets + Gmail), đến AI sinh nội dung + quy trình duyệt.
 

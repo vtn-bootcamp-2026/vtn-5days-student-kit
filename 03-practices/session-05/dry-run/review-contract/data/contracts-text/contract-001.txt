@@ -1,0 +1,49 @@
+HỢP ĐỒNG CUNG CẤP DỊCH VỤ
+TRUYỀN DẪN LIÊN QUẬN
+Số: HD-DV-2026-001
+[Mô phỏng — không sử dụng dữ liệu thật]
+Bên A:
+Công ty Cổ phần Viễn thông Mô phỏng (VTN-Sim)
+Địa chỉ: 123 đường Nguyễn Văn Cừ, Quận 5, TP. HCM
+Mã số thuế: 0301234567-001 (mô phỏng)
+Người đại diện: Nguyễn Văn An — Giám đốc
+Bên B:
+Công ty TNHH Giải pháp Số Demo
+Địa chỉ: 456 đường Lê Lợi, Quận 1, TP. HCM
+Mã số thuế: 0309876543-001 (mô phỏng)
+Người đại diện: Trần Thị Bình — Trưởng phòng Mua hàng
+ĐIỀU 1: ĐỐI TƯỢNG HỢP ĐỒNG
+Bên A cung cấp cho Bên B dịch vụ truyền dẫn liên quận với băng thông 100 Mbps, bao gồm:
+- Truyền dẫn dữ liệu giữa các điểm kết nối tại Quận 1 và Quận 5
+- Cam kết sẵn sàng 99.5% thời gian hoạt động
+- Hỗ trợ kỹ thuật 24/7
+ĐIỀU 2: THỜI HẠN HỢP ĐỒNG
+Hợp đồng có hiệu lực kể từ ngày 01 tháng 01 năm 2026.
+Hợp đồng có thời hạn 12 (mười hai) tháng, hết hạn vào ngày 31 tháng 12 năm 2026.
+Không tự động gia hạn. Các bên cần thỏa thuận gia hạn bằng văn bản trước 30 ngày.
+ĐIỀU 3: GIÁ TRỊ VÀ THANH TOÁN
+Giá trị hợp đồng: 360.000.000 VNĐ (Ba trăm sáu mươi triệu đồng).
+Phương thức thanh toán: hàng quý, trong vòng 15 ngày kể từ ngày nhận hóa đơn.
+Mỗi quý thanh toán: 90.000.000 VNĐ.
+ĐIỀU 4: ĐIỀU KHOẢN PHẠT VI PHẠM
+Nếu Bên A không đảm bảo cam kết sẵn sàng 99.5% trong một tháng:
+- Phạt 1% giá trị hợp đồng hàng tháng cho mỗi 0.5% giảm hiệu suất.
+- Tối đa phạt không quá 10% giá trị hợp đồng hàng quý.
+Nếu Bên B thanh toán chậm:
+- Phạt 0.05% giá trị chưa thanh toán cho mỗi ngày chậm.
+- Sau 30 ngày chậm, Bên A có quyền tạm ngưng dịch vụ sau khi thông báo trước 5 ngày.
+ĐIỀU 5: BẢO MẬT THÔNG TIN
+Cả hai bên cam kết bảo mật mọi thông tin trao đổi trong quá trình thực hiện hợp đồng.
+Thông tin bảo mật bao gồm: dữ liệu kỹ thuật, thông tin khách hàng, giá cả và điều khoản thương mại.
+Nghĩa vụ bảo mật kéo dài 2 năm sau khi hợp đồng hết hạn.
+ĐIỀU 6: CHẤM DỨT HỢP ĐỒNG
+Hợp đồng chấm dứt trong các trường hợp:
+- Hết hạn theo Điều 2 mà không gia hạn.
+- Thỏa thuận bằng văn bản của cả hai bên.
+- Một bên vi phạm nghiêm trọng và không khắc phục trong 30 ngày sau khi nhận thông báo.
+ĐIỀU 7: GIẢI QUYẾT TRANH CHẤP
+Mọi tranh chấp phát sinh sẽ được giải quyết qua thương lượng.
+Nếu không thương lượng được trong 30 ngày, tranh chấp sẽ được đưa ra Trọng tài thương mại TP. HCM.
+Ngày ký: 15 tháng 12 năm 2025
+ĐẠI DIỆN BÊN A                    ĐẠI DIỆN BÊN B
+(Ký, đóng dấu)            (Ký, đóng dấu)

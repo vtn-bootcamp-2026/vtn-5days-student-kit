@@ -1,421 +1,315 @@
 ---
-mo-ta: hướng dẫn thực hành chi tiết buổi học RAG cơ bản: Basic RAG
+mo-ta: "Track A — lab session 05 (vibe-working): build skill review-contract qua 4 bài — design (IPO) → generate+package+install → improve multi-format → nâng cao red-flag+PII"
 trang-thai: active
-phien-ban: v1.6
-created-at: 2026-06-17 20:05 +07:00
-updated-at: 2026-06-17 21:00 +07:00
+phien-ban: v1.1
+track: A-vibe-working
+created-at: 2026-06-23 16:30 +07:00
+updated-at: 2026-06-23 17:18 +07:00
 ---
 
-# Hướng dẫn thực hành: RAG cơ bản (Basic RAG)
+# Track A — Hướng dẫn thực hành session 05 (vibe-working): build skill `review-contract` qua 4 bài
 
-> **Mỏ neo Slide bài giảng:** Tương ứng với slide **Hiểu RAG từ gốc** (tài liệu [rag-basic.pdf](../../../01-slides/rag-basic.pdf)).
+> [!NOTE]
+> **Chọn track nào?** Có 2 lối vào cùng chủ đề "AI Agent review hợp đồng":
+> - **Track A — Vibe Working** (file này): dùng skill `vibe-aiworkforce` + `vibe-improve` để **thiết kế → generate → improve** skill. Phù hợp HV muốn học workflow thời AI, ít viết code tay.
+> - **Track B — Làm tay** ([lab-handbuilt.md](lab-handbuilt.md)): tự viết từng file SKILL.md/skill.json/schemas/scripts. Phù hợp HV muốn hiểu sâu "ruột" một skill.
+>
+> Track A hiện thực hóa trực tiếp slide lý thuyết (Skill ≈ App, PDCA, vibe-aiworkforce build skill). Mở rộng: [addendum S5](../../01-slides/designs/session-05-addendum-vibe-skill-workforce.md).
+
+> [!NOTE]
+> **Minh họa trong lab này:** các ảnh ở từng bài là **kết quả thật** từ một lượt dry-run pipeline xử lý hợp đồng (chạy `intake.py`/`validator.py`/`router.py`/`condact_pii.py` trên synthetic contracts). HV dùng Antigravity sẽ có UI khác nhưng **kết quả đầu ra giống hệt** (cùng skill, cùng scripts).
 
 ## 1. Mục tiêu bài thực hành
 
-Hoàn thành bài thực hành này, học viên sẽ nắm được:
+Học viên đi qua **đầy đủ vòng đời một skill** theo workflow vibe-working, không tự code tay:
 
-- **Biểu diễn số hóa văn bản:** Hiểu cách máy tính biểu diễn từ ngữ và câu dưới dạng các mảng số: vectors.
-- **Trích xuất đặc trưng ngữ nghĩa:** Sử dụng thư viện `sentence-transformers` chuyển đổi câu tiếng Việt thành các vector đặc trưng ngữ nghĩa: sentence embeddings.
-- **Tính toán khoảng cách ngữ nghĩa:** Tự lập trình công thức tính độ tương đồng cosine: cosine similarity để đo mức độ gần gũi về mặt ý nghĩa giữa các câu trong không gian vector: vector space.
-- **Tìm kiếm lai: Hybrid search:** Kết hợp kết quả tìm kiếm theo từ khóa: keyword search và tìm kiếm theo ngữ nghĩa: vector search.
-- **Xếp hạng lại: Reranking:** Sử dụng Cross-Encoder để tinh lọc kết quả tìm kiếm có độ liên quan cao nhất.
-- **Viết lại câu hỏi: Question rewriting:** Xử lý các câu hỏi mơ hồ, thiếu ngữ cảnh trước khi truy xuất.
-- **Xây dựng hệ thống RAG cơ bản:** Tự tay lập trình trọn vẹn quy trình nạp tri thức: ingestion pipeline và quy trình truy vấn: query pipeline kết hợp mô hình ngôn ngữ lớn để trả lời dựa trên tài liệu.
+- **BT1 — Design:** viết `skill_design.md` theo cấu trúc **IPO** (Input–Process–Output), đủ Trigger / Quality Gate / HITL / folder structure. Đây là "bản vẽ" trước khi build.
+- **BT2 — Generate + Package + Install + Test:** dùng `vibe-aiworkforce` để sinh skill `review-contract` từ `skill_design.md` → đóng gói ZIP bằng `vibe-packaging-orchestrator` → cài vào Antigravity/Codex/Claude → test trên synthetic contracts.
+- **BT3 — Improve:** dùng `vibe-improve-orchestrator` để skill nhận thêm `.pdf` + `.xlsx` (không chỉ `.docx`). Nắm 7-phase pipeline + cách improve có verify.
+- **BT4 — Nâng cao:** bổ sung **red-flag library** + bước **condact PII** trước khi đưa qua AI.
 
-## 2. Bối cảnh và dữ liệu sử dụng
+> **Chuỗi móc nối:** output BT1 (`skill_design.md`) = input BT2 → skill sinh ra = input BT3 → skill improved = input BT4. Cùng một skill, lớn dần qua 4 bài.
 
-Bài thực hành này giúp bạn tiếp cận công nghệ truy xuất tăng cường: retrieval-augmented generation (RAG) từ gốc rễ toán học và lập trình đơn giản trước khi nâng cấp lên các kiến trúc tác nhân: Agentic RAG phức tạp.
+## 2. Bối cảnh tình huống
 
-Dữ liệu thực hành là 3 tài liệu quy định công tác phí và tạm ứng hành chính mô phỏng (synthetic data) của **VinaTel Network** nằm tại thư mục `synthetic-data/hr-policies/`:
-- `policy-travel-allowance.md`: Định mức phụ cấp lưu trú và đi lại.
-- `policy-hotel-limit.md`: Định mức tiền phòng khách sạn tối đa theo chức danh.
-- `policy-advance-process.md`: Quy trình và thủ tục tạm ứng, hoàn ứng công tác phí.
+Bạn là thành viên đội pháp lý của một doanh nghiệp viễn thông. Mỗi tháng đội rà soát hàng chục hợp đồng dịch vụ, mua thiết bị, lao động. Hiện rà soát thủ công, dễ bỏ sót điều khoản rủi ro.
 
-Học viên sẽ thực hiện các bài Lab theo từng bước bằng cách chạy trực tiếp các file Python độc lập trong thư mục `templates/` thông qua PowerShell.
+Thay vì tự code một tool, bạn đóng gói quy trình thành một **skill tên `review-contract`** — một "nhân viên số" cài đặt được (giống App), chạy được, nâng cấp được. Khi cần rà soát, chỉ cần gửi file cho Agent; skill tự tiếp nhận → trích xuất → tự kiểm → phát hiện cờ đỏ → xuất báo cáo, và chuyển người duyệt khi rủi ro cao.
 
-## 3. Phân bổ thời lượng buổi học (4 giờ - 240 phút)
+> [!IMPORTANT]
+> **NGUYÊN TẮC CỐT LÕI:** Skill chỉ kết luận dựa trên nội dung có trong hợp đồng hoặc kho tri thức. Thiếu căn cứ, mâu thuẫn, rủi ro cao → chuyển con người trong vòng lặp (HITL). Tuyệt đối không khẳng định suông.
 
-Để học viên dễ tiếp cận và thực hành sâu, mỗi bài Lab đều cung cấp sẵn **định dạng dữ liệu, kịch bản hội thoại và mã nguồn mẫu cụ thể** để học viên làm theo mà không cần tự suy nghĩ kịch bản từ đầu.
+## 3. Quy tắc an toàn bắt buộc
 
-| Phần | Thời lượng | Nội dung | Hoạt động chính |
-| --- | ---: | --- | --- |
-| **Phần 1** | 30 phút | Lý thuyết tổng quan từ slide | Giảng giải lý thuyết 6 module từ slide |
-| **Phần 2** | 45 phút | **Lab 1:** Biểu diễn Vector Bag-of-Words (20 phút)<br>**Lab 2:** Trích xuất Sentence Embedding (25 phút) | - Thực thi mã nguồn thô.<br>- **Thử thách 1:** Thêm câu đồng nghĩa/trái nghĩa được cung cấp sẵn vào code, chạy lại và ghi nhận kết quả.<br>- Nhận xét về kích thước vector. |
-| **Phần 3** | 25 phút | **Lab 3:** Tính toán Cosine Similarity | - **Thử thách 2:** Thay thế hàm tính cosine bằng đoạn mã tính thủ công (được cung cấp sẵn).<br>- **Thí nghiệm 1:** Tính ma trận tương đồng cho 4 câu có sẵn, giải thích lý do số điểm biến động. |
-| **Phần 4** | 40 phút | **Lab 4:** Hybrid Search (15 phút)<br>**Lab 5:** Reranking bằng Cross-Encoder (15 phút)<br>**Lab 6:** Question Rewriting bằng LLM (10 phút) | - **Thí nghiệm 2:** Thực hiện 3 lần chạy với $\alpha = 0.0$, $\alpha = 1.0$, $\alpha = 0.5$ có sẵn.<br>- **Thử thách 3:** Dán kịch bản chat bẫy có sẵn vào code để xem kết quả viết lại câu hỏi. |
-| **Phần 5** | 50 phút | **Lab 7:** Ingestion Pipeline & ChromaDB (15 phút)<br>**Lab 8:** Query Pipeline & LLM Generation (35 phút) | - **Thử thách 4:** Tạo và dán nội dung chính sách làm thêm giờ có sẵn vào file mới, chạy lại Ingestion.<br>- **Thử thách 5:** Dán Prompt hệ thống cải tiến có sẵn vào code để chặn hoàn toàn ảo giác cho câu hỏi Singapore. |
-| **Phần 6** | 50 phút | **Lab 9:** Đánh giá chất lượng RAG (RAG Triad) (25 phút)<br>**Lab 10:** Xử lý lỗi kỹ thuật kinh điển (15 phút)<br>**Lab 11:** So sánh hiệu năng Local vs Cloud (10 phút) | - **Thử thách 6:** Chạy đánh giá RAG Triad tự động bằng LLM-as-a-judge.<br>- **Thử thách 7:** Chuẩn đoán và sửa lỗi mã hóa UTF-8, chunk size và API quota trên Windows.<br>- **Thử thách 8:** Chạy script benchmark đo lường sự khác biệt giữa Local và Cloud embedding. |
+- Chỉ dùng dữ liệu mô phỏng trong [synthetic-data/](synthetic-data/).
+- Không dùng hợp đồng thật, tên đối tác thật, MST/PII thật, số tiền thương mại thật.
+- Không đưa token, API key, mật khẩu vào bài nộp.
+- Skill `vibe-aiworkforce` / `vibe-improve` (cài sẵn ở [skills/](skills/)) chỉ chạy local; không gọi mạng ngoài.
 
----
+## 4. Dữ liệu & công cụ sử dụng
 
-## 4. Hướng dẫn chi tiết từng bước thực hành (Step-by-Step)
+**Synthetic contracts** ([synthetic-data/contracts/](synthetic-data/contracts/)):
 
-Mở PowerShell tại máy tính của bạn và di chuyển vào thư mục bài thực hành:
-```powershell
-cd "c:\Users\DELL\Documents\4. Presentations & Training\VTN\vtn-ai-builders-bootcamp-2026\03-practice\day-02\session-rag-basic"
-```
+| Tệp | Đặc điểm | Dùng ở |
+| --- | --- | --- |
+| `contract-001.docx` | đầy đủ, bình thường | BT2 |
+| `contract-002.docx` | thiếu trường, lỗi OCR | BT2 |
+| `contract-003-risky.docx` | 3 cờ đỏ rõ | BT2, BT4 |
+| `contract-004-telecom-sla.docx` | SLA 99.99% | BT2 |
+| `contract-001.pdf` | biến thể PDF của 001 | BT3 |
+| `contract-005-spreadsheet.xlsx` | hợp đồng dạng bảng | BT3 |
 
----
+**Skills cài sẵn** ([skills/](skills/)) — cài vào Antigravity/Codex/Claude trước khi làm:
 
-### Phần 1: Lý thuyết tổng quan (30 phút)
-Học viên nghe giảng viên đi nhanh qua các slide lý thuyết trong [rag-basic.pdf](../../../01-slides/rag-basic.pdf) để nắm được các khái niệm cơ bản.
+- `vibe-aiworkforce.zip` — build skill từ `skill_design.md`.
+- `vibe-improve-orchestrator.zip` — improve skill đã có (7-phase, có verify).
 
----
+> Hướng dẫn cài: xem [skills/README.md](skills/README.md).
 
-### Phần 2: Vector và Embedding (60 phút)
+## 5. Cấu trúc thời gian gợi ý
 
-#### Lab 1: Biểu diễn văn bản dưới dạng Vector Bag-of-Words (30 phút)
+| Bài | Thời lượng | Đầu ra học viên mang về |
+| --- | ---: | --- |
+| BT1 — Design (IPO) | 30 phút | `skill_design.md` hoàn chỉnh |
+| BT2 — Generate + Package + Install + Test | 60 phút | `review-contract.zip` + test pass ≥ 3/4 ca |
+| BT3 — Improve multi-format | 45 phút | `review-contract` chạy được `.pdf` + `.xlsx` |
+| BT4 — Năng cao (red-flag + PII) | 30+ phút (stretch) | red-flag library + script condact PII |
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ TỦ GỬI ĐỒ SIÊU THỊ):**
-> Hãy hình dung việc chuyển đổi chữ thành Vector giống như xếp đồng xu vào chiếc **tủ gửi đồ siêu thị gồm 20 ngăn**. Mỗi ngăn tủ được dán nhãn duy nhất một từ trong từ điển (sắp xếp theo thứ tự A-Z).
-> Khi máy tính đọc câu *"Tôi muốn tạm ứng tiền đi công tác"*, nó đi dọc 20 ngăn tủ và thả 1 đồng xu vào các ngăn tương ứng với các từ xuất hiện trong câu (như ngăn `công`, `tạm`, `ứng`, `tiền`...).
-> Vector của câu chính là **mảng ghi nhận số lượng đồng xu trong 20 ngăn tủ** đó: `[0, 1, 0, 0, 0, 1...]`.
-
-*   **Bước 1: Chạy mã nguồn mẫu (5 phút)**
-    Chạy file [lab1_bag_of_words.py](templates/lab1_bag_of_words.py):
-    ```powershell
-    python templates/lab1_bag_of_words.py
-    ```
-    *Quan sát:* Nhìn vào danh sách từ điển và các vector `[0, 1, 0...]` được in ra trên terminal.
-*   **Bước 2: Thực hiện Thử thách 1 - Sửa đổi mã nguồn (15 phút)**
-    Mở file `templates/lab1_bag_of_words.py` bằng trình soạn thảo. Tìm danh sách `documents` ở dòng 10 và **sửa đổi bằng cách thêm vào 2 câu cụ thể dưới đây**:
-    - Dòng thêm mới 1 (Câu 4 - đồng nghĩa nhưng khác chữ): `"Cho em xin ứng trước tiền công tác phí"`
-    - Dòng thêm mới 2 (Câu 5 - trái nghĩa nhưng trùng chữ): `"Tôi không muốn tạm ứng tiền đi công tác"`
-    
-    *Đoạn mã sau khi sửa đổi:*
-    ```python
-    documents = [
-        "Tôi muốn tạm ứng tiền đi công tác",
-        "Quy trình tạm ứng công tác phí của công ty",
-        "Tôi muốn mua máy tính mới cho phòng họp",
-        "Cho em xin ứng trước tiền công tác phí",
-        "Tôi không muốn tạm ứng tiền đi công tác"
-    ]
-    ```
-    Lưu file và chạy lại trên terminal:
-    ```powershell
-    python templates/lab1_bag_of_words.py
-    ```
-    *Quan sát:* Từ điển lúc này phình to từ 20 từ lên bao nhiêu từ? Hãy xem vector của câu 4 và câu 5.
-*   **Bước 3: Thảo luận phản tư tại lớp (10 phút)**
-    - Tại sao câu đồng nghĩa (câu 4) có ý nghĩa y hệt câu 1 nhưng vector của nó lại hầu như toàn số 0 ở các vị trí trùng khớp của câu 1?
-    - Tại sao câu trái nghĩa (câu 5) có ý nghĩa ngược lại hoàn toàn nhưng vector lại trùng khớp đến 90% với câu 1?
-
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi 1 (Vấn đề đồng nghĩa khác từ):** Nếu hai câu có ý nghĩa y hệt nhau nhưng dùng từ ngữ khác nhau (ví dụ: *"Cho em xin ứng trước tiền công tác phí"* và *"Tôi muốn tạm ứng tiền đi công tác"*), vector Bag-of-Words của chúng có độ trùng khớp thế nào?
-> *   **Gợi ý 1:** Hầu như không trùng nhau (chỉ số tương đồng cực thấp) vì từ điển ghi nhận các từ viết khác nhau là các chiều độc lập. Điều này khiến máy tính không hiểu hai câu có chung ý nghĩa.
-> *   **Hỏi 2 (Vấn đề trái nghĩa trùng từ):** Nếu câu 1 là *"Tôi muốn tạm ứng tiền đi công tác"* và câu 2 là *"Tôi không muốn tạm ứng tiền đi công tác"*, biểu diễn Bag-of-Words của chúng giống nhau bao nhiêu %? Tại sao điều này nguy hiểm cho hệ thống AI của VinaTel Network?
-> *   **Gợi ý 2:** Giống nhau đến hơn 90% (chỉ lệch duy nhất chữ "không"). Nếu RAG tìm tài liệu dựa trên đếm chữ thô, nó sẽ coi hai câu này là gần như giống hệt nhau, dẫn đến việc lấy sai quy định hoặc phản hồi sai nghiêm trọng ý định của người hỏi.
-
-#### Lab 2: Trích xuất Sentence Embedding ngữ nghĩa (30 phút)
-
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ DẤU VÂN TAY Ý NGHĨA):**
-> Thay vì đếm chữ thô sơ, mô hình ngôn ngữ (Embedding Model) sẽ dịch nghĩa của cả câu thành một **dấu vân tay kỹ thuật số gồm 384 thông số số thực**. Những câu có ý nghĩa gần nhau sẽ được xếp vào các vùng tọa độ gần nhau trong "không gian ngữ nghĩa" đa chiều.
-
-*   **Bước 1: Chạy mã nguồn mẫu (10 phút)**
-    Chạy file [lab2_sentence_embedding.py](templates/lab2_sentence_embedding.py):
-    ```powershell
-    python templates/lab2_sentence_embedding.py
-    ```
-    *Quan sát:* Chờ mô hình tải về máy tính (khoảng 1-2 phút). Nhìn vào kích thước vector (luôn là 384 chiều) và các giá trị số thực rất nhỏ in ra.
-*   **Bước 2: Thực hiện Thử thách 2 (10 phút)**
-    Mở file `templates/lab2_sentence_embedding.py`. Thay thế danh sách `sentences` bằng 4 câu có độ dài khác nhau cực kỳ rõ rệt dưới đây:
-    ```python
-    sentences = [
-        "Tôi muốn tạm ứng tiền đi công tác",
-        "Đi công tác",
-        "Định mức tiền phòng khách sạn tối đa của cấp Trưởng phòng tại Hà Nội là một triệu hai trăm nghìn đồng một đêm",
-        "Tạm ứng"
-    ]
-    ```
-    Lưu file và chạy lại trên terminal.
-*   **Bước 3: Thảo luận nhóm (10 phút)**
-    Hãy quan sát kích thước vector (shape) của câu cực ngắn ("Tạm ứng" - 2 từ) và câu cực dài (22 từ). Có phải tất cả đều có kích thước cố định là 384 chiều hay không? Tại sao việc cố định kích thước này lại quan trọng đối với máy tính?
-
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Tại sao mô hình embedding MiniLM lại luôn trả về vector có kích thước cố định là 384 số thực, bất kể câu hỏi dài 2 chữ hay dài 30 chữ?
-> *   **Gợi ý:** Việc cố định kích thước vector giúp máy tính thực hiện các phép toán so sánh hình học (như tính khoảng cách Cosine hoặc Euclid) một cách đồng nhất và cực kỳ nhanh chóng. Nếu số chiều bị biến động theo độ dài câu, máy tính sẽ không thể so khớp các câu với nhau được.
+> Nếu thiếu thời gian: làm BT1→BT3, BT4 làm về nhà.
 
 ---
 
-### Phần 3: Lab 3 - Tính toán khoảng cách và độ tương đồng Cosine (40 phút)
+## 6. BT1 — Viết `skill_design.md` theo cấu trúc IPO
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ CHIẾC LA BÀN ĐO GÓC Ý NGHĨA):**
-> Để đo xem hai câu có "cùng ý nghĩa" hay không, máy tính dùng toán học đo góc lệch giữa 2 vector của chúng trong không gian.
-> - **Góc cực nhỏ (hai vector chỉ cùng hướng):** Cosine Similarity gần bằng **1.0 (100% giống nhau)**.
-> - **Góc vuông (hai vector không liên quan):** Cosine Similarity gần bằng **0.0 (không liên quan)**.
+> **Mỏ neo slide:** Skill ≈ App · cấu trúc Skill Package · Trigger (addendum A10–A13).
 
-*   **Bước 1: Chạy mã nguồn mẫu (5 phút)**
-    Chạy file [lab3_cosine_similarity.py](templates/lab3_cosine_similarity.py):
-    ```powershell
-    python templates/lab3_cosine_similarity.py
-    ```
-*   **Bước 2: Thực hiện Thử thách 3 - Thay thế thuật toán tính toán (20 phút)**
-    Mở file `templates/lab3_cosine_similarity.py`. Tìm hàm `calculate_cosine_similarity(v1, v2)`. 
-    Hãy **thay thế toàn bộ nội dung hàm này bằng đoạn mã lập trình thủ công** dưới đây để hiểu rõ công thức toán học tính độ tương đồng cosine:
-    ```python
-    def calculate_cosine_similarity(v1, v2):
-        # 1. Tính tích vô hướng (dot product)
-        dot_product = sum(a * b for a, b in zip(v1, v2))
-        
-        # 2. Tính độ dài vector 1 (norm v1)
-        norm_v1 = sum(a ** 2 for a in v1) ** 0.5
-        
-        # 3. Tính độ dài vector 2 (norm v2)
-        norm_v2 = sum(b ** 2 for b in v2) ** 0.5
-        
-        # 4. Trả về điểm tương đồng cosine
-        if norm_v1 == 0 or norm_v2 == 0:
-            return 0.0
-        return float(dot_product / (norm_v1 * norm_v2))
-    ```
-    Lưu file và chạy lại trên terminal. Đảm bảo điểm số in ra hoàn toàn trùng khớp với kết quả trước đó.
-*   **Bước 3: Làm thí nghiệm đối chiếu (15 phút)**
-    Hãy so sánh điểm tương đồng của câu 1 với câu đồng nghĩa *"Thủ tục xin ứng trước công tác phí như thế nào"*. Có phải điểm số đạt mức rất cao (>0.75) mặc dù hai câu dùng từ ngữ khác nhau hay không? Giải thích sự vượt trội của phương pháp này so với Bag-of-Words ở Lab 1.
+### Mục tiêu
+Mô tả skill `review-contract` **trước khi build** — đủ chi tiết để BT2 một skill builder (`vibe-aiworkforce`) đọc và sinh ra gói skill mà không cần hỏi lại.
+
+### Hai đường (chọn 1)
+
+**Đường 1 — làm tay từ template:**
+1. Copy [templates/skill-design/skill_design.md](templates/skill-design/skill_design.md) → folder làm việc của bạn, đặt tên `skill_design.md`.
+2. Điền từng mục `<...>` cho skill `review-contract` (dùng bối cảnh §2 làm gợi ý).
+
+**Đường 2 — dùng prompt generate:**
+1. Mở [templates/skill-design/generate_skill_design.md](templates/skill-design/generate_skill_design.md).
+2. Copy prompt → dán vào Antigravity/Codex/Claude, thay `<MÔ TẢ TASK>` bằng: *"Rà soát hợp đồng viễn thông: đọc .docx, trích xuất điều khoản (ngày hiệu lực, SLA, phạt, gia hạn), phát hiện cờ đỏ, xuất JSON có dẫn chứng, chuyển người duyệt khi rủi ro cao."*
+3. AI trả ra `skill_design.md` → bạn đọc lại, sửa cho hợp thực tế đội mình.
+
+### Bắt buộc có trong `skill_design.md`
+- [ ] Trigger cụ thể (loại file + từ khóa + ngữ cảnh)
+- [ ] Input rõ (dữ liệu chính + knowledge base + điều kiện hợp lệ + dữ liệu cấm)
+- [ ] Process 4 bước (intake → extract → validate → route) + scripts gọi + phân vai AI vs code
+- [ ] Output: file + schema (liệt kê trường) + trạng thái kết thúc
+- [ ] Quality Gate: Do (≥3) + Don't (≥3)
+- [ ] HITL: khi nào chuyển người duyệt, AI vs Human
+- [ ] Section cấu trúc folder (SKILL.md, skill.json, schemas/, kb/, scripts/, data/, outputs/, tests/)
+
+### Đầu ra
+1 file `skill_design.md` hoàn chỉnh trong folder làm việc của bạn.
+
+📸 **Minh họa kết quả BT1** — cấu trúc IPO của `skill_design.md`:
+
+![BT1 — skill_design.md IPO](outputs/screenshots/bt1-skill-design.png)
 
 > [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Nếu hai câu có vector chỉ về hai hướng vuông góc 90 độ trong không gian ngữ nghĩa, thì độ tương đồng Cosine bằng bao nhiêu? Về mặt ý nghĩa, điều này thể hiện quan hệ gì?
-> *   **Gợi ý:** Độ tương đồng Cosine sẽ bằng 0.0. Về mặt ngữ nghĩa, điều này thể hiện hai câu hoàn toàn độc lập và không liên quan gì đến nhau (ví dụ: *"Hôm nay trời đẹp"* và *"Quy chế tạm ứng công tác phí"*).
+> **Kẹt?** Đối chiếu đáp án tham khảo: [templates/skill-design/skill_design.review-contract.example.md](templates/skill-design/skill_design.review-contract.example.md). Đừng copy nguyên văn — hiểu rồi viết lại theo ý mình.
 
 ---
 
-### Phần 4: Các kỹ thuật tối ưu RAG (50 phút)
+## 7. BT2 — Generate + Package + Install + Test
 
-#### Lab 4: Tìm kiếm lai (Hybrid Search) (15 phút)
+> **Mỏ neo slide:** vibe-aiworkforce build skill (A14 Skill-build-Skill) · Skill ≈ App (cài đặt + chạy) · PDCA pha Do.
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ LƯỚI VÀ CUNG TÊN):**
-> - **Vector Search giống như tấm lưới:** Quét và bắt tất cả những ý nghĩa tương đồng.
-> - **Keyword Search giống như mũi tên:** Bắn trúng đích các từ khóa chính xác như tên riêng, địa danh (như "Hải Phòng").
-> **Hybrid Search** kết hợp cả hai theo tỷ lệ trọng số $\alpha$.
+### Mục tiêu
+Biến `skill_design.md` (BT1) thành một gói skill **cài đặt được** (ZIP), cài vào super agent, và chạy test trên synthetic contracts.
 
-*   **Chạy và làm Thí nghiệm đối chiếu tham số $\alpha$ (15 phút):**
-    Chạy file [lab4_hybrid_search.py](templates/lab4_hybrid_search.py):
-    ```powershell
-    python templates/lab4_hybrid_search.py
-    ```
-    *Thực hiện thí nghiệm:* Mở file. Tìm dòng gọi hàm `hybrid_search` ở cuối file. Hãy thay đổi tham số `alpha` và chạy lại 3 lần ghi nhận kết quả:
-    - **Lần 1 với `alpha = 1.0` (Chỉ dùng Vector Search):** Điểm số của Tài liệu 2 (chứa từ khóa "Hải Phòng") là bao nhiêu?
-    - **Lần 2 với `alpha = 0.0` (Chỉ dùng Keyword Search):** Điểm số của Tài liệu 2 là bao nhiêu?
-    - **Lần 3 với `alpha = 0.5` (Cân bằng):** Điểm số của Tài liệu 2 thay đổi như thế nào? Điểm số này giúp đưa Tài liệu 2 lên vị trí số 1 trong kết quả tìm kiếm ra sao?
+### Bước BT2.1 — Build skill bằng `vibe-aiworkforce`
+
+1. Đảm bảo `vibe-aiworkforce` đã cài (xem [skills/README.md](skills/README.md)).
+2. Mở Antigravity/Codex/Claude Code tại folder làm việc của bạn (folder chứa `skill_design.md`).
+3. Yêu cầu AI build:
+   > "Dùng skill vibe-aiworkforce để build skill `review-contract` từ file `skill_design.md` ở folder này. COMPANY_ROOT = `<folder làm việc của bạn>`."
+4. `vibe-aiworkforce` sinh ra thư mục `review-contract/` (SKILL.md, skill.json, schemas/, kb/, scripts/, …) theo đúng cấu trúc đã mô tả trong `skill_design.md` §7.
+
+> **Lưu ý:** `vibe-aiworkforce` yêu cầu `COMPANY_ROOT` — đặt bằng folder làm việc của bạn để skill lưu đúng chỗ và share được.
+
+### Bước BT2.2 — Kiểm nhanh cấu trúc skill sinh ra
+
+- [ ] Có `SKILL.md`, `skill.json`
+- [ ] `schemas/contract-term.schema.json` tồn tại
+- [ ] `kb/clause-library.md`, `kb/red-flag-rules.md` tồn tại
+- [ ] `scripts/intake.py`, `validator.py`, `router.py` tồn tại
+- [ ] `skill.json` có `triggers` + `permissions` (read only data/, write outputs/, no network)
+
+> Cấu trúc kỳ vọng giống [outputs/contract-term-extractor/](outputs/contract-term-extractor/) (đã có sẵn làm tham chiếu "expected result").
+
+📸 **Minh họa kết quả BT2.1** — cấu trúc thư mục skill `review-contract` sau khi `vibe-aiworkforce` sinh ra:
+
+![BT2.1 — cấu trúc skill](outputs/screenshots/bt2-folder-structure.png)
+
+### Bước BT2.3 — Đóng gói ZIP bằng `vibe-packaging-orchestrator`
+
+1. Yêu cầu AI:
+   > "Dùng skill vibe-packaging-orchestrator để đóng gói skill `review-contract` thành file ZIP sẵn cài."
+2. Kết quả: `review-contract.zip` (install-ready — unzip là chạy, đã sanitize thông tin cá nhân, đã validate cấu trúc).
+
+### Bước BT2.4 — Cài vào super agent
+
+- **Antigravity:** kéo thả `review-contract.zip` vào ô chat và gõ câu lệnh: *"cài đặt skill này vào project hiện tại để sử dụng lại trong các lần sau"*.
+- **Claude Code:** giải nén vào `~/.claude/skills/review-contract/`.
+- **Codex:** theo hướng dẫn cài skill của Codex.
+- Verify: hỏi super agent *"Bạn có skill review-contract không?"* → phải trả lời có.
+
+### Bước BT2.5 — Test trên 3 synthetic contracts
+
+Gửi từng file cho skill (đặt synthetic contracts vào `review-contract/data/contracts/`):
+
+| Ca | File | Kỳ vọng |
+|----|------|---------|
+| 1 | `contract-001.docx` | `auto_pass`, đủ trường, có evidence |
+| 2 | `contract-002.docx` | `needs_human_review` (thiếu trường) |
+| 3 | `contract-003-risky.docx` | `needs_human_review`, `red_flags[]` ≥ 3 |
+
+### Đầu ra
+- `review-contract/` (skill folder) + `review-contract.zip`
+- `outputs/extracted-terms/contract-00{1,2,3}.json` + `outputs/reports/*-red-flag.md`
+- Test pass ≥ 3 ca đúng trạng thái.
+
+📸 **Minh họa kết quả BT2.5** — trước/sau khi skill xử lý `contract-003-risky.docx`:
+
+**Hợp đồng gốc (BEFORE):**
+
+![BT2.5 — hợp đồng gốc](outputs/screenshots/bt2-contract-before.png)
+
+**JSON trích xuất (AFTER — route HITL):**
+
+![BT2.5 — JSON trích xuất](outputs/screenshots/bt2-json-after.png)
+
+**Báo cáo cờ đỏ (route HITL):**
+
+![BT2.5 — báo cáo cờ đỏ](outputs/screenshots/bt2-redflag-report.png)
 
 > [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Trong trường hợp nào ta nên thiết lập $\alpha = 0.0$ (chỉ tìm theo từ khóa) và trường hợp nào nên đặt $\alpha = 1.0$ (chỉ tìm theo vector ngữ nghĩa)?
-> *   **Gợi ý:** Ta đặt $\alpha = 0.0$ khi người dùng muốn tra cứu các từ khóa chính xác tuyệt đối như tên riêng, mã số tài liệu, mã hóa đơn (ví dụ: *"POL-ALLOW-001"*). Ngược lại, đặt $\alpha = 1.0$ khi người dùng hỏi các câu hỏi diễn đạt tự do bằng ngôn từ khác nhau nhưng hướng tới cùng một ý nghĩa ngữ nghĩa (ví dụ: *"Thủ tục xin tiền đi công tác"*).
-
-#### Lab 5: Reranking bằng Cross-Encoder (20 phút)
-*   **Chạy và quan sát sự thay đổi thứ hạng (20 phút):**
-    Chạy file [lab5_reranking.py](templates/lab5_reranking.py):
-    ```powershell
-    python templates/lab5_reranking.py
-    ```
-    *Quan sát:* Đối chiếu thứ tự ưu tiên của 4 tài liệu trước khi rerank (điểm Cosine) và sau khi rerank (điểm Rerank).
-    Hãy ghi nhận sự thay đổi thứ hạng của tài liệu: *"Vé máy bay hạng thương gia Business Class chỉ dành cho cấp Giám đốc và Phó Giám đốc"* đối với câu hỏi *"Giám đốc đi máy bay được thanh toán thế nào"*. Có phải nó đã được đẩy lên hạng 1 với điểm số vượt trội hay không?
-
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Tại sao không dùng Cross-Encoder (Reranker) để tìm kiếm ngay từ đầu trên hàng triệu văn bản, mà phải qua bước Vector Search (Bi-Encoder) trước để lọc ra top 4 rồi mới chạy Reranking?
-> *   **Gợi ý:** Vì mô hình Cross-Encoder so sánh cặp câu hỏi và tài liệu đồng thời nên tính toán rất nặng và chậm. Nếu quét hàng triệu tài liệu bằng Cross-Encoder, hệ thống sẽ bị treo hoặc phản hồi sau nhiều phút. Do đó, quy trình tối ưu là dùng Vector Search để "vớt nhanh" top 10-20 ứng viên trong vài mili-giây, sau đó dùng Cross-Encoder để "đọc kỹ" và xếp hạng lại.
-
-#### Lab 6: Question Rewriting bằng LLM (15 phút)
-*   **Chạy và Thử thách viết lại (15 phút):**
-    Chạy file [lab6_question_rewriting.py](templates/lab6_question_rewriting.py):
-    ```powershell
-    python templates/lab6_question_rewriting.py
-    ```
-    *Quan sát:* Xem cách mô hình tự động chuyển câu hỏi *"Thế còn Hải Phòng thì được bao nhiêu?"* thành *"Mức phụ cấp lưu trú khi đi công tác tại Hải Phòng là bao nhiêu?"* nhờ đọc hiểu lịch sử hội thoại.
-
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Điều gì sẽ xảy ra với quy trình Vector Search nếu không có bước viết lại câu hỏi (Question Rewriting) khi học viên hỏi *"Thế còn Hải Phòng?"*?
-> *   **Gợi ý:** Vector search sẽ tìm kiếm ngữ nghĩa cho chính xác cụm từ *"Thế còn Hải Phòng?"*. Kết quả trả về sẽ là các tài liệu mô tả về địa danh Hải Phòng hoặc các đoạn không liên quan, chứ không thể tìm ra quy định phụ cấp công tác phí của Hải Phòng vì câu hỏi bị thiếu hoàn toàn chủ ngữ và ngữ cảnh.
+> **Skill không trigger?** Kiểm tra `skill.json` → `triggers.keywords` có từ khóa bạn đang nói không. **Validator báo confidence 0?** Kiểm tra `source_evidence.quote` có khớp văn bản gốc không.
 
 ---
 
-### Phần 5: Xây dựng RAG hoàn chỉnh (60 phút)
+## 8. BT3 — Improve skill hỗ trợ `.pdf` + `.xlsx`
 
-#### Lab 7: Quy trình nạp tri thức - Ingestion Pipeline & ChromaDB (20 phút)
+> **Mỏ neo slide:** Skill nâng cấp được (A15 vòng đời skill) · PDCA pha Act (cải tiến).
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ THỦ THƯ XẾP SÁCH):**
-> Quy trình nạp tri thức giống như cách người thủ thư sắp xếp sách vào thư viện: cắt nhỏ sách thành đoạn ngắn để dễ tìm (Chunking), dán nhãn tên file (Metadata), quét mã số tọa độ ý nghĩa (Embedding) và xếp vào database (ChromaDB).
+### Mục tiêu
+Skill `review-contract` (BT2) chỉ chạy `.docx`. Mở rộng để nhận thêm `.pdf` + `.xlsx` — và hiểu cách một skill được **improve có verify** (không sửa mù).
 
-*   **Thực hiện và Thử thách nạp tri thức mới (20 phút):**
-    Chạy file [lab7_ingestion_chromadb.py](templates/lab7_ingestion_chromadb.py):
-    ```powershell
-    python templates/lab7_ingestion_chromadb.py
-    ```
-    *Thực hiện thử thách:*
-    1. Vào thư mục `synthetic-data/hr-policies/`. Tạo một file mới bằng text editor đặt tên là `policy-overtime.md`.
-    2. **Dán toàn bộ nội dung chính sách làm thêm giờ có sẵn dưới đây vào file đó và lưu lại**:
-        ```markdown
-        ---
-        doc_id: POL-OVERTIME-001
-        title: Quy định làm thêm giờ và phụ cấp ngoài giờ
-        version: v1.0
-        effective_date: 2026-03-01
-        owner: Ban Nhân sự
-        access_level: public
-        status: active
-        ---
-        # Quy định làm thêm giờ và phụ cấp ngoài giờ
-        
-        Cán bộ nhân viên làm việc ngoài giờ hành chính hoặc trong các ngày nghỉ lễ sẽ được hưởng phụ cấp làm thêm giờ bằng 300% mức lương ngày bình thường.
-        ```
-    3. Chạy lại file `lab7_ingestion_chromadb.py` trên terminal. Quan sát xem số lượng chunks đã tăng lên từ bao nhiêu thành bao nhiêu.
+### Bước BT3.1 — Baseline (test trước khi improve)
 
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Điều gì sẽ xảy ra nếu ta nạp dữ liệu chính sách mới vào ChromaDB nhưng lại quên gắn siêu dữ liệu (Metadata) cho từng đoạn?
-> *   **Gợi ý:** Nếu thiếu Metadata, khi hệ thống truy xuất được các đoạn văn bản (chunks) liên quan, nó sẽ không thể chỉ ra được đoạn đó trích từ file tài liệu nào (như `policy-hotel-limit.md` hay `policy-travel-allowance.md`). Điều này khiến trợ lý RAG không thể thực hiện trích nguồn dẫn chứng hợp lệ, làm giảm uy tín của câu trả lời.
+Chạy skill hiện tại trên `contract-001.pdf` và `contract-005-spreadsheet.xlsx` → **kỳ vọng FAIL** (skill chưa nhận format này). Ghi lại lỗi: *"chỉ hỗ trợ .docx"*.
 
-#### Lab 8: Quy trình truy vấn - Query Pipeline & LLM Generation (40 phút)
+> Đây là baseline — nguyên tắc "measure twice, cut once" của `vibe-improve`: test trước, sửa, test lại.
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ KỲ THI MỞ SÁCH - OPEN-BOOK EXAM):**
-> RAG giải quyết hiện tượng ảo giác bằng cách tổ chức kỳ thi mở sách cho LLM: RAG tìm 2 trang tài liệu liên quan nhất rồi đưa cho LLM và ra lệnh: *"Chỉ trả lời dựa vào đây, cấm tự ý bịa đặt."*
+### Bước BT3.2 — Improve bằng `vibe-improve-orchestrator`
 
-*   **Bước 1: Chạy thử nghiệm hệ thống (10 phút)**
-    Chạy file [lab8_rag_pipeline.py](templates/lab8_rag_pipeline.py):
-    ```powershell
-    python templates/lab8_rag_pipeline.py
-    ```
-    *Quan sát:* 
-    - Ca test 1: Trả lời đúng mức trần khách sạn cho chuyên viên đi Hải Phòng (700k/đêm) dựa vào file `policy-hotel-limit.md`.
-    - Ca test 3: Câu hỏi bẫy về Singapore (thông tin không có trong tài liệu). Trợ lý RAG cơ bản vẫn cố tìm các đoạn tài liệu tương tự (về đi lại trong nước) đưa vào context khiến LLM bị lừa và trả lời sai lệch (ảo giác).
-*   **Bước 2: Thực hiện Thử thách 5 - Khắc phục ảo giác (20 phút)**
-    Mở file `templates/lab8_rag_pipeline.py`. Tìm biến `prompt` ở dòng 95. Hãy **thay đổi toàn bộ prompt hệ thống bằng đoạn mã có sẵn dưới đây** để thắt chặt quy luật phòng vệ, bắt LLM phải từ chối khi thiếu thông tin:
-    ```python
-    prompt = f"""Bạn là trợ lý giải đáp thắc mắc của phòng Tài chính VinaTel Network.
-Nhiệm vụ của bạn là trả lời câu hỏi dựa HOÀN TOÀN vào NGỮ CẢNH được cung cấp dưới đây.
+Yêu cầu AI:
+> "Dùng skill vibe-improve-orchestrator để improve skill `review-contract`: bổ sung hỗ trợ đọc file `.pdf` và `.xlsx` ngoài `.docx`. Mục tiêu: 2 file test (contract-001.pdf, contract-005-spreadsheet.xlsx) chạy được và ra JSON khớp schema như `.docx`."
 
-NGỮ CẢNH:
-{context}
+`vibe-improve` chạy 7 phase:
+1. **Identify** — phần cần improve: module intake + trigger file_patterns.
+2. **Research** — ảnh hưởng lên validator/router (cần thay không?).
+3. **Surface Review** — đọc SKILL.md, skill.json, intake.py hiện tại.
+4. **Deep Test** — chạy baseline (BT3.1).
+5. **Plan** — thay tối thiểu: thêm pdf/xlsx parser vào `intake.py`, mở rộng `skill.json` triggers.file_patterns.
+6. **Execute** — sửa code.
+7. **Verify** — chạy lại 2 file test, so confidence vs baseline.
 
-Yêu cầu nghiêm ngặt:
-1. Chỉ trả lời các thông tin có bằng chứng trực tiếp từ NGỮ CẢNH trên.
-2. Nếu câu hỏi yêu cầu thông tin về một địa điểm hoặc nội dung không hề xuất hiện trong NGỮ CẢNH (ví dụ: đi nước ngoài, đi Singapore), bạn KHÔNG được phỏng đoán hay áp dụng định mức trong nước để trả lời.
-3. Trong trường hợp thiếu thông tin hoặc câu hỏi ngoài phạm vi ngữ cảnh, hãy trả lời chính xác câu sau và không thêm gì khác: "Kho tri thức hiện tại chưa có thông tin về nội dung này. Vui lòng liên hệ phòng Tài chính để được hỗ trợ."
+### Bước BT3.3 — Verify
 
-CÂU HỎI: {clean_query}
+- [ ] `contract-001.pdf` → ra JSON, cấu trúc giống `contract-001.docx`.
+- [ ] `contract-005-spreadsheet.xlsx` → ra JSON hợp lệ.
+- [ ] Skill vẫn chạy đúng `.docx` cũ (không regression).
+- [ ] `vibe-improve` xuất báo cáo "improved vs baseline".
 
-CÂU TRẢ LỜI:"""
-    ```
-    Lưu file và chạy lại `python templates/lab8_rag_pipeline.py` trên terminal. Quan sát câu trả lời cho ca test đi Singapore. Có phải trợ lý đã từ chối an toàn thay vì bịa đặt số liệu hay không?
-*   **Bước 3: Thảo luận tổng kết Phần 5 (10 phút)**
-    - Việc từ chối an toàn có lợi ích gì cho doanh nghiệp so với việc cố gắng trả lời?
-    - RAG cơ bản còn những điểm yếu gì trước tấn công prompt injection hoặc tài liệu hết hiệu lực? (Chuẩn bị hành trang cho buổi học Agentic RAG).
+### Đầu ra
+- `review-contract/` đã improve (intake.py + skill.json cập nhật).
+- Báo cáo improve (before/after) từ `vibe-improve`.
+
+📸 **Minh họa kết quả BT3** — `skill.json` triggers + `intake.py` trước/sau khi `vibe-improve` mở rộng đa-format:
+
+![BT3 — improve multi-format before/after](outputs/screenshots/bt3-multiformat.png)
 
 > [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Tại sao một Prompt hệ thống (System Prompt) có quy tắc phòng vệ chặt chẽ lại quan trọng hơn việc chọn một mô hình ngôn ngữ lớn hơn để phòng chống ảo giác?
-> *   **Gợi ý:** Dù mô hình ngôn ngữ lớn đến đâu, nếu không được rào ranh giới nghiêm ngặt trong prompt, nó vẫn sẽ cố suy diễn và đoán mò dựa trên dữ liệu học máy chung để trả lời người dùng. Prompt phòng vệ chính là "lớp bảo vệ pháp lý" ép buộc mô hình phải từ chối khi thiếu bằng chứng thực tế trong ngữ cảnh được cung cấp.
+> **Gợi ý kỹ thuật:** PDF dùng `pdfplumber`/`pypdf`; XLSX dùng `openpyxl`/`pandas`. Parser mới tách riêng hàm `extract_text(path)` trả text thống nhất cho downstream.
 
 ---
 
-### Phần 6: RAG nâng cao - Advanced RAG (50 phút)
+## 9. BT4 — Nâng cao: red-flag library + condact PII
 
-#### Lab 9: Đánh giá chất lượng RAG bằng phương pháp RAG Triad (LLM-as-a-judge) (25 phút)
+> **Mỏ neo slide:** Trách nhiệm & compliance (A20) · evidence-first · HITL.
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ HỘI ĐỒNG GIÁM KHẢO ĐỘC LẬP):**
-> Đánh giá RAG Triad giống như việc bạn mời một **hội đồng gồm 3 vị giám khảo độc lập** đến chấm điểm bài thi mở sách của trợ lý AI:
-> 1. **Giám khảo 1 (chấm Context Relevance):** Kiểm tra xem trang sách mà thủ thư tìm ra có thực sự chứa nội dung câu hỏi yêu cầu không.
-> 2. **Giám khảo 2 (chấm Groundedness):** So sánh câu trả lời của trợ lý với trang sách mở ra để xem trợ lý có tự bịa thêm thông tin nào không (ảo giác).
-> 3. **Giám khảo 3 (chấm Answer Relevance):** Đọc câu hỏi và câu trả lời của trợ lý để xem trợ lý có trả lời đi thẳng vào trọng tâm câu hỏi hay nói vòng vo, lạc đề.
+> **Mức độ:** stretch / homework. Yêu cầu xong BT1–BT3.
 
-*   **Bước 1: Chạy mã nguồn mẫu (10 phút)**
-    Chạy file [lab9_evaluation.py](templates/lab9_evaluation.py):
-    ```powershell
-    python templates/lab9_evaluation.py
-    ```
-    *Quan sát:* Nhìn vào kết quả chấm điểm của 3 ca kiểm thử in ra trên terminal. 
-    - Ca 1 (Lý tưởng) đạt điểm bao nhiêu?
-    - Ca 2 (Bị ảo giác đi Singapore) bị kéo tụt điểm Groundedness xuống bao nhiêu?
-    - Ca 3 (Truy xuất sai ngữ cảnh xăng xe thay vì tiền phòng) bị kéo tụt điểm Context Relevance xuống bao nhiêu?
-*   **Bước 2: Thực hiện Thử thách 6 (10 phút)**
-    Mở file `templates/lab9_evaluation.py`. Tìm ca đánh giá thứ 2 (dòng 142) và quan sát câu trả lời bị ảo giác: `"Có, khi anh/chị đi công tác tại Singapore, anh/chị sẽ được thanh toán tiền taxi tối đa là 500.000 VNĐ/ngày..."`.
-    
-    Hãy **thay thế câu trả lời bị ảo giác này bằng câu trả lời từ chối an toàn** đã được học ở Lab 8:
-    ```python
-    case_hallucination_response = "Kho tri thức hiện tại chưa có thông tin về nội dung này. Vui lòng liên hệ phòng Tài chính để được hỗ trợ."
-    ```
-    Lưu file và chạy lại trên terminal. Quan sát điểm số Groundedness và Answer Relevance của Ca 2 thay đổi như thế nào. Giải thích tại sao điểm Groundedness lúc này lại tăng vọt lên 5/5.
+### Mục tiêu
+Tinh chỉnh skill `review-contract` để **an toàn hơn** và **bắt rủi ro tinh hơn**:
+1. Bổ sung **red-flag library** phong phú (thêm quy tắc cờ đỏ viễn thông).
+2. Thêm bước **condact PII** — che/mask thông tin cá nhân **trước** khi đưa hợp đồng qua AI.
 
-*   **Bước 3: Thảo luận nhóm (5 phút)**
-    Tại sao phương pháp sử dụng LLM làm giám khảo (LLM-as-a-judge) lại cực kỳ hữu ích cho doanh nghiệp khi cần đánh giá tự động hàng ngàn cuộc hội thoại của khách hàng với trợ lý AI?
+### Bước BT4.1 — Mở rộng red-flag library
 
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Trong 3 tiêu chí của RAG Triad (Context Relevance, Groundedness, Answer Relevance), tiêu chí nào trực tiếp giúp phát hiện và ngăn chặn hiện tượng trợ lý AI tự bịa đặt thông tin (ảo giác)?
-> *   **Gợi ý:** Tiêu chí **Groundedness (Tính xác thực / Đỡ ảo giác)**. Tiêu chí này so sánh câu trả lời của AI với ngữ cảnh được cung cấp. Nếu câu trả lời chứa thông tin không có trong ngữ cảnh, điểm số sẽ bị kéo tụt xuống, giúp quản trị viên phát hiện lỗi lập tức.
+1. Mở `review-contract/kb/red-flag-rules.md`.
+2. Bổ sung ≥ 5 quy tắc mới (ví dụ):
+   - SLA < 99% → cờ đỏ.
+   - Tự động gia hạn > 12 tháng không có cơ chế hủy → cờ đỏ.
+   - Phạt vi phạm > 10% giá trị hợp đồng → cờ đỏ.
+   - Thiếu điều khoản bảo mật dữ liệu → cờ đỏ.
+   - Đơn phương chấm dứt bất đối xứng → cờ đỏ.
+3. Re-test `contract-003-risky.docx` → `red_flags[]` phải bắt được nhiều hơn BT2.
 
-#### Lab 10: Chuẩn đoán và xử lý các lỗi kỹ thuật kinh điển trong RAG (15 phút)
+### Bước BT4.2 — Condact PII trước khi qua AI
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ BẮT BỆNH HỆ THỐNG):**
-> Xây dựng hệ thống RAG giống như lắp ráp một chiếc xe máy. Nếu bạn đổ sai nhiên liệu (sai mã hóa đọc file), chỉnh xích quá căng (chunk size quá nhỏ làm đứt đoạn ý nghĩa), hoặc hết xăng giữa đường (lỗi cạn hạn ngạch API/mất mạng), xe sẽ không chạy được.
+1. Tạo `scripts/condact_pii.py` — nhận text hợp đồng, mask:
+   - Tên người → `[PERSON]`
+   - SĐT, email → `[CONTACT]`
+   - MST/CCCD → `[TAX_ID]`
+   - Số tài khoản → `[BANK_ACCT]`
+2. Chèn vào Process **trước** bước Extract (sửa SKILL.md workflow + `intake.py` gọi condact).
+3. Verify: output JSON không còn PII thật; skill vẫn trích xuất đúng điều khoản (PII không cần cho rà soát điều khoản).
 
-*   **Bước 1: Chạy mã nguồn mô phỏng lỗi (5 phút)**
-    Chạy file [lab10_troubleshooting.py](templates/lab10_troubleshooting.py):
-    ```powershell
-    python templates/lab10_troubleshooting.py
-    ```
-    *Quan sát:* Đọc kỹ 3 lỗi in ra trên terminal:
-    - **Lỗi 1 (Mã hóa):** Hiển thị những ký tự tiếng Việt bị lỗi kỳ lạ (Mojibake) hoặc báo lỗi chương trình bị dừng.
-    - **Lỗi 2 (Phân đoạn):** Thấy rõ việc cắt nhỏ 15 ký tự làm số tiền `1.500.000 VNĐ` bị cắt đôi thành 2 đoạn độc lập, không còn ý nghĩa.
-    - **Lỗi 3 (API/Mạng):** Bắt ngoại lệ báo lỗi kết nối hoặc sai khóa API Key.
-*   **Bước 2: Thực hiện Thử thách 7 (5 phút)**
-    Hãy mở file `templates/lab10_troubleshooting.py`. Tìm phần mô phỏng lỗi API (dòng 68). Đổi biến `fake_api_key` thành khóa API thực tế lấy từ `.env`:
-    ```python
-    # Sửa dòng này để dùng API key đúng
-    fake_api_key = os.getenv("GEMINI_API_KEY") 
-    ```
-    Lưu file và chạy lại. Đảm bảo chương trình gọi API thành công và in ra lời chào tiếng Việt bình thường.
-*   **Bước 3: Thảo luận nhanh (5 phút)**
-    Khi thiết kế ứng dụng RAG thực tế cho nhân viên công ty sử dụng, lập trình viên cần xử lý ngoại lệ (`try-except`) như thế nào để hệ thống không bị sập hoàn toàn khi mạng internet bị chập chờn?
+> **Tại sao condact trước AI?** Hai lý do: (1) bảo vệ dữ liệu — không đưa PII ra LLM; (2) tuân thủ Luật TTNT 134 (compliance).
 
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Làm thế nào giảng viên giúp học viên phát hiện nhanh lỗi Unicode cp1252 trên Windows mà không cần chạy toàn bộ ứng dụng RAG?
-> *   **Gợi ý:** Chỉ cần mở đọc thử một dòng của file chính sách có tiếng Việt mà không truyền tham số `encoding='utf-8'`. Windows sẽ ném ra lỗi `UnicodeDecodeError` hoặc in ra các ký tự Mojibake lỗi, từ đó giúp học viên hiểu sự cần thiết của encoding.
+### Đầu ra
+- `kb/red-flag-rules.md` mở rộng (≥ 5 quy tắc mới)
+- `scripts/condact_pii.py` + tích hợp vào workflow
+- Test: `contract-003-risky.docx` bắt ≥ 5 cờ đỏ, output 0 PII thật.
 
-#### Lab 11: So sánh hiệu năng Local vs Cloud Embedding (10 phút)
+📸 **Minh họa kết quả BT4** — `condact_pii.py` mask PII **trước** khi đưa hợp đồng qua AI (MST → `[TAX_ID]`, tên người → `[PERSON]`):
 
-> [!NOTE]
-> **DIỄN GIẢI TRỰC QUAN (ẨN DỤ XE MÁY VS MÁY BAY):**
-> - **Mô hình Local giống như chiếc xe máy cá nhân:** Bạn có thể đi bất cứ lúc nào (offline), không cần xin phép/mua vé, hoàn toàn miễn phí hành trình, cực kỳ cơ động và nhanh chóng cho quãng đường ngắn. Nhưng nó chở được rất ít đồ (số chiều nhỏ - 384 chiều, hiểu ngữ nghĩa đơn giản).
-> - **Mô hình Cloud giống như chiếc máy bay:** Chở được khối lượng đồ khổng lồ (số chiều lớn - 768 chiều, hiểu sâu sắc nhiều sắc thái ngôn ngữ). Nhưng bạn phải mua vé (tốn phí API), phụ thuộc vào lịch bay và thời tiết (đường truyền mạng internet, độ trễ kết nối).
-
-*   **Bước 1: Chạy mã nguồn đo đạc (5 phút)**
-    Chạy file [lab11_benchmarking.py](templates/lab11_benchmarking.py):
-    ```powershell
-    python templates/lab11_benchmarking.py
-    ```
-    *Quan sát:* Nhìn vào bảng kết quả so sánh (Benchmark Table) hiển thị trên terminal. Ghi lại:
-    - Tổng thời gian xử lý của Local và Cloud khác nhau bao nhiêu lần?
-    - Số chiều vector (Dimension) của Local và Cloud lệch nhau thế nào?
-*   **Bước 2: Thử thách 8 và Thảo luận tổng kết toàn buổi học (5 phút)**
-    Dựa trên bảng so sánh vừa chạy:
-    - Nếu bạn cần xây dựng một ứng dụng RAG tra cứu văn bản pháp luật vô cùng phức tạp cho ban Giám đốc, cần độ chính xác ngữ nghĩa tuyệt đối, bạn sẽ chọn giải pháp nào?
-    - Nếu bạn cần xây dựng một ứng dụng RAG chạy trên điện thoại di động của nhân viên kỹ thuật đi hiện trường (nơi sóng 3G/4G chập chờn), bạn sẽ chọn mô hình Local hay Cloud Embedding? Tại sao?
-
-> [!TIP]
-> **CÂU HỎI TƯƠNG TÁC DÀNH CHO GIẢNG VIÊN (INSTRUCTOR CHECKPOINT):**
-> *   **Hỏi:** Tại sao Local Embedding mặc dù chạy hoàn toàn offline trên CPU máy tính cá nhân thô sơ vẫn cho thời gian phản hồi (latency) cực kỳ nhanh so với Cloud Embedding (chỉ khoảng 0.03 giây/câu)?
-> *   **Gợi ý:** Vì mô hình local MiniLM cực kỳ nhẹ (chỉ khoảng vài chục triệu tham số), và quan trọng nhất là nó không tốn thời gian truyền dữ liệu qua mạng internet (network round-trip time) cũng như thời gian xếp hàng chờ đợi trên máy chủ đám mây.
+![BT4 — condact PII before/after](outputs/screenshots/bt4-condact-pii.png)
 
 ---
 
-### Thảo luận tổng kết cuối buổi học (10 phút)
-Học viên và giảng viên cùng thảo luận 3 câu hỏi lớn:
-1. RAG cơ bản giúp chúng ta kiểm soát câu trả lời của mô hình ngôn ngữ lớn (LLM) tốt hơn so với việc hỏi trực tiếp LLM như thế nào?
-2. Tại sao việc chia nhỏ tài liệu (Chunking) và chọn kích thước chunk phù hợp lại quyết định trực tiếp đến sự thành bại của Vector Search?
-3. Tại sao trong môi trường doanh nghiệp thực tế, việc thiết lập các prompt phòng vệ chống ảo giác (giống như Lab 8 và Lab 9) lại quan trọng hơn việc bắt mô hình phải trả lời bằng mọi giá?
+## 10. Definition of Done
+
+- [ ] BT1: `skill_design.md` đầy đủ 8 mục (§6 checklist)
+- [ ] BT2: `review-contract.zip` cài được, test ≥ 3/4 ca đúng trạng thái
+- [ ] BT3: skill chạy được `.pdf` + `.xlsx`, không regression `.docx`
+- [ ] BT4 (stretch): red-flag library ≥ 5 quy tắc + condact PII hoạt động
+- [ ] Mọi output dùng synthetic data, 0 PII thật
+
+## 11. Lỗi thường gặp
+
+| Triệu chứng | Nguyên nhân | Xử lý |
+|-------------|-------------|-------|
+| `vibe-aiworkforce` hỏi COMPANY_ROOT | chưa đặt folder gốc | truyền `COMPANY_ROOT=<folder làm việc>` |
+| Skill không trigger | `skill.json` triggers thiếu từ khóa | bổ sung keywords trong skill_design §1 rồi rebuild |
+| Validator confidence = 0 | `source_evidence.quote` không khớp văn bản gốc | trích nguyên văn chính xác, không diễn giải lại |
+| BT3: PDF ra text rỗng | parser PDF sai (scan ảnh) | PDF phải là text-based; nếu scan cần OCR trước |
+| `vibe-improve` không verify | thiếu baseline | chạy BT3.1 trước khi improve |
+
+## 12. Câu hỏi thảo luận phản tư
+
+1. So sánh Track A (vibe-working) vs Track B (làm tay): cái nào giúp bạn hiểu "skill là gì" sâu hơn? Cái nào build nhanh hơn?
+2. PDCA thể hiện ở đâu trong 4 bài? (Gợi ý: BT1=Plan, BT2=Do, BT3=Act, validator=Check.)
+3. Vì sao condact PII **trước** khi qua AI lại quan trọng hơn sau?
+4. Nếu hợp đồng thật có PII thật, bạn thay đổi gì trong skill trước khi dùng thực tế?
+5. Red-flag library của bạn có thể dùng chung cho phòng ban nào khác ngoài pháp lý?

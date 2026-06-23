@@ -1,67 +1,123 @@
----
-mo-ta: Tổng quan bài thực hành Session 07 - Hermes Basic thiết lập Trợ lý cá nhân và Đóng gói Quy trình (Skill) cho học viên non-tech
+﻿---
+mo-ta: tong quan bai thuc hanh session 07 Agentic RAG Skill cho HR Policy QA (RAG Phần B)
 trang-thai: active
-phien-ban: v3.2
-created-at: 2026-06-21 09:00 +07:00
-updated-at: 2026-06-21 09:45 +07:00
+phien-ban: v3.0
+created-at: 2026-05-27 17:00 +07:00
+updated-at: 2026-06-18 09:15 +07:00
 ---
 
-# Buổi 07: Hermes Basic — Thiết lập Trợ lý cá nhân & Đóng gói Quy trình (Skill)
+# Buổi 07 (Session 7): Đóng gói Kỹ năng Hỏi đáp Chính sách Nhân sự (Agentic RAG Skill)
 
 ## Mục tiêu
 
-Buổi thực hành giúp học viên phi kỹ thuật: non-tech làm quen và làm chủ phần mềm Hermes Desktop Client để xây dựng lực lượng lao động AI cá nhân: Personal AI Workforce có kỷ luật và ranh giới an toàn:
-1. **Cấu hình kết nối API:** Kết nối API Key từ 1 trong 2 nhà cung cấp: Google Gemini (qua `hermes model`) hoặc OpenRouter. Học viên chọn 1 phương pháp và ghi nhận vào `runbook-log.json`.
-2. **Đóng gói quy trình (Skill):** Chuyển đổi một chỉ thị: prompt thô thành một kỹ năng: Skill có cấu trúc nghiệp vụ lặp lại ổn định.
-3. **Quản lý đa tác nhân (Multi-profile):** Tạo và vận hành song song 2 Trợ lý ảo (`HR_Admin_Assistant` và `HR_Recruitment_Assistant`) biệt lập ngữ cảnh 100%.
-4. **Tích hợp tri thức cục bộ (Knowledge Base):** Nạp tài liệu quy trình vận hành vào Profile để Trợ lý tự tra cứu.
-5. **Tự động hóa tác vụ (Cron Job):** Lên lịch quét và tóm tắt dữ liệu tự động theo khung giờ quy định.
-6. **Kiểm thử ranh giới an toàn & Dọn dẹp bộ nhớ:** Chạy 3 ca kiểm thử: Test Cases nghiệp vụ bắt buộc và thực hiện quy trình xóa bộ nhớ: Memory Clear Protocol để bảo vệ dữ liệu.
+Buổi này học viên đóng gói hệ thống hỏi đáp chính sách nhân sự thành **Agentic RAG Skill**, vận dụng mẫu Agent Skill Packaging ở session 05. Thay vì xây RAG riêng lẻ, học viên tích hợp SKILL.md, kho tri thức, schema đầu ra, và tool scripts thành Skill Package hoàn chỉnh -- sẵn sàng nạp vào Agent và chạy chéo giữa các nhóm.
+
+Kết thúc buổi, học viên có khả năng:
+
+* Thiết kế SKILL.md -- bản đồ chỉ dẫn Agent xử lý RAG (truy xuất, tổng hợp, trích dẫn, từ chối an toàn)
+* Xây kb/ -- kho tri thức cấu trúc, có phiên bản và metadata từ 4 tài liệu chính sách nhân sự
+* Tạo schemas/ -- lược đồ JSON chuẩn hóa câu trả lời (trích dẫn nguồn, self-check, cờ HITL)
+* Viết scripts/ -- 3 tool Python để Agent gọi tự động: chunker, retriever, evaluator
+* Test chéo và tự đánh giá -- 12 câu hỏi kiểm thử, SLI/SLO rõ ràng
+
+## Bối cảnh tình huống
+
+**Case 7: HR Policy Q&A** -- Bạn là thành viên phòng Nhân sự tại một doanh nghiệp viễn thông. Hàng tuần, nhân viên và quản lý liên tục hỏi về nghỉ phép, phụ cấp, thâm niên và đào tạo -- phần lớn là câu lặp lại. Nhiệm vụ: đóng gói Agentic RAG Skill để Agent truy xuất đúng tài liệu, trả lời trúng trọng tâm, trích dẫn rõ nguồn -- và từ chối an toàn khi thiếu căn cứ.
+
+> **NGUYÊN TẮC CỐT LÕI:** Hệ thống chỉ trả lời trong phạm vi tri thức đã nạp. Không phỏng đoán bằng kiến thức chung. Câu hỏi ngoài phạm vi hoặc mơ hồ phải từ chối hoặc yêu cầu làm rõ. Mọi câu trả lời phải có trích dẫn nguồn.
+
+## Nền tảng từ session 05
+
+Session 05 đã giới thiệu mẫu **Agent Skill Packaging**: SKILL.md (chỉ dẫn Agent), skill.json (metadata + triggers), schemas/ (chuẩn hóa đầu ra), kb/ (kho tri thức), scripts/ (tool thực thi). Session 07 áp dụng toàn bộ mẫu đó vào bài toán RAG -- chuyển từ Agent trích xuất hợp đồng sang Agent hỏi đáp kho tri thức.
+
+## Công nghệ
+
+| Công nghệ | Phiên bản | Mục đích |
+| --- | --- | --- |
+| ChromaDB | >=0.4.0 | Vector store cho semantic search |
+| sentence-transformers | >=2.2.0 | Embedding model (paraphrase-multilingual-MiniLM-L12-v2) |
+| Google Gemini API | gemini-2.0-flash | Sinh câu trả lời |
+| Antigravity IDE | -- | Môi trường phát triển local (Python) |
+
+**Cài đặt:** `pip install chromadb sentence-transformers`
+
+> ChromaDB không bắt buộc. Nếu chưa cài, retriever tự động dùng keyword matching. Dù vậy, vector search cho kết quả ổn hơn nhiều khi xử lý câu hỏi phức tạp.
 
 ## Cấu trúc bài thực hành
 
-Bài thực hành bao gồm 8 bài Lab liên hoàn được thiết kế chi tiết:
+| Phần | Thời lượng | Hoạt động | Đầu ra |
+| --- | ---: | --- | --- |
+| A | 45 phút | Thiết kế SKILL.md + skill.json | Agent instruction map + metadata config |
+| B | 60 phút | Xây kb/ + schemas/ | KB inventory + 4 tài liệu HR + JSON response schema |
+| C | 75 phút | Viết scripts/ (chunker, retriever, evaluator) | 3 tool scripts cho Agent |
+| D | 60 phút | Test chéo + tự đánh giá | Evaluation report (12 câu hỏi, SLI/SLO) |
 
-| Bài Lab | Hoạt động chính | Thời lượng | Đầu ra cần đạt |
-|---|---|---:|---|
-| **Lab 0** | **Cài đặt Hermes trên Windows:** Mở PowerShell và chạy lệnh cài đặt CLI. | 15 phút | Lệnh `hermes --version` phản hồi phiên bản. |
-| **Lab 1** | **Cấu hình kết nối ban đầu:** Kết nối Google Gemini HOẶ OpenRouter API và chọn mô hình. | 15 phút | Trò chuyện kiểm thử xác nhận mô hình đang chạy. |
-| **Lab 2** | **Từ Prompt thành Skill:** Tạo cấu trúc prompt nghiệp vụ và lưu thành Skill. | 15 phút | Cấu hình Skill `Report-Summary-Admin` lưu thành công. |
-| **Lab 3** | **Thiết lập Profile thứ nhất & SOUL.md:** Định danh Trợ lý báo cáo tuần. | 20 phút | Profile `HR_Admin_Assistant` hoạt động kèm `SOUL.md` 5 dòng. |
-| **Lab 4** | **Tích hợp Tri thức cục bộ (Knowledge Base):** Gắn thư mục tài liệu quy trình. | 20 phút | Agent tra cứu tự động SLA quy trình mức Cao đạt 4 giờ. |
-| **Lab 5** | **Thiết lập Profile thứ hai & Cách ly ngữ cảnh:** Định danh Trợ lý biên bản họp. | 20 phút | Profile `HR_Recruitment_Assistant` độc lập, không lẫn ngữ cảnh. |
-| **Lab 6** | **Tự động hóa tác vụ (Cron Job):** Cấu hình biểu thức định thời tự động chạy. | 25 phút | Cron Job quét và ghi nhận tóm tắt báo cáo ra tệp tin output. |
-| **Lab 7** | **Kiểm thử Ranh giới & Memory Clear:** Chạy 3 test case và xóa sạch tệp SQLite vật lý. | 25 phút | Test case đạt yêu cầu, xóa thành công `state.db` / `hermes.db`. |
-| **Nghiệm thu** | **Nghiệm thu & Chấm chéo:** Chấm chéo giữa các nhóm và phản tư. | 10 phút | Bảng điểm Rubric và tệp tin `runbook-log.json`. |
+## Đầu vào
 
-> [!TIP]
-> **Dành cho học viên hoàn thành sớm (Fast-trackers):** Hãy thực hiện ít nhất 1 trong 3 **Thử thách nâng cao (Bonus Challenges)** ở cuối hướng dẫn thực hành [lab.md](lab.md) để nhận điểm cộng đặc biệt từ giảng viên.
+- [02-study-guides/case-studies.md](../../../02-study-guides/case-studies.md): mô tả Case 7 -- HR Policy Q&A
+- [03-practice/02-study-guides/safety-rules.md](../../../02-study-guides/safety-rules.md): quy tắc an toàn dữ liệu
+- [synthetic-data/hr-policies/](synthetic-data/hr-policies/): 4 tài liệu chính sách nhân sự mô phỏng
+  - `policy-leave.md` -- chính sách nghỉ phép, nghỉ ốm, nghỉ thai sản
+  - `policy-allowance.md` -- chính sách phụ cấp (ăn trưa, đi lại, điện thoại)
+  - `policy-seniority.md` -- chính sách thâm niên và thưởng
+  - `policy-training.md` -- chính sách đào tạo và phát triển
+- [synthetic-data/test-questions.csv](synthetic-data/test-questions.csv): 12 câu hỏi kiểm thử (8 trong phạm vi, 2 mơ hồ, 2 ngoài phạm vi)
+- [templates/SKILL.md](templates/SKILL.md): mẫu bản đồ chỉ dẫn Agent
+- [templates/skill.json](templates/skill.json): mẫu cấu hình metadata
+- [templates/test-cases.md](templates/test-cases.md): mẫu bộ test case
+- [templates/skills/hr-policy-qa-skill/](templates/skills/hr-policy-qa-skill/): worked-example Skill Package (tham khảo)
 
-## Tài nguyên đầu vào (Resources)
+## Đầu ra -- Skill Package (8 artifact bắt buộc)
 
-Học viên sử dụng kho dữ liệu giả lập có sẵn trong thư mục `synthetic-data/`:
-- [bao-cao-tuan-hanh-chinh-nhan-su.md](synthetic-data/bao-cao-tuan-hanh-chinh-nhan-su.md): Báo cáo tuần thô của Tổ Hành chính.
-- [bien-ban-hop-hanh-chinh-nhan-su.md](synthetic-data/bien-ban-hop-hanh-chinh-nhan-su.md): Biên bản cuộc họp giao ban tuần của bộ phận Hành chính - Nhân sự.
-- [quy-dinh-phuc-loi-va-sla-hanh-chinh.md](synthetic-data/quy-dinh-phuc-loi-va-sla-hanh-chinh.md): Quy chế hành chính và quy định hạn mức tạm ứng (mã quy trình QC-HC-05).
+Mỗi nhóm hoàn thành một Agentic RAG Skill Package gồm 8 file:
 
-## Đầu ra bàn giao bắt buộc (Artifacts)
+| # | Artifact | Mô tả |
+| ---: | --- | --- |
+| 1 | `SKILL.md` | Bản đồ chỉ dẫn cho Agent -- 6 section (vai trò, quy trình, KB, tools, giới hạn, self-check) |
+| 2 | `skill.json` | Metadata, triggers, permission gates, model config |
+| 3 | `schemas/hr-response.schema.json` | Lược đồ JSON chuẩn hóa câu trả lời (answer, citations, confidence, needs_review) |
+| 4 | `kb/kb-inventory.md` | Danh mục kho tri thức -- 4 tài liệu HR, chủ sở hữu, chu kỳ cập nhật, trạng thái |
+| 5 | `scripts/chunker.py` | Tool chia nhỏ tài liệu thành chunks + gán metadata, lưu vào ChromaDB |
+| 6 | `scripts/retriever.py` | Tool truy xuất chunks liên quan (vector search + fallback keyword matching) |
+| 7 | `scripts/evaluator.py` | Tool tự đánh giá -- chạy 12 câu hỏi, tính SLI, sinh evaluation report |
+| 8 | `evaluation-report.md` | Báo cáo đánh giá 12 câu hỏi -- kết quả, trích dẫn, pass/fail, phân tích lỗi |
 
-Cuối buổi thực hành, nhóm học viên nộp lại các sản phẩm sau vào kho lưu trữ: repository của nhóm:
-1. `SOUL.md` (cho Trợ lý hành chính nhân sự) - Viết theo đúng công thức 5 dòng.
-2. `SOUL.md` (cho Trợ lý hỗ trợ tuyển dụng) - Viết theo đúng công thức 5 dòng.
-3. Tệp cấu hình Skill dạng JSON hoặc Markdown.
-4. Ảnh chụp màn hình hoặc log chạy 3 ca kiểm thử bắt buộc (đủ dữ liệu, thiếu dữ liệu, ngoài phạm vi).
-5. Tệp tin `runbook-log.json` lưu thông số chạy của Agent.
-6. Safety Checklist xác nhận đã hoàn thành xóa tệp `state.db` hoặc `hermes.db` vật lý trên PowerShell.
+## SLI/SLO kiểm soát chất lượng
 
-## SLI/SLO Kiểm soát chất lượng (Quality Gates)
+| SLI | Đo lường | SLO (Target) | Measurement |
+| --- | --- | --- | --- |
+| In-scope accuracy | % câu trong phạm vi trả lời đúng + trích dẫn | >= 75% (6/8) | evaluation-report |
+| Out-of-scope refusal | % câu ngoài phạm vi từ chối trả lời | 100% (2/2) | evaluation-report |
+| Citation rate | % câu trả lời có trích dẫn nguồn | >= 90% | evaluation-report |
+| No hallucinated citations | % citations khớp tài liệu gốc | 100% | Cross-check quote nguyên văn |
+| Self-check success | % cases self-check phát hiện lỗi | >= 80% | evaluator.py log |
+| Skill package completeness | Số file bắt buộc hoàn chỉnh | 8/8 | Kiểm tra thư mục |
+| Cross-team run | Tối thiểu 1 nhóm khác chạy được Skill | >= 1 | Cross-team test report |
+| No sensitive info leak | Số lần lộ thông tin nhạy cảm | 0 | Manual review |
 
-| SLI | Đo lường | SLO (Mục tiêu) | Phương thức xác thực |
-|---|---|---|---|
-| Cài đặt môi trường | Lệnh `hermes --version` phản hồi đúng | 100% học viên | Kiểm tra CLI |
-| Độ chính xác SOUL | SOUL.md tuân thủ đúng công thức 5 dòng | 100% profiles | Đọc duyệt file |
-| Khả năng tra cứu KB | Truy vấn đúng SLA yêu cầu khẩn cấp (Mức Cao) là 4 giờ | 100% nhóm | Chạy thử nghiệm |
-| Cô lập ngữ cảnh | Profile 2 từ chối trả lời thông tin của Profile 1 | 100% nhóm | Chạy Multi-profile test |
-| Tự động hóa tác vụ | Cron Job tạo thành công tệp đầu ra output | 100% nhóm | Kiểm tra thư mục outputs |
-| Tỷ lệ kiểm thử đạt | Đạt tối thiểu 3 test case bắt buộc | 3/3 ca (100%) | Xem báo cáo test |
-| Bảo mật thông tin | Xóa sạch bộ nhớ SQLite vật lý sau khi chạy | 100% máy trạm | Kiểm tra file vật lý |
+## Quy tắc an toàn
+
+- Chỉ sử dụng tài liệu chính sách nhân sự mô phỏng trong `synthetic-data/`
+- Không đưa chính sách nội bộ thật, thông tin lương thật hay dữ liệu nhân sự thật vào bài
+- Không đính kèm token, API key hay mật khẩu trong bài nộp
+- Nếu dùng Gemini API, chỉ cấu hình qua biến môi trường local hoặc tài khoản demo
+- Không commit ảnh chụp chứa thông tin nội bộ hoặc dữ liệu nhân sự thật
+
+## Vai trò của ảnh thị phạm
+
+Thư mục `outputs/screenshots/` chứa ảnh giảng viên thị phạm đã kiểm duyệt. Các ảnh minh họa kết quả từng bước (chunking, vector search, RAG pipeline, evaluation) để học viên đối chiếu trong lúc thực hành.
+
+## Tiêu chí hoàn thành
+
+- [ ] **Skill Package hoàn chỉnh 8/8 files** -- SKILL.md, skill.json, hr-response.schema.json, kb-inventory.md, chunker.py, retriever.py, evaluator.py, evaluation-report.md
+- [ ] **In-scope accuracy >= 75%** -- ít nhất 6/8 câu hỏi trong phạm vi trả lời đúng + trích dẫn
+- [ ] **Out-of-scope refusal 100%** -- 2/2 câu hỏi ngoài phạm vi từ chối rõ ràng
+- [ ] **Citation rate >= 90%** -- câu trả lời có trích dẫn nguồn hợp lệ
+- [ ] **Không có trích dẫn giả** -- cross-check 100% citations khớp tài liệu gốc
+- [ ] **Cross-team >= 1 nhóm khác** -- Skill của nhóm mình chạy được trên nhóm khác
+
+## Quan hệ với session khác
+
+**Đầu vào từ session 05:** Học viên đã biết đóng gói Agent Skill với SKILL.md, skill.json, schemas, kb, scripts. Session 07 áp dụng toàn bộ mẫu này vào bài toán RAG -- chuyển từ Agent trích xuất hợp đồng sang Agent hỏi đáp kho tri thức.
+
+**Bàn giao sang session 08:** Skill Package RAG này làm tiền đề cho Personal Agent (Hermes) ở session 08, và anonymizer ở session 09. Mẫu Agent Skill Packaging tiếp tục được sử dụng và mở rộng.
