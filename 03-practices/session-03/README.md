@@ -1,9 +1,9 @@
 ---
 mo-ta: Tài liệu hướng dẫn thực hành n8n tự động hóa văn phòng với AI Gemini cho nhân viên Viettel Network
 trang-thai: active
-phien-ban: v1.5
+phien-ban: v1.6
 created-at: 2026-05-17 13:37 +07:00
-updated-at: 2026-06-22 08:05 +07:00
+updated-at: 2026-06-23 08:15 +07:00
 ---
 
 # TÀI LIỆU THỰC HÀNH n8n — VIETTEL NETWORK
@@ -12,33 +12,58 @@ updated-at: 2026-06-22 08:05 +07:00
 
 > **Giảng viên:** Th.S Nguyễn Minh Cường
 > **Đối tượng:** Nhân viên văn phòng Viettel Network
-> **Mạch học:** 3 bài tăng dần độ khó — từ cơ chế thuần, đến AI phân loại, đến AI sinh nội dung + quy trình duyệt.
+> **Mạch học:** 3 bài tăng dần độ khó — từ cơ bản thuần (chỉ dùng Google Sheets), nâng cao tích hợp đa dịch vụ (Sheets + Gmail), đến AI sinh nội dung + quy trình duyệt.
 
 Mỗi workflow đều theo kiến trúc xương sống **Trigger → Node xử lý → Action**, và xoay quanh nhóm node cốt lõi đã học (Triggers · Data Transform · Flow Control · Integration & AI).
 
 ---
 
-## CHUẨN BỊ CHUNG (làm 1 lần trước khi vào 3 bài)
+## Chuẩn bị chung (làm 1 lần trước khi vào 3 bài)
 
 | Hạng mục | Ghi chú |
 |---|---|
 | Tài khoản n8n | Bản cloud hoặc self-hosted đều được |
 | Credential **Google Sheets** | Kết nối tài khoản Google (OAuth2) |
-| Credential **Gmail** | Kết nối tài khoản Google (OAuth2) — dùng cho Bài 1 & 3 |
-| Credential **Google Gemini** | Loại "Google Gemini (PaLM) API"; lấy API key tại Google AI Studio — dùng cho Bài 2 & 3 |
+| Credential **Gmail** | Kết nối tài khoản Google (OAuth2) — dùng cho Bài 2 & 3 |
+| Credential **Google Gemini** | Loại "Google Gemini (PaLM) API"; lấy API key tại Google AI Studio — dùng cho Bài 3 |
 | File Google Sheet mẫu | Tải file `.xlsx` kèm theo → **Upload lên Google Drive → mở bằng Google Sheets** (n8n nói chuyện với Google Sheets online, không đọc file tĩnh) |
 
 **Quy tắc vàng về bảo mật (áp dụng cả 3 bài):** API key luôn để trong *credential* của n8n, không nhúng thẳng vào luồng. Với hành động quan trọng (gửi email), giữ nguyên tắc **human-in-the-loop** — AI soạn, con người duyệt và bấm gửi.
 
 ---
 
-## BÀI 1 — NHẮC VIỆC TỒN ĐỌNG & GỬI EMAIL TỰ ĐỘNG
+## Bài 1: Nhắc việc tồn đọng & ghi nhật ký qua Google Sheets
 
-**File:** `flow1_nhac_viec.json` · `ggsheet1_nhac_viec.xlsx`
+**File:** `flow1_nhac_viec_sheets.json` · `ggsheet1_nhac_viec.xlsx`
 
-**Mục tiêu sư phạm:** nắm trọn cơ chế tự động hóa *chưa cần AI* — máy tự chạy theo lịch, tự lọc, tự ghi sổ và tự gửi nhắc.
+**Mục tiêu sư phạm:** nắm trọn cơ chế tự động hóa cơ bản *chưa cần AI* — máy tự chạy theo lịch, tự lọc dữ liệu và tự động cập nhật ghi sổ trực tuyến trên Google Sheets.
 
-**Bối cảnh:** mỗi sáng hệ thống đọc bảng công việc, lọc ra việc chưa hoàn thành, ghi vào sổ nhắc và gửi email tới đúng người phụ trách.
+**Bối cảnh:** mỗi sáng hệ thống tự động đọc bảng công việc, lọc ra các việc chưa hoàn thành, tự động soạn thảo nội dung nhắc nhở cá nhân hóa và lưu vào nhật ký nhắc việc trên Google Sheets.
+
+**Sơ đồ luồng:**
+
+```
+Lịch 8h sáng → Đọc CongViec → IF (chưa hoàn thành) → Soạn nội dung nhắc → Ghi vào bảng NhacViec
+```
+
+**Cấu trúc Google Sheet:**
+
+- Tab **CongViec** (người nhập): `Tên công việc` · `Người phụ trách` · `Trạng thái` · `Hạn chót` · `Email`
+- Tab **NhacViec** (hệ thống ghi): `Nội dung nhắc` · `Người phụ trách` · `Ngày nhắc`
+
+**Node sử dụng:** Schedule Trigger (Triggers) · Google Sheets Read/Append (Integration) · IF (Flow Control) · Edit Fields (Data Transform).
+
+**Điểm dạy:** Cơ chế làm việc cơ bản với Google Sheets (đọc dữ liệu từ một tab, xử lý điều kiện, chuyển đổi và ghi đè/thêm mới sang tab khác), giúp học viên làm quen với kiến trúc tự động hóa **Trigger → Node xử lý → Action**.
+
+---
+
+## Bài 2: Nhắc việc tồn đọng & gửi email tự động qua Google Sheets và Gmail
+
+**File:** `flow2_nhac_viec_gmail.json` · `ggsheet1_nhac_viec.xlsx`
+
+**Mục tiêu sư phạm:** kết hợp đa hành động và gửi email tự động — làm quen với việc xử lý song song hai nhánh hành động từ cùng một nguồn dữ liệu (vừa ghi nhật ký vào Google Sheets, vừa gửi email nhắc nhở qua Gmail).
+
+**Bối cảnh:** mỗi sáng hệ thống tự động quét danh sách công việc chưa hoàn thành, soạn thảo nội dung nhắc nhở cá nhân hóa và thực hiện đồng thời việc ghi nhận nhật ký nhắc nhở vào Google Sheets và gửi email trực tiếp cho người phụ trách qua Gmail.
 
 **Sơ đồ luồng:**
 
@@ -55,38 +80,11 @@ Lịch 8h sáng → Đọc CongViec → IF (chưa hoàn thành) → Soạn nội
 
 **Node sử dụng:** Schedule Trigger (Triggers) · Google Sheets Read/Append (Integration) · IF (Flow Control) · Edit Fields (Data Transform) · Gmail (Integration).
 
-**Điểm dạy:** sau bước soạn nội dung, luồng **tách hai nhánh song song** từ cùng một nguồn dữ liệu (một nhánh ghi sổ, một nhánh gửi mail) — minh họa tư duy "một dữ liệu, nhiều hành động".
+**Điểm dạy:** Sau bước soạn nội dung nhắc, luồng **tách thành hai nhánh song song** để thực hiện đồng thời hai tác vụ: ghi nhật ký nhắc nhở vào Google Sheets và gửi email thông báo trực tiếp cho người phụ trách qua Gmail từ cùng một nguồn dữ liệu ban đầu. Điều này minh họa trực quan cho tư duy "một nguồn dữ liệu, nhiều hành động xử lý song song".
 
 ---
 
-## BÀI 2 — TRỢ LÝ AI PHÂN LOẠI PHẢN ÁNH
-
-**File:** `flow2_phan_loai.json` · `ggsheet2_phan_anh.xlsx`
-
-**Mục tiêu sư phạm:** lần đầu đưa AI vào luồng — vai trò **đọc – hiểu – gán nhãn**. Cùng một cột phản ánh viết tự do, AI tự điền các cột kết quả có cấu trúc.
-
-**Bối cảnh:** nhân viên gửi phản ánh nội bộ bằng ngôn ngữ tự nhiên; Gemini đọc và phân loại nhóm, đánh giá mức độ, tóm tắt một câu.
-
-**Sơ đồ luồng:**
-
-```
-Bấm chạy thử → Đọc PhanAnh → IF (chưa phân loại) → Gemini phân tích → Tách kết quả AI → Ghi kết quả vào Sheet
-```
-
-**Cấu trúc Google Sheet — tab PhanAnh:**
-
-- Người nhập: `Nội dung phản ánh`
-- AI điền: `Phân loại` (Hạ tầng mạng / Nhân sự / Hành chính / CNTT / Khác) · `Mức độ` (Thấp / Trung bình / Cao) · `Tóm tắt`
-
-**Vai trò AI nổi bật:** ép Gemini trả về **JSON có cấu trúc** thay vì văn bản tự do — đây chính là minh họa sống cho khái niệm *Output Parser*.
-
-**Node sử dụng:** Manual Trigger (Triggers) · Google Sheets Read/Update (Integration) · IF (Flow Control) · Gemini (Integration & AI) · Edit Fields (Data Transform).
-
-**Điểm dạy:** bước IF "chỉ xử lý dòng chưa phân loại" giúp chạy lại nhiều lần mà không tốn lượt gọi AI cho dòng đã xử lý.
-
----
-
-## BÀI 3 — TRỢ LÝ AI SOẠN THẢO EMAIL + QUY TRÌNH DUYỆT
+## Bài 3: Trợ lý AI soạn thảo email & quy trình duyệt
 
 **File:** `flow3a_soan_nhap.json` · `flow3b_gui_email.json` · `ggsheet3_soan_thao.xlsx`
 
@@ -120,15 +118,15 @@ Bấm gửi → Đọc dòng đã duyệt → IF (Duyệt gửi = "Gửi" VÀ ch
 
 ---
 
-## TỔNG KẾT — BẢN ĐỒ KỸ NĂNG
+## Tổng kết — bản đồ kỹ năng
 
 | Bài | Vai trò của AI | Khái niệm cốt lõi |
 |---|---|---|
-| 1 | (chưa dùng AI) | Cơ chế Trigger–Action, tách nhánh song song |
-| 2 | Đọc – phân loại – gán nhãn | Output có cấu trúc (JSON) |
+| 1 | (chưa dùng AI) | Cơ chế Trigger–Action, làm việc với Google Sheets |
+| 2 | (chưa dùng AI) | Tách nhánh song song, tích hợp đa dịch vụ (Sheets + Gmail) |
 | 3 | Sinh nội dung hoàn chỉnh | Prompt định hướng + human-in-the-loop |
 
-## LƯU Ý KỸ THUẬT THƯỜNG GẶP
+## Lưu ý kỹ thuật thường gặp
 
 **Lỗi 429 — "The service is receiving too many requests"**
 Gemini bị gọi quá nhiều lần một lúc (thường do bảng nhiều dòng + API key miễn phí hạn mức thấp). Cách xử lý:
@@ -143,10 +141,10 @@ Gemini bị gọi quá nhiều lần một lúc (thường do bảng nhiều dò
 - Node **HTTP Request**: gọi thẳng API; đọc kết quả ở `candidates[0].content.parts[0].text`. Không có cổng Tools.
 - Cả hai đều soạn/được việc như nhau vì cùng gọi một model.
 
-## DANH SÁCH FILE ĐÍNH KÈM
+## Danh sách file đính kèm
 
-- `flow1_nhac_viec.json` + `ggsheet1_nhac_viec.xlsx`
-- `flow2_phan_loai.json` + `ggsheet2_phan_anh.xlsx`
+- `flow1_nhac_viec_sheets.json` + `ggsheet1_nhac_viec.xlsx`
+- `flow2_nhac_viec_gmail.json` + `ggsheet1_nhac_viec.xlsx`
 - `flow3a_soan_nhap.json` + `flow3b_gui_email.json` + `ggsheet3_soan_thao.xlsx`
 
 ---
