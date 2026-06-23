@@ -17,7 +17,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional, Union
 
 
 # ---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ def _normalise_keyword_score(raw: float) -> float:
     return max(KEYWORD_SCORE_MIN, min(KEYWORD_SCORE_MAX, raw))
 
 
-def _embed_query(query: str) -> list[float] | None:
+def _embed_query(query: str) -> Optional[list[float]]:
     """Generate embedding for a single query string."""
     if _EMBEDDING_MODEL is None:
         return None
@@ -232,7 +232,7 @@ def retrieve_chunks(
     query: str,
     top_k: int = 3,
     chroma_collection=None,
-    chunks_data: list[dict[str, Any]] | None = None,
+    chunks_data: Optional[list[dict[str, Any]]] = None,
 ) -> dict[str, Any]:
     """Hybrid retrieval: try vector search, fallback to keyword.
 

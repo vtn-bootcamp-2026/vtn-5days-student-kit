@@ -1,0 +1,292 @@
+{
+  "name": "Demo 1 - Google Sheets - Chuyen cong viec moi sang danh sach xu ly",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a3077170-2d48-4f81-8449-4cd6c61ea49f",
+      "name": "Bam de chay thu",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "cong-viec",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "bc865562-81b2-4ef6-9622-3d267677f98f",
+      "name": "Doc danh sach cong viec",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "52359a21-203e-4aa3-b9f8-58de21508462",
+              "leftValue": "={{ $json.trang_thai }}",
+              "rightValue": "Moi",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "85cf6ed3-696e-4f29-9fb7-abfb877bd18a",
+      "name": "Chi giu cong viec Moi",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e767942f-6b18-4a33-ac52-9e307cc471a1",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "b95b1e41-5f86-455c-915f-214ff5eeb760",
+              "name": "ma_cong_viec",
+              "value": "={{ $json.ma_cong_viec }}",
+              "type": "string"
+            },
+            {
+              "id": "8d856e2c-3304-4eff-b4c4-6722186b5cb1",
+              "name": "noi_dung",
+              "value": "={{ $json.noi_dung }}",
+              "type": "string"
+            },
+            {
+              "id": "d4a7c4e6-39c1-4ec9-b789-eb5b3061c1bb",
+              "name": "nguoi_phu_trach",
+              "value": "={{ $json.nguoi_phu_trach }}",
+              "type": "string"
+            },
+            {
+              "id": "591a4904-3db4-45e8-8dfa-c13aa89ed11c",
+              "name": "muc_do",
+              "value": "={{ $json.muc_do }}",
+              "type": "string"
+            },
+            {
+              "id": "0d4a0fc4-82aa-45e7-b7f6-7cc3ec06b9ab",
+              "name": "han_xu_ly",
+              "value": "={{ $json.han_xu_ly }}",
+              "type": "string"
+            },
+            {
+              "id": "15befdc4-4a13-4bf6-afdd-5c6ce5ece5ad",
+              "name": "nhom_uu_tien",
+              "value": "={{ $json.muc_do === 'Cao' ? 'Uu tien ngay' : $json.muc_do === 'Trung binh' ? 'Trong ngay' : 'Theo ke hoach' }}",
+              "type": "string"
+            },
+            {
+              "id": "40faa18a-8818-4225-8668-bf6924fe84b7",
+              "name": "thoi_diem_chuyen",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "keepOnlySet": true
+        }
+      },
+      "id": "33a31135-9fb9-4001-981e-9d3010c2e1a7",
+      "name": "Chuan hoa va gan uu tien",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "danh-sach-xu-ly",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ma_cong_viec": "={{ $json.ma_cong_viec }}",
+            "noi_dung": "={{ $json.noi_dung }}",
+            "nguoi_phu_trach": "={{ $json.nguoi_phu_trach }}",
+            "muc_do": "={{ $json.muc_do }}",
+            "nhom_uu_tien": "={{ $json.nhom_uu_tien }}",
+            "han_xu_ly": "={{ $json.han_xu_ly }}",
+            "thoi_diem_chuyen": "={{ $json.thoi_diem_chuyen }}"
+          }
+        }
+      },
+      "id": "85c2fb36-97c6-404f-9f91-48cb7630a2be",
+      "name": "Ghi vao danh sach xu ly",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "cong-viec",
+          "mode": "name"
+        },
+        "updateKey": "row_number",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Chuan hoa va gan uu tien').item.json.row_number }}",
+            "trang_thai": "Da_chuyen"
+          }
+        }
+      },
+      "id": "7ffaf46f-8e0b-4fa8-ae7a-bc99efcc3c46",
+      "name": "Danh dau Da_chuyen",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1100,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Bam de chay thu": {
+      "main": [
+        [
+          {
+            "node": "Doc danh sach cong viec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Doc danh sach cong viec": {
+      "main": [
+        [
+          {
+            "node": "Chi giu cong viec Moi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chi giu cong viec Moi": {
+      "main": [
+        [
+          {
+            "node": "Chuan hoa va gan uu tien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chuan hoa va gan uu tien": {
+      "main": [
+        [
+          {
+            "node": "Ghi vao danh sach xu ly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ghi vao danh sach xu ly": {
+      "main": [
+        [
+          {
+            "node": "Danh dau Da_chuyen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Ho_Chi_Minh"
+  },
+  "versionId": "",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "",
+  "tags": []
+}

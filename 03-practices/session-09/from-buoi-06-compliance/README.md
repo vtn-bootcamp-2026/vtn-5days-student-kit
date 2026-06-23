@@ -1,4 +1,4 @@
-﻿---
+---
 mo-ta: "Tong quan bai thuc hanh session 06 - compliance capstone theo skill-based pattern"
 trang-thai: active
 phien-ban: v2.0

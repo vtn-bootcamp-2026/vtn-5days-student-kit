@@ -1,0 +1,455 @@
+{
+  "name": "Demo 2 - Gemini - Phan loai va soan du thao yeu cau noi bo",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "7647deed-d1bf-4e48-81a6-3d564688478a",
+      "name": "Bam de chay thu",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "yeu-cau-noi-bo",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "02538e03-4fb1-4de3-9599-298cb5f1d403",
+      "name": "Doc yeu cau noi bo",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2f9951f7-cc21-4834-8cd6-287928f9dabd",
+              "leftValue": "={{ $json.trang_thai }}",
+              "rightValue": "Moi",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "16832d2e-dcb8-4bbd-9b39-5e3e6b8f80f0",
+      "name": "Chi giu yeu cau Moi",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "715f3100-e566-4d05-a5a1-182afd70af46",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "742a74bd-6d54-4b1f-9e3c-96a9b5010e89",
+              "name": "ma_yeu_cau",
+              "value": "={{ $json.ma_yeu_cau }}",
+              "type": "string"
+            },
+            {
+              "id": "18787551-19f8-42c8-b78a-5a0d507fc132",
+              "name": "don_vi",
+              "value": "={{ $json.don_vi }}",
+              "type": "string"
+            },
+            {
+              "id": "dff5b819-a861-487c-a67b-90e85369bce3",
+              "name": "noi_dung",
+              "value": "={{ $json.noi_dung }}",
+              "type": "string"
+            },
+            {
+              "id": "30c988c1-2a31-4949-873c-2fbe001b53b3",
+              "name": "kenh_phan_hoi",
+              "value": "={{ $json.kenh_phan_hoi }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "keepOnlySet": true
+        }
+      },
+      "id": "2ae908bf-f143-4c20-b3bb-b049fa720708",
+      "name": "Chuan hoa yeu cau",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "37ba05f7-7391-4611-ae8f-01d859670185",
+      "name": "Loop tung yeu cau",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Bạn là trợ lý xử lý yêu cầu nội bộ cho doanh nghiệp viễn thông.\n\nHãy phân loại yêu cầu vào đúng một nhóm: Hanh_chinh, Nhan_su, CNTT, Ke_toan, Khac.\nĐánh giá mức độ: Thap, Trung_binh, Cao.\nSoạn dự thảo phản hồi bằng tiếng Việt, dài 2-4 câu, lịch sự, rõ bước tiếp theo.\nKhông tự cam kết thời hạn, chi phí, phê duyệt hoặc quyết định thay con người.\nNếu nội dung mơ hồ, chứa dữ liệu nhạy cảm, yêu cầu chi tiền hoặc cần quyết định quản lý, đặt can_con_nguoi_duyet = true.\n\nChỉ trả về JSON thuần, không markdown, đúng 5 trường:\n{\n  \"phan_loai\": \"Hanh_chinh | Nhan_su | CNTT | Ke_toan | Khac\",\n  \"muc_do\": \"Thap | Trung_binh | Cao\",\n  \"tom_tat\": \"tóm tắt dưới 25 từ\",\n  \"du_thao_phan_hoi\": \"bản nháp để con người duyệt\",\n  \"can_con_nguoi_duyet\": true\n}",
+              "role": "model"
+            },
+            {
+              "content": "=Mã yêu cầu: {{ $json.ma_yeu_cau }}\nĐơn vị: {{ $json.don_vi }}\nKênh phản hồi mong muốn: {{ $json.kenh_phan_hoi }}\nNội dung yêu cầu: {{ $json.noi_dung }}\n\nHãy phân loại và soạn bản nháp.",
+              "role": "user"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "2108c48e-0b12-46ba-bbfd-bd9e370041a1",
+      "name": "Gemini phan loai va soan nhap",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        1100,
+        -100
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e3b0d3fd-dcef-4f16-bb6d-872da1f09265",
+              "name": "row_number",
+              "value": "={{ $('Chuan hoa yeu cau').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "7388816a-174a-44bc-8460-f1dd22ccd515",
+              "name": "ma_yeu_cau",
+              "value": "={{ $('Chuan hoa yeu cau').item.json.ma_yeu_cau }}",
+              "type": "string"
+            },
+            {
+              "id": "998eb1d0-c2ad-43e1-81ab-359db582df29",
+              "name": "don_vi",
+              "value": "={{ $('Chuan hoa yeu cau').item.json.don_vi }}",
+              "type": "string"
+            },
+            {
+              "id": "16ff83f8-4d63-4207-b928-014959834873",
+              "name": "noi_dung",
+              "value": "={{ $('Chuan hoa yeu cau').item.json.noi_dung }}",
+              "type": "string"
+            },
+            {
+              "id": "6d80d152-51bc-4b27-9001-2cc44ab519e3",
+              "name": "kenh_phan_hoi",
+              "value": "={{ $('Chuan hoa yeu cau').item.json.kenh_phan_hoi }}",
+              "type": "string"
+            },
+            {
+              "id": "95fb668d-d9b7-4358-98a8-77d7a12215d1",
+              "name": "raw_ai_output",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "keepOnlySet": true
+        }
+      },
+      "id": "c0511ec1-7b97-416b-8560-de7a5fcb0c2d",
+      "name": "Gan lai du lieu goc",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1320,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const raw = $json.raw_ai_output || $json.text || $json.output || $json.response || \"\";\nlet cleaned = String(raw).replace(/```json/gi, \"\").replace(/```/g, \"\").trim();\nconst firstBrace = cleaned.indexOf(\"{\");\nconst lastBrace = cleaned.lastIndexOf(\"}\");\nif (firstBrace !== -1 && lastBrace > firstBrace) cleaned = cleaned.slice(firstBrace, lastBrace + 1);\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (error) {\n  parsed = {\n    phan_loai: \"Khac\",\n    muc_do: \"Trung_binh\",\n    tom_tat: \"AI trả về dữ liệu chưa đúng định dạng.\",\n    du_thao_phan_hoi: \"Yêu cầu đã được ghi nhận và chuyển người phụ trách kiểm tra thủ công.\",\n    can_con_nguoi_duyet: true,\n    parse_error: error.message\n  };\n}\n\nconst review = parsed.can_con_nguoi_duyet === true || parsed.can_con_nguoi_duyet === \"true\";\nconst redact = (text) => String(text || \"\").replace(/(mat khau|mật khẩu|password|pwd|token|api key)[:\\s]+([^\\s,;]+)/gi, \"$1: [REDACTED]\");\n\nreturn {\n  json: {\n    ...$json,\n    phan_loai: parsed.phan_loai || \"Khac\",\n    muc_do_ai: parsed.muc_do || \"Trung_binh\",\n    tom_tat: redact(parsed.tom_tat),\n    du_thao_phan_hoi: redact(parsed.du_thao_phan_hoi),\n    can_con_nguoi_duyet: review,\n    trang_thai_du_thao: \"Can_duyet\",\n    parse_error: parsed.parse_error || \"\",\n    xu_ly_luc: $now.toFormat(\"yyyy-MM-dd HH:mm\")\n  }\n};"
+      },
+      "id": "278f37e0-cbbc-43cd-a9dc-f1943045bb4f",
+      "name": "Lam sach JSON cua Gemini",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ai-du-thao",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ma_yeu_cau": "={{ $json.ma_yeu_cau }}",
+            "don_vi": "={{ $json.don_vi }}",
+            "noi_dung": "={{ $json.noi_dung }}",
+            "phan_loai": "={{ $json.phan_loai }}",
+            "muc_do_ai": "={{ $json.muc_do_ai }}",
+            "tom_tat": "={{ $json.tom_tat }}",
+            "du_thao_phan_hoi": "={{ $json.du_thao_phan_hoi }}",
+            "can_con_nguoi_duyet": "={{ $json.can_con_nguoi_duyet }}",
+            "trang_thai_du_thao": "={{ $json.trang_thai_du_thao }}",
+            "xu_ly_luc": "={{ $json.xu_ly_luc }}"
+          }
+        }
+      },
+      "id": "86b7ddff-643f-4e73-9f6b-1c2c8d0f5031",
+      "name": "Ghi ban nhap vao Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1760,
+        -100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "yeu-cau-noi-bo",
+          "mode": "name"
+        },
+        "updateKey": "row_number",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Chuan hoa yeu cau').item.json.row_number }}",
+            "trang_thai": "Da_tao_du_thao"
+          }
+        }
+      },
+      "id": "52f4875c-b843-436b-a78d-4958049566c0",
+      "name": "Danh dau Da_tao_du_thao",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1980,
+        -100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Bam de chay thu": {
+      "main": [
+        [
+          {
+            "node": "Doc yeu cau noi bo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Doc yeu cau noi bo": {
+      "main": [
+        [
+          {
+            "node": "Chi giu yeu cau Moi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chi giu yeu cau Moi": {
+      "main": [
+        [
+          {
+            "node": "Chuan hoa yeu cau",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chuan hoa yeu cau": {
+      "main": [
+        [
+          {
+            "node": "Loop tung yeu cau",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop tung yeu cau": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Gemini phan loai va soan nhap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini phan loai va soan nhap": {
+      "main": [
+        [
+          {
+            "node": "Gan lai du lieu goc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gan lai du lieu goc": {
+      "main": [
+        [
+          {
+            "node": "Lam sach JSON cua Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lam sach JSON cua Gemini": {
+      "main": [
+        [
+          {
+            "node": "Ghi ban nhap vao Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ghi ban nhap vao Sheet": {
+      "main": [
+        [
+          {
+            "node": "Danh dau Da_tao_du_thao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Danh dau Da_tao_du_thao": {
+      "main": [
+        [
+          {
+            "node": "Loop tung yeu cau",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Ho_Chi_Minh"
+  },
+  "versionId": "",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "",
+  "tags": []
+}

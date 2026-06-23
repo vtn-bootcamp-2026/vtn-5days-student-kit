@@ -19,7 +19,7 @@ import re
 import sys
 import uuid
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional, Union
 
 
 # ---------------------------------------------------------------------------
@@ -59,7 +59,7 @@ def _get_embedding_model():
     return _EMBEDDING_MODEL
 
 
-def embed_texts(texts: list[str]) -> list[list[float]] | None:
+def embed_texts(texts: list[str]) -> Optional[list[list[float]]]:
     """Generate embeddings for a list of texts. Returns None if unavailable."""
     model = _get_embedding_model()
     if model is None:
@@ -219,7 +219,7 @@ def generate_metadata(
 def populate_chromadb(
     chunks_with_metadata: list[dict[str, Any]],
     collection_name: str = "hr_policies",
-    persist_dir: str | None = None,
+    persist_dir: Optional[str] = None,
 ) -> dict[str, Any]:
     """Populate ChromaDB with chunk embeddings. Falls back to in-memory dict.
 
@@ -294,7 +294,7 @@ def populate_chromadb(
 # Pipeline
 # ---------------------------------------------------------------------------
 
-def run_pipeline(kb_dir: str, output_path: str | None = None) -> list[dict[str, Any]]:
+def run_pipeline(kb_dir: str, output_path: Optional[str] = None) -> list[dict[str, Any]]:
     """Full chunking pipeline: load -> chunk -> metadata -> (optional) persist.
 
     Returns the list of chunks with full metadata and content.

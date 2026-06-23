@@ -1,4 +1,4 @@
-﻿---
+---
 mo-ta: tong quan bai thuc hanh session 03 dong goi Agent Skill contract term extractor
 trang-thai: active
 phien-ban: v3.0
