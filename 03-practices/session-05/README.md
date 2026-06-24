@@ -1,9 +1,9 @@
-﻿---
+---
 mo-ta: "tong quan bai thuc hanh session 05 — 2 track song song: Track A (vibe-working, build skill review-contract) va Track B (lam tay, contract-term-extractor)"
 trang-thai: active
-phien-ban: v4.0
+phien-ban: v4.1
 created-at: 2026-05-17 13:37 +07:00
-updated-at: 2026-06-23 16:10 +07:00
+updated-at: 2026-06-23 22:45 +07:00
 ---
 
 # Session 05: AI Agent review hợp đồng — đóng gói Agent Skill (2 track)
@@ -83,6 +83,7 @@ Sau khi hoàn thành, học viên nắm vững:
 - [skills/](skills/): 2 skill cài sẵn (`vibe-aiworkforce.zip`, `vibe-improve-orchestrator.zip`) + [hướng dẫn cài](skills/README.md)
 - [templates/skill-design/skill_design.md](templates/skill-design/skill_design.md): template IPO (BT1)
 - [templates/skill-design/generate_skill_design.md](templates/skill-design/generate_skill_design.md): prompt generate skill_design (BT1 đường 2)
+- [templates/prompt/](templates/prompt/): thư mục chứa các prompt mẫu tạo sẵn hỗ trợ thực hành từ BT1 đến BT4
 - [templates/skill-design/skill_design.review-contract.example.md](templates/skill-design/skill_design.review-contract.example.md): đáp án tham khảo BT1
 - [templates/skills/review-contract/](templates/skills/review-contract/): **skill mẫu** (cấu trúc kỳ vọng BT2) — HV đối chiếu skill mình build
 - [synthetic-data/contracts/contract-001.pdf](synthetic-data/contracts/contract-001.pdf), [contract-005-spreadsheet.xlsx](synthetic-data/contracts/contract-005-spreadsheet.xlsx): biến thể đa-format cho BT3

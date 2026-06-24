@@ -1,5 +1,0 @@
-contract_id,filename,title,type,parties,value_vnd,effective_date,expiry_date,has_penalty,has_confidentiality,has_auto_renew,expected_issues,risk_level
-contract-001,contract-001.docx,Hợp đồng cung cấp dịch vụ truyền dẫn liên quận,dịch vụ,VTN-Sim & Giải pháp Số Demo,360000000,2026-01-01,2026-12-31,có,có,không,none,thấp
-contract-002,contract-002.docx,Hợp đồng mua sắm thiết bị mạng,mua sắm,VTN-Sim & Công nghệ Demo,2500000000,2026-02-15,,có,,không,thiếu ngày hết hạn; thiếu điều khoản bảo mật; lỗi OCR,trung bình
-contract-003-risky,contract-003-risky.docx,Hợp đồng dịch vụ vận hành và bảo trì hệ thống mạng,dịch vụ,VTN-Sim & Dịch vụ Kỹ thuật Demo,1800000000,2026-03-01,2027-02-28,có,có,có,tự gia hạn bất lợi; phạt không giới hạn; giới hạn trách nhiệm thấp; thời hạn thông báo chấm dứt quá ngắn,cao
-contract-004-telecom-sla,contract-004-telecom-sla.docx,Hợp đồng thuê kênh truyền dẫn quốc tế,dịch vụ,VTN-Sim & Truyền dẫn Quốc tế Demo,480000000,2026-06-01,2028-05-31,có,có,có,SLA 99.99% với penalty tính theo phút; RTO penalty không giới hạn; chấm dứt khi SLA vi phạm 3 tháng liên tiếp,cao
