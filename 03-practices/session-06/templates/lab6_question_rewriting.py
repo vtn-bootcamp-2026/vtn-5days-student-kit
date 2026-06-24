@@ -37,7 +37,7 @@ Câu hỏi mơ hồ hiện tại của người dùng: {user_query}
 
 Câu hỏi rõ nghĩa viết lại:"""
     
-    model = genai.GenerativeModel("gemini-3.5-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash")
     response = model.generate_content(prompt)
     return response.text.strip()
 

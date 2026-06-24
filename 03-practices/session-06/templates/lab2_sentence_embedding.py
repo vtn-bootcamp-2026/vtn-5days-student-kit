@@ -16,8 +16,8 @@ except ImportError:
     print("pip install sentence-transformers")
     sys.exit(1)
 
-# 1. Tải mô hình embedding đa ngôn ngữ tốt cho tiếng Việt
-model_name = 'paraphrase-multilingual-MiniLM-L12-v2'
+# 1. Tải mô hình embedding
+model_name = 'all-MiniLM-L6-v2'
 print(f"\nĐang tải mô hình embedding '{model_name}' (Vui lòng chờ)...")
 model = SentenceTransformer(model_name)
 print("Đã tải mô hình thành công!")
@@ -38,6 +38,6 @@ embeddings = model.encode(sentences)
 for i, sentence in enumerate(sentences):
     print(f"\nCâu: \"{sentence}\"")
     print(f"Kích thước Vector (Số chiều): {embeddings[i].shape}")
-    print(f"5 giá trị số thực đầu tiên: {embeddings[i][:5]}...")
+    print(f"5 giá trị số thực đầu tiên: {embeddings[i][:]}...")
 
 print("\n--- KẾT THÚC LAB 2 ---")

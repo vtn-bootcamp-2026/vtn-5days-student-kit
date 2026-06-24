@@ -3,7 +3,7 @@ mo-ta: hướng dẫn thực hành session 07 HR-Policy Agentic RAG (RAG Phần 
 trang-thai: active
 phien-ban: v4.0
 created-at: 2026-05-27 17:00 +07:00
-updated-at: 2026-06-24 19:00 +07:00
+updated-at: 2026-06-24 10:00 +07:00
 ---
 
 # Hướng dẫn thực hành buổi 07 (Session 7): HR-Policy Agentic RAG — Hybrid Search + NotebookLM + Đánh giá
@@ -24,7 +24,7 @@ Hoàn thành bài thực hành này, học viên sẽ nắm được 4 khối ki
 
 ## 2. Bối cảnh tình huống
 
-Bạn là **chuyên viên thử nghiệm AI** tại phòng Công nghệ của **Viettel Network**. Phòng Nhân sự (HR) liên tục nhận hàng trăm câu hỏi lặp lại mỗi tuần về chính sách nghỉ phép, phụ cấp, thâm niên và đào tạo. Nhân sự mỗi lần phải mở sổ tay nội bộ để trả lời, rất mất thời gian.
+Bạn là **chuyên viên thử nghiệm AI** tại phòng Công nghệ của **VinaTel Network**. Phòng Nhân sự (HR) liên tục nhận hàng trăm câu hỏi lặp lại mỗi tuần về chính sách nghỉ phép, phụ cấp, thâm niên và đào tạo. Nhân sự mỗi lần phải mở sổ tay nội bộ để trả lời, rất mất thời gian.
 
 Nhiệm vụ: xây dựng **"Kỹ năng Hỏi đáp Chính sách Nhân sự"** (Agentic RAG Skill) có thể:
 
@@ -210,7 +210,7 @@ python scripts/retriever.py --query "POL-LEAVE-001 mục 2.1 ngày phép" --top-
 Dùng skill `vibe-notebooklm-orchestrator` (gọi từ Antigravity/Claude). Thực hiện:
 
 1. **Auth check:** `python ~/.claude/skills/notebooklm/scripts/run.py auth_manager.py status` (nếu chưa auth → setup).
-2. **Create notebook:** tên `HR-Policy Knowledge Base — Viettel Network`.
+2. **Create notebook:** tên `HR-Policy Knowledge Base — VinaTel`.
 3. **Add sources:** upload thư mục HR-policy mở rộng (4 file mẫu + bộ phụ lục 50-100 file giả lập do GV cấp). Định dạng hỗ trợ: PDF, DOCX, MD, TXT, ảnh OCR.
 
 > [!TIP]
@@ -237,8 +237,7 @@ Query 5-7 câu (lấy từ `test-questions.csv` + câu cross-reference). Mỗi c
 | Tùy biến threshold/refusal | ✅ Toàn quyền | ❌ Black-box |
 | Private/on-prem | ✅ Local | ❌ Cloud Google |
 
-📸 ![NotebookLM policy grounding](outputs/screenshots/vibe-test-s7-nlm-policy-grounded.png) · ![NotebookLM anti-hallucination](outputs/screenshots/vibe-test-s7-nlm-anti-hallucination.png)
-
+📸 *(screenshot NotebookLM notebook + câu trả lời có citation — chụp từ session thực)* → `outputs/screenshots/step-b-notebooklm-query.jpg` *(placeholder, GV chụp lúc dry-run)*
 
 **KẾT QUẢ KỲ VỌNG:** NotebookLM notebook chạy được, trả lời có trích nguồn; bảng so sánh cho thấy **khi nào nên dùng cái nào**.
 
@@ -282,7 +281,7 @@ Khi Agent quyết định nguồn cloud, nó gọi skill `vibe-notebooklm-orches
 ```
 // Trong luồng Agent (Antigravity/Claude):
 ask vibe-notebooklm-orchestrator:
-  "Query notebook 'HR-Policy Knowledge Base — Viettel Network' với câu hỏi: <Q>.
+  "Query notebook 'HR-Policy Knowledge Base — VinaTel' với câu hỏi: <Q>.
    Trả về: câu trả lời + danh sách citation (doc_id, section, quote nguyên văn)."
 ```
 
@@ -468,173 +467,3 @@ False negative (từ chối câu trong phạm vi) chấp nhận được hơn fa
 4. **RRF giải quyết vấn đề gì mà weighted sum gặp khó?** (Không cần chuẩn hóa điểm giữa 2 hệ thang khác nhau.)
 5. **SLI/SLO custom vs RAGAS — bổ sung hay thay thế?** (Bổ sung: SLI deterministic đo đúng nhu cầu doanh nghiệp; RAGAS industry-standard cho faithfulness/relevancy. Nên chạy cả hai.)
 6. **Làm sao phòng prompt injection mà không mất khả năng trả lời câu hợp lệ?** (Classify trước; rule rõ; log; injection bị refuse, câu bình thường vẫn xử lý.)
-
----
-
-## 10. Test Report — vibe-testing-orchestrator (dry-run thực tế)
-
-> Chạy thật toàn bộ pipeline (Foundation → Lab A → Lab C Agent → Lab D Eval) trong sandbox bằng LLM thật. Chế độ: **SCREENSHOT**. Mục tiêu: verification (Tầng 3 Functional + Tầng 5 Documentation Compliance).
->
-> **Ngày test:** 2026-06-24 · **LLM Agent:** GLM `glm-4.5-air` (Z.ai, OpenAI-compatible) · **Sandbox:** `/tmp/vibe-test-s7/` · **Screenshots:** `outputs/screenshots/vibe-test-s7-*.png`
-
-### 10.1 Tổng quan
-
-| Metric | Value |
-|--------|-------|
-| Tổng test cases | 5 |
-| PASS | 4 🟢 |
-| FAIL (deviation/bug) | 1 🔴 |
-| Pass Rate | 80% |
-
-### 10.2 Kết quả theo tầng
-
-| Tầng | TC | Kết quả | Ghi chú |
-|------|----|---------|---------|
-| T1 Unit | TC-U1-01 Skill package 8/8 files | ✅ PASS | 10/10 files (8 core + retriever.py + evaluator.py) |
-| T3 Functional | TC-F3-01 chunker.py (Foundation 0.4) | ✅ PASS | 20 chunks (đúng khoảng 15-20), đủ 8 trường metadata |
-| T3 Functional | TC-F3-02 retriever.py (Lab A) | ⚠️ DEVIATION | Chạy đúng, bắt được POL-LEAVE-001; **nhưng template & worked-example đều chưa có FTS5-BM25 + RRF** (xem 10.4) |
-| T3 Functional | TC-F3-03 evaluator.py + GLM Agent (Lab C+D) | ✅ PASS (sau fix) | 5/5 SLI đạt SLO; overall 9/12 (xem 10.5) |
-| T5 Doc-Compliance | TC-D5 Lab B (NotebookLM) / Lab D2 (RAGAS) | ⚪ SKIP | NotebookLM cần cloud/auth Google; RAGAS chưa cài + cần LLM-judge — không tự động (xem 10.6) |
-
-### 10.3 Foundation + Lab A — kết quả thật
-
-- **chunker.py:** sinh đúng **20 chunks** từ 4 policy file, mỗi chunk có đủ `chunk_id, doc_id, section, version, status, access_level, word_count, content`.
-- **retriever.py** với query mã số `"POL-LEAVE-001 mục 2.1 ngày phép"` → trả về `POL-LEAVE-001` (section *1. Nghỉ phép năm*) + `POL-SENIOR-001` → keyword/BM25 bắt đúng tài liệu tên riêng/mã.
-
-📸 ![Retriever code/id](outputs/screenshots/vibe-test-s7-retriever-code-id.png)
-
-### 10.4 ⚠️ DEVIATION — Lab A chưa là hybrid thật → ĐÃ FIX
-
-Lab A (Bước A1/A2) yêu cầu thêm `build_fts_index()` (SQLite-FTS5), `bm25_search()`, `rrf_fuse()` vào `retriever.py`. Kiểm tra ban đầu:
-
-- `templates/skills/hr-policy-qa-skill/scripts/retriever.py` (template) → giữ nguyên dạng bài tập "vector-first, keyword-fallback" (đúng vai trò template).
-- `outputs/skills/hr-policy-qa-skill/scripts/retriever.py` (worked example) → **đã được hiện thực hóa hybrid thật** sau khi fix.
-
-**Fix (đã áp dụng vào worked example):** bổ sung 3 hàm theo đúng spec Lab A:
-- `build_fts_index(chunks, db_path)` — SQLite-FTS5 virtual table, fallback `rank_bm25` (BM25Okapi) khi build SQLite thiếu FTS5.
-- `bm25_search(index_handle, query, top_k)` — dùng `bm25(policy_fts)` của SQLite hoặc `BM25Okapi.get_scores()`.
-- `rrf_fuse(vector_hits, bm25_hits, k=60, top_k)` — `score(d) = Σ 1/(k+rank_i(d))`, ghép 2 ranked list không cần chuẩn hóa điểm.
-- `retrieve_chunks()` nâng lên **hybrid thật**: vector (ChromaDB) + BM25 (FTS5) → RRF; fallback từng phía; cả hai rỗng → refused.
-
-**Test 3 case (method="hybrid" trên cả 3):**
-- Câu ngữ nghĩa "nghỉ ốm lương" → POL-LEAVE-001 "2. Nghỉ ốm" (vector mạnh).
-- Câu mã "POL-LEAVE-001 mục 2.1" → POL-LEAVE-001 sections (BM25 bắt mã/tên riêng).
-- Câu cross-ref "thâm niên 6 năm nghỉ phép" → **POL-SENIOR-001 + POL-LEAVE-001 cùng top** (RRF fuse đúng combo 14+2=16 ngày).
-
-📸 ![Lab A hybrid](outputs/screenshots/vibe-test-s7-lab-a-hybrid.png)
-
-> [!NOTE]
-> Fallback chain đã verify: `HAS_FTS5=True | HAS_RANK_BM25=True | HAS_CHROMADB=True`. Chunker + retriever dùng chung SentenceTransformer `paraphrase-multilingual-MiniLM-L12-v2`.
-
-### 10.4.1 Cảnh báo tích hợp — CLI retriever tạo ChromaDB rỗng
-
-Khi chạy `python retriever.py --query ...` qua CLI, `main()` gọi `client.get_or_create_collection()` nhưng **không embed/insert chunks** vào collection → `vector_search()` luôn rỗng → chỉ BM25 chạy (method="bm25", không phải "hybrid"). Để có hybrid thật qua CLI, phải populate collection (chunker `--chroma` hoặc embedding thủ công). Test harness `test_hybrid.py` (trong sandbox) đã build collection đầy đủ để chứng minh hybrid end-to-end. **Đề xuất:** bổ sung auto-populate collection trong CLI khi phát hiện collection rỗng.
-
-
-### 10.5 Lab C + D — Agent GLM + SLI/SLO thật (sau khi fix bug evaluator)
-
-Chạy HR-Policy Agent (classify → retrieve → synthesize với citation nguyên văn / refuse out-of-scope) trên 12 câu, rồi nạp `answers.json` vào `evaluator.py`.
-
-📸 ![GLM Agent answers](outputs/screenshots/vibe-test-s7-glm-agent-answers.png)
-
-**SLI/SLO cuối (sau fix):**
-
-| Chỉ số (SLI) | SLI thực | SLO | Status |
-|---|---:|---:|---|
-| in-scope accuracy | 100% (8/8) | ≥75% | ✅ PASS |
-| out-of-scope refusal | 100% (2/2) | 100% | ✅ PASS |
-| citation_rate | 100% | ≥90% | ✅ PASS |
-| hallucinated_citations | 0% | 0% | ✅ PASS |
-| quote_accuracy (cross-check verbatim) | 90.9% | ≥85% | ✅ PASS |
-
-📸 ![Evaluator SLI/SLO](outputs/screenshots/vibe-test-s7-evaluator-sli-slo.png)
-
-- **Cross-reference Q-004** ("thâm niên 6 năm") → Agent trả **16 ngày = 14 (POL-LEAVE-001) + 2 (POL-SENIOR-001)** đúng kỳ vọng.
-- **Q-011/Q-012 out-of-scope** (bảo hiểm xã hội, chuyển công tác) → refuse đúng.
-- **Overall 9/12** (không phải 12/12): **Q-002 FAIL overall** vì 1 citation bị **paraphrase** → quote cross-check bắt được (quote_accuracy 90.9% = 11/12 verbatim). Đây chính là tình huống **TC5** mà lab mô tả — cross-check verbatim làm đúng nhiệm vụ.
-
-### 10.6 Bug evaluator đã sửa (TC-F3-03)
-
-**Triệu chứng:** chạy evaluator với câu trả lời GLM đúng (vd Q-002 "30.000 VNĐ/ngày") vẫn bị chấm `accuracy 0%`.
-
-**Gốc lỗi:** `evaluate_answer()` chấm `correct_answer` bằng keyword-overlap giữa `answer` và `expected_answer`. Nhưng `expected_answer` thực chất là cột `expected_behavior` (mô tả dạng *"Trả lời 30.000 VNĐ/ngày + trích dẫn"*), không phải đáp án chuẩn. Câu trả lời đúng ngắn gọn có overlap < 0.50 → FAIL. Tính tay Q-002: overlap 2/7 = 0.29.
-
-**Fix (đã áp dụng vào `scripts/evaluator.py`):** chấm `correct_answer` bằng 2 tín hiệu — (1) signal-token coverage (loại stopword/dấu) ≥ 0.34, **HOẶC** (2) citation `doc_id` trùng `expected_source` (ground-truth doc_id trong CSV). Sau fix: accuracy 0% → 100%, đúng bản chất "RAG truy xuất đúng nguồn + trả lời có căn cứ".
-
-> [!IMPORTANT]
-> Artifact thật của lần chạy này: `outputs/skills/hr-policy-qa-skill/answers-glm.json` (12 câu trả lời GLM) + `evaluation-report-glm.md` (report đầy đủ). Reproduce: `python scripts/evaluator.py --questions synthetic-data/test-questions.csv --answers outputs/skills/hr-policy-qa-skill/answers-glm.json --chunks kb/chunks.json --output evaluation-report.md`.
-
-### 10.7 Trạng thái Lab B + Lab D2 — ĐÃ THỰC THI (không còn SKIP)
-
-| Lab | Trạng thái | Tóm tắt |
-|-----|-----------|---------|
-| Lab B — NotebookLM | ✅ Đã chạy (10.9) | Grounding xác nhận trên corpus HR-policy; anti-hallucination với chủ đề ngoài corpus. |
-| Lab D2 — RAGAS | ✅ Đã chạy (10.10) | 4 metric industry-standard với LLM-judge = GLM. |
-
-### 10.9 Lab B — NotebookLM quy mô lớn (TH2) — kết quả thật
-
-> Notebook `HR-Policy Knowledge Base — Viettel Network` (authuser của user), sources = 4 file policy (POL-LEAVE/ALLOW/SENIOR/TRAIN) + Deep Research bổ sung luật lao động. Query qua `vibe-notebooklm-orchestrator` (Patchright browser automation).
-
-**(1) Grounding vào corpus HR-policy — XÁC NHẬN ĐÚNG:**
-
-| Câu hỏi | NotebookLM trả lời | Citation | Khớp KB? |
-|---|---|---|---|
-| Ngày phép theo thâm niên | 12/14/16 ngày + thâm niên thêm 2/4/6 | [1][2][3][4] LEAVE+SENIOR | ✅ |
-| Nghỉ ốm >30 ngày | 70% lương từ ngày 31, tối đa 180 ngày/năm, cần giấy CN | [1] POL-LEAVE-001 §2.1 | ✅ |
-
-📸 ![NotebookLM policy grounding](outputs/screenshots/vibe-test-s7-nlm-policy-grounded.png)
-
-**(2) Anti-hallucination với chủ đề ngoài corpus (luật) — XÁC NHẬN:**
-
-Câu về BLLĐ 2019 / Luật BHXH → NotebookLM **không bịa**: nói thẳng *"các nguồn hiện có KHÔNG chứa văn bản luật"*, chỉ trả về mock policy (12 ngày / 70% từ ngày 31) **có gắn cờ "chính sách giả định, không phải pháp luật"**, rồi bổ sung kiến thức ngoài **kèm caveat "cần kiểm chứng"** và **offer web search** để bổ sung luật.
-
-📸 ![NotebookLM anti-hallucination](outputs/screenshots/vibe-test-s7-nlm-anti-hallucination.png)
-
-**(3) Bảng so sánh local hybrid vs NotebookLM:**
-
-| Tiêu chí | Hybrid local (Lab A) | NotebookLM (Lab B) |
-|---|---|---|
-| Grounding policy Viettel | ✅ RRF hybrid + citation verbatim | ✅ Citation click-able |
-| Câu luật lao động | ❌ refuse (out-of-scope KB) | ⚠️ refuse grounding + offer web search (anti-hallucination) |
-| Corpus lớn (sổ tay + phụ lục) | ◐ Cần infra/embedding | ✅ Tối ưu |
-| Cross-check verbatim | ✅ deterministic (evaluator) | ◐ Citation click-able, khó export verbatim |
-| Tùy biến threshold/refusal | ✅ Toàn quyền | ❌ Black-box |
-| Private/on-prem (HR nhạy cảm) | ✅ Local | ❌ Cloud Google |
-| Setup effort | Code (ChromaDB, FTS5, RRF) | Zero code |
-
-**(4) Phát hiện automation (cần GV lưu ý):**
-- **Bug stale-answer** trong `ask_question.py`: khi notebook có chat history, script đọc lại đáp án cũ thay vì câu mới (selector bị nhiễu). Tạm fix: capture baseline + chỉ nhận element count > baseline, nhưng vẫn không reliable cho batch. **Workaround:** 1 query reliable / fresh notebook, hoặc verify thủ công. Đã patch baseline-poll trong skill `notebooklm`.
-- **Account mismatch:** automation dùng stored-auth riêng (authuser khác) → notebook automation tạo KHÔNG thấy source của user và ngược lại. Phải dùng đúng notebook URL + authuser của tài khoản có source.
-
-### 10.10 Lab D2 — RAGAS nâng cao (TH4) — GV DEMO ONLY
-
-> [!IMPORTANT]
-> **RAGAS là phần GV demo, HV KHÔNG tự chạy** (tiết kiệm thời gian + token LLM-judge). Kết quả đã chạy sẵn, lưu trong `outputs/skills/hr-policy-qa-skill/ragas-report.md` + `ragas-results.json` để GV show.
-
-RAGAS 0.4.3, LLM-judge = GLM `glm-4.5-air` (z.ai, OpenAI-compatible), embeddings = `paraphrase-multilingual-MiniLM-L12-v2`. Dataset = 4 câu đại diện (in-scope direct + cross-ref + out-of-scope) từ `answers-glm.json`; `contexts` = citation quotes thật. GLM judge latency 120–160s/call → giới hạn subset, chạy `max_workers=1`, ~32 phút, 16/16 step (1 TimeoutError → NaN).
-
-**Kết quả 4 metric (aggregate):**
-
-| Metric | Score | Đọc |
-|---|---:|---|
-| **faithfulness** | 0.61 | 61% trung thành context — bắt được hallucination nhẹ tinh hơn SLI |
-| **answer_relevancy** | 0.55 | một số câu lan man |
-| **context_precision** | 0.38 | retrieval thỉnh thoảng đưa chunk không liên quan lên top |
-| **context_recall** | 0.33 | retrieval còn bỏ sót đoạn cần → gợi ý cải thiện retriever (Lab A hybrid+RRF) |
-
-📸 ![RAGAS results](outputs/screenshots/vibe-test-s7-ragas.png)
-
-**Đối chiếu RAGAS vs SLI/SLO custom (Lab D1):** SLI custom đo đúng nhu cầu doanh nghiệp (citation 100%, refusal 100%, cross-check verbatim 90.9%). RAGAS **bổ sung** góc industry-standard: `faithfulness` 0.61 bắt hallucination tinh hơn; `context_recall` 0.33 cho thấy retrieval còn hụt → đúng hướng cải thiện bằng hybrid RRF (Lab A). **Kết luận: chạy cả hai** — SLI cho HV thực hành, RAGAS cho GV demo.
-
-**Lưu ý kỹ thuật RAGAS (GV reproduce):**
-- `ragas 0.4.3` import `langchain_community.chat_models.vertexai` (đã rename) → cần stub module hoặc pin `langchain_community`.
-- Chạy `max_workers=1` (RunConfig) tránh timeout GLM concurrent.
-- `evaluate()` trả `EvaluationResult` (dict of metric→score) — extract trực tiếp, không phải pandas.
-- Reproduce: xem `outputs/skills/hr-policy-qa-skill/ragas-report.md`.
-
-### 10.11 Kết luận
-
-Pipeline RAG (chunker → retriever hybrid → GLM Agent → evaluator) **chạy đúng luồng và đạt 5/5 SLI/SLO** sau khi sửa bug metric accuracy. **Lab A hybrid (FTS5-BM25+RRF) đã được hiện thực hóa** và verify 3 case. **Lab B NotebookLM** xác nhận grounding đúng corpus + anti-hallucination khi thiếu bằng chứng. **Lab D2 RAGAS** chạy xong với GLM-judge (faithfulness 0.61, context_recall 0.33 — gợi ý cải thiện retrieval). Nguyên tắc "từ chối an toàn hơn trả lời sai" được xác nhận xuyên suốt: local out-of-scope refusal 100%, hallucination 0%, cross-check verbatim bắt đúng 1 citation paraphrase, NotebookLM refuse + offer web search cho chủ đề ngoài corpus.
-
-
-

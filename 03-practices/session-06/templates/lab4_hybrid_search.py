@@ -17,7 +17,7 @@ documents = [
     "Thời hạn nộp hồ sơ thanh toán hoàn ứng công tác phí là 7 ngày làm việc kể từ khi kết thúc chuyến đi."
 ]
 
-model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+model = SentenceTransformer('all-MiniLM-L6-v2')
 doc_embeddings = model.encode(documents)
 
 # Phép toán tính cosine similarity

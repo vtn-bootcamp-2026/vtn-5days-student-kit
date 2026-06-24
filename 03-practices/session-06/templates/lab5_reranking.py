@@ -26,8 +26,8 @@ except ImportError:
 # Tải model Bi-Encoder (dùng để tìm kiếm nhanh) và Cross-Encoder (dùng để Rerank chính xác)
 print("\nĐang tải mô hình Cross-Encoder (Vui lòng chờ)...")
 # Sử dụng model cross-encoder siêu nhỏ, đa ngôn ngữ hoặc tương thích tiếng Việt tốt
-reranker = CrossEncoder('unicamp-dl/mt5-base-mmarco-v2')
-model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+reranker = CrossEncoder('BAAI/bge-reranker-base')
+model = SentenceTransformer('all-MiniLM-L6-v2')
 print("Đã tải xong các mô hình!")
 
 query = "Giám đốc đi máy bay được thanh toán thế nào"

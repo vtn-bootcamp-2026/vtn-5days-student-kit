@@ -11,15 +11,3 @@ Q-009,ambiguous,Chính sách của công ty có tốt không?,KHONG co trong KB,
 Q-010,ambiguous,Tôi nghỉ 1 ngày thì được hưởng lương không?,KHONG ro loai nghi,Yêu cầu làm rõ loại nghỉ (phép/ốm/không lương)
 Q-011,out-of-scope,Chính sách bảo hiểm xã hội của công ty như thế nào?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự
 Q-012,out-of-scope,Tôi muốn xin chuyển công tác sang Hà Nội thì làm sao?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự
-Q-013,in-scope-policy,Theo chính sách Viettel Network nhân viên chính thức được bao nhiêu ngày phép năm theo thâm niên?,POL-LEAVE-001,12/14/16 ngày theo thâm niên (<5 năm/5-10 năm/10+ năm) + trích dẫn
-Q-014,in-scope-policy,Theo chính sách Viettel Network nghỉ ốm quá 30 ngày thì lương tính thế nào?,POL-LEAVE-001 muc 2.1,70% lương từ ngày 31 tối đa 180 ngày/năm + trích dẫn
-Q-015,in-scope-policy,Theo chính sách Viettel Network nhân viên thử việc có được phụ cấp điện thoại không?,POL-ALLOW-001 muc 3.2,KHÔNG (chỉ chính thức/quản lý) + trích dẫn điều kiện
-Q-016,in-scope-policy,Theo chính sách Viettel Network nhân viên thâm niên 6 năm được bao nhiêu ngày phép?,POL-LEAVE-001 + POL-SENIOR-001,16 ngày = 14 (LEAVE) + 2 (SENIOR 5-10 năm) cross-ref
-Q-017,in-scope-policy,Theo chính sách Viettel Network công ty có hỗ trợ học MBA không?,POL-TRAIN-001 muc 4.1,CÓ tài trợ tối đa 50% học phí + trích dẫn điều kiện
-Q-018,in-scope-law,Theo Bộ luật Lao động 2019 người làm việc đủ 12 tháng được nghỉ phép năm bao nhiêu ngày?,BLLĐ 2019 Điều 113,12 ngày làm việc (nghề bình thường) + trích dẫn nguồn luật
-Q-019,in-scope-law,Theo Bộ luật Lao động 2019 thời gian thử việc tối đa cho lao động có bằng đại học là bao lâu?,BLLĐ 2019 Điều 24,60 ngày + trích dẫn nguồn luật
-Q-020,in-scope-law,Theo Bộ luật Lao động 2019 nữ lao động nghỉ thai sản được bao nhiêu tháng?,BLLĐ 2019 Điều 137,6 tháng + trích dẫn nguồn luật
-Q-021,in-scope-law,Theo luật nghỉ ốm hưởng bảo hiểm xã hội bao nhiêu phần trăm lương?,Luật BHXH,75% lương bình quân (so sánh Viettel Network 70% sau 30 ngày) + trích dẫn
-Q-022,in-scope-law,Theo Bộ luật Lao động nghỉ phép năm được hưởng bao nhiêu phần trăm lương?,BLLĐ 2019 Điều 114,100% lương + trích dẫn nguồn luật
-Q-023,out-of-scope,Viettel Network có chính sách cho vay mua nhà không?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự/phòng ban liên quan
-Q-024,out-of-scope,Tôi muốn xin chuyển công tác sang Hà Nội thì làm sao?,KHONG co trong KB,Từ chối + gợi ý liên hệ nhân sự
