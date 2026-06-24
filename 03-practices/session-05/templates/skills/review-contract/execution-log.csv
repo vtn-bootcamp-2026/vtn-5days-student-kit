@@ -1,0 +1,2 @@
+run_id,contract_id,status,error_type,needs_human_review,confidence,red_flag_count,missing_field_count,source_evidence_count,route_reason,created_at
+RUN-20260624085143,HD-VH-2026-003,HITL,"needs_human_review=true; 4 cờ đỏ: Phạt không giới hạn: không có mức tối đa cho phạt vi phạm; Tự gia hạn bất lợi: chỉ cần thông báo 15 ngày trước, dễ lỡ thời hạn; Giới hạn trách nhiệm quá thấp: chỉ bằng 1 tháng giá trị hợp đồng (8.33%); Confidence thấp: 0.67",True,0.67,4,1,9,HITL,2026-06-24T08:51:43.424344

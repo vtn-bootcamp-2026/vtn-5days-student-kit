@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CVEvaluationSchema",
+  "type": "OBJECT",
+  "properties": {
+    "candidate_name": {
+      "type": "STRING",
+      "description": "Họ và tên của ứng viên"
+    },
+    "contact_info": {
+      "type": "OBJECT",
+      "properties": {
+        "email": {
+          "type": "STRING",
+          "format": "email"
+        },
+        "phone": {
+          "type": "STRING"
+        }
+      },
+      "required": ["email", "phone"]
+    },
+    "experience_years": {
+      "type": "INTEGER",
+      "minimum": 0,
+      "description": "Số năm kinh nghiệm tích lũy"
+    },
+    "education": {
+      "type": "STRING",
+      "description": "Trình độ học vấn cao nhất"
+    },
+    "skills": {
+      "type": "ARRAY",
+      "items": {
+        "type": "STRING"
+      },
+      "description": "Danh sách kỹ năng chuyên môn"
+    },
+    "suitability_score": {
+      "type": "INTEGER",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Điểm số độ phù hợp dựa trên rubric"
+    },
+    "matched_criteria": {
+      "type": "ARRAY",
+      "items": {
+        "type": "STRING"
+      },
+      "description": "Các tiêu chuẩn đáp ứng"
+    },
+    "missing_criteria": {
+      "type": "ARRAY",
+      "items": {
+        "type": "STRING"
+      },
+      "description": "Các tiêu chuẩn còn thiếu"
+    },
+    "red_flags": {
+      "type": "ARRAY",
+      "items": {
+        "type": "STRING"
+      },
+      "description": "Danh sách cảnh báo cờ đỏ phát hiện"
+    },
+    "status": {
+      "type": "STRING",
+      "enum": ["auto_pass", "needs_human_review", "reject"]
+    },
+    "evidence": {
+      "type": "ARRAY",
+      "items": {
+        "type": "OBJECT",
+        "properties": {
+          "claim": {
+            "type": "STRING"
+          },
+          "verbatim_quote": {
+            "type": "STRING",
+            "description": "Trích dẫn nguyên văn từ hồ sơ ứng viên"
+          },
+          "source": {
+            "type": "STRING"
+          },
+          "location": {
+            "type": "STRING"
+          }
+        },
+        "required": ["claim", "verbatim_quote", "source"]
+      }
+    },
+    "confidence_score": {
+      "type": "NUMBER",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "need_review": {
+      "type": "BOOLEAN"
+    }
+  },
+  "required": [
+    "candidate_name",
+    "contact_info",
+    "experience_years",
+    "education",
+    "skills",
+    "suitability_score",
+    "red_flags",
+    "status",
+    "evidence",
+    "confidence_score",
+    "need_review"
+  ]
+}

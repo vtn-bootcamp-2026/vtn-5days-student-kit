@@ -1,0 +1,37 @@
+{
+  "candidate_name": "[PERSON]",
+  "contact_info": {
+    "email": "[CONTACT]",
+    "phone": "[CONTACT]"
+  },
+  "experience_years": 4,
+  "education": "Cử nhân Khoa học Máy tính",
+  "skills": ["Python", "SQL", "JavaScript", "Django", "FastAPI", "Git", "Docker"],
+  "suitability_score": 85,
+  "matched_criteria": [
+    "Cử nhân Khoa học Máy tính",
+    "Kinh nghiệm làm việc với Python và Django",
+    "Có kỹ năng làm việc nhóm Agile/Scrum"
+  ],
+  "missing_criteria": [
+    "Kinh nghiệm làm việc với các hệ thống Cloud lớn"
+  ],
+  "red_flags": [],
+  "status": "auto_pass",
+  "evidence": [
+    {
+      "claim": "Cử nhân Khoa học Máy tính",
+      "verbatim_quote": "Cử nhân Khoa học Máy tính - Trường Đại học Công nghệ",
+      "source": "cv-sample.md",
+      "location": "Phần Học vấn"
+    },
+    {
+      "claim": "Kinh nghiệm làm việc Python",
+      "verbatim_quote": "Phát triển hệ thống quản lý dữ liệu lớn bằng Python và Django.",
+      "source": "cv-sample.md",
+      "location": "Phần Kinh nghiệm"
+    }
+  ],
+  "confidence_score": 0.9,
+  "need_review": false
+}

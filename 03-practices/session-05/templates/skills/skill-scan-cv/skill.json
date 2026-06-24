@@ -1,0 +1,33 @@
+{
+  "name": "skill-scan-cv",
+  "version": "1.0.0",
+  "description": "Kỹ năng chuyên biệt tự động đọc hồ sơ ứng viên (CV), trích xuất thông tin cấu trúc, so khớp với JD, phát hiện cờ đỏ (red flags) và định tuyến phê duyệt (Auto/HITL).",
+  "triggers": {
+    "keywords": [
+      "scan cv",
+      "lọc hồ sơ",
+      "chấm điểm ứng viên",
+      "đánh giá CV",
+      "cv screening",
+      "lọc CV"
+    ],
+    "file_patterns": [
+      "*.docx",
+      "*.pdf",
+      "*.txt",
+      "*.doc",
+      "*.md"
+    ]
+  },
+  "permissions": {
+    "read_file": [
+      "output/skill-scan-cv/synthetic-data/*",
+      "output/skill-scan-cv/kb/*",
+      "output/skill-scan-cv/schema/*"
+    ],
+    "write_file": [
+      "output/skill-scan-cv/outputs/*"
+    ],
+    "network": false
+  }
+}
