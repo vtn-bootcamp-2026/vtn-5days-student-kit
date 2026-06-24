@@ -39,17 +39,23 @@ Zip **không bao gồm** venv (platform-specific) và **không bao gồm** auth 
 
 ## Cài đặt
 
-### Claude Code (personal — áp dụng mọi project)
+> [!NOTE]
+> Repo student-kit **gitignore `*.zip`**, nên HV dùng **folder** (luôn có) thay vì zip. Zip chỉ dùng nếu GV phát riêng.
+
+### Claude Code (personal — áp dụng mọi project) — cài từ FOLDER
 ```bash
-unzip notebooklm.zip -d ~/.claude/skills/
-unzip vibe-notebooklm-orchestrator.zip -d ~/.claude/skills/
+# Từ thư mục session-07/skills/ của repo student-kit:
+cp -R notebooklm ~/.claude/skills/
+cp -R vibe-notebooklm-orchestrator ~/.claude/skills/
 # rồi setup venv + auth (xem mục "Yêu cầu hệ thống")
 ```
 Khởi động lại Claude Code → gọi `/vibe-notebooklm-orchestrator` để kiểm tra.
 
+(Nếu có file `.zip`: `unzip notebooklm.zip -d ~/.claude/skills/`)
+
 ### Antigravity
-1. Kéo thả `notebooklm.zip` vào ô chat → cài engine.
-2. Kéo thả `vibe-notebooklm-orchestrator.zip` → cài orchestrator.
+1. Kéo thả **folder** `notebooklm` vào ô chat → cài engine.
+2. Kéo thả folder `vibe-notebooklm-orchestrator` → cài orchestrator.
 3. Setup venv + auth qua terminal (xem trên).
 
 ## Workflow dùng trong Lab B / Lab C

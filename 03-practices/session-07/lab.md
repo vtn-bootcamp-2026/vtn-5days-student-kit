@@ -237,7 +237,8 @@ Query 5-7 câu (lấy từ `test-questions.csv` + câu cross-reference). Mỗi c
 | Tùy biến threshold/refusal | ✅ Toàn quyền | ❌ Black-box |
 | Private/on-prem | ✅ Local | ❌ Cloud Google |
 
-📸 *(screenshot NotebookLM notebook + câu trả lời có citation — chụp từ session thực)* → `outputs/screenshots/step-b-notebooklm-query.jpg` *(placeholder, GV chụp lúc dry-run)*
+📸 ![NotebookLM policy grounding](outputs/screenshots/vibe-test-s7-nlm-policy-grounded.png) · ![NotebookLM anti-hallucination](outputs/screenshots/vibe-test-s7-nlm-anti-hallucination.png)
+
 
 **KẾT QUẢ KỲ VỌNG:** NotebookLM notebook chạy được, trả lời có trích nguồn; bảng so sánh cho thấy **khi nào nên dùng cái nào**.
 
