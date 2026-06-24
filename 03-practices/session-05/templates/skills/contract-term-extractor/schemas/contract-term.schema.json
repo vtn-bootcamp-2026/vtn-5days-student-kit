@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Contract Term Extraction Result",
+  "description": "Lược đồ JSON cho kết quả trích xuất điều khoản hợp đồng viễn thông",
+  "type": "object",
+  "required": [
+    "contract_id",
+    "effective_date",
+    "expiry_date",
+    "penalty_clause",
+    "source_evidence",
+    "confidence",
+    "needs_human_review",
+    "red_flags",
+    "missing_fields",
+    "extraction_notes"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "description": "Mã hợp đồng, ví dụ: HD-DV-2026-001"
+    },
+    "contract_type": {
+      "type": "string",
+      "description": "Loại hợp đồng: dịch vụ, mua bán thiết bị, thuê kênh..."
+    },
+    "effective_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Ngày hiệu lực (YYYY-MM-DD). null nếu không tìm thấy."
+    },
+    "expiry_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Ngày hết hạn (YYYY-MM-DD). null nếu không tìm thấy."
+    },
+    "contract_value": {
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "payment_terms": { "type": "string" }
+      },
+      "description": "Giá trị hợp đồng và điều khoản thanh toán"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Phạm vi dịch vụ/giá trị hợp đồng"
+    },
+    "sla": {
+      "type": "object",
+      "properties": {
+        "uptime_commitment": { "type": "string" },
+        "scope": { "type": "string" }
+      },
+      "description": "Cam kết SLA"
+    },
+    "penalty_clause": {
+      "type": "string",
+      "description": "Nội dung tóm tắt điều khoản phạt. Chuỗi rỗng nếu không có."
+    },
+    "penalty_amount": {
+      "type": "string",
+      "description": "Số tiền/mức phạt chi tiết. Chuỗi rỗng nếu không có."
+    },
+    "auto_renewal": {
+      "type": ["boolean", "null"],
+      "description": "Tự động gia hạn. null nếu không rõ."
+    },
+    "renewal_notice_period": {
+      "type": ["string", "null"],
+      "description": "Thời hạn thông báo chấm dứt/gia hạn"
+    },
+    "confidentiality": {
+      "type": "object",
+      "properties": {
+        "duration": { "type": "string" },
+        "scope": { "type": "string" }
+      },
+      "description": "Điều khoản bảo mật"
+    },
+    "liability_cap": {
+      "type": ["string", "null"],
+      "description": "Giới hạn trách nhiệm bồi thường. null nếu không có."
+    },
+    "dispute_resolution": {
+      "type": "string",
+      "description": "Cơ chế giải quyết tranh chấp"
+    },
+    "source_evidence": {
+      "type": "array",
+      "description": "Danh sách căn cứ nguồn cho các trường trích xuất",
+      "items": {
+        "type": "object",
+        "required": ["field", "quote", "section"],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Tên trường JSON mà trích dẫn tham chiếu đến"
+          },
+          "quote": {
+            "type": "string",
+            "description": "Trích dẫn nguyên văn từ hợp đồng (verbatim)"
+          },
+          "section": {
+            "type": "string",
+            "description": "Điều khoản số mấy trong hợp đồng"
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Mức chắc chắn tổng thể. Dựa trên căn cứ nguồn, không phải cảm tính."
+    },
+    "needs_human_review": {
+      "type": "boolean",
+      "description": "Bật true khi: thiếu trường, confidence < 0.7, mâu thuẫn, cờ đỏ, lỗi OCR"
+    },
+    "red_flags": {
+      "type": "array",
+      "description": "Danh sách cờ đỏ phát hiện được",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "description": "Danh sách trường không tìm thấy trong hợp đồng",
+      "items": {
+        "type": "string"
+      }
+    },
+    "extraction_notes": {
+      "type": "string",
+      "description": "Ghi chú bổ sung: lỗi OCR, mâu thuẫn, giải thích"
+    }
+  }
+}

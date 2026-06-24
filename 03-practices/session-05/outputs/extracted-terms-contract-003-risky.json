@@ -1,0 +1,93 @@
+{
+  "contract_id": "HD-VH-2026-003",
+  "contract_type": "Dịch vụ vận hành và bảo trì hệ thống mạng",
+  "parties": {
+    "party_a": {
+      "name": "Công ty Cổ phần Viễn thông Mô phỏng (VTN-Sim)",
+      "representative": "Hoàng Văn Em - Giám đốc",
+      "tax_id": "0301234567-001 (mô phỏng)"
+    },
+    "party_b": {
+      "name": "Công ty TNHH Dịch vụ Kỹ thuật Demo",
+      "representative": "Võ Thị Phúc - Trưởng phòng Kinh doanh",
+      "tax_id": "0303456789-001 (mô phỏng)"
+    }
+  },
+  "effective_date": "2026-03-01",
+  "expiry_date": "2027-02-28",
+  "contract_value": {
+    "amount": 1800000000,
+    "currency": "VNĐ",
+    "payment_terms": "Hàng tháng: 150.000.000 VNĐ, trong vòng 10 ngày kể từ ngày nhận hóa đơn."
+  },
+  "scope": "Giám sát hệ thống 24/7/365, bảo trì định kỳ hàng tháng, xử lý sự cố trong 2 giờ, báo cáo hoạt động hàng tháng",
+  "sla": {
+    "incident_response": "2 giờ kể từ khi nhận thông báo",
+    "maintenance": "Định kỳ hàng tháng",
+    "monitoring": "24/7/365"
+  },
+  "penalty_clause": "Phạt 5% giá trị hợp đồng hàng tháng cho mỗi giờ vượt quá SLA, KHÔNG GIỚI HẠN mức phạt tối đa.",
+  "penalty_amount": "Không giới hạn — 5% × 150.000.000 = 7.500.000 VNĐ/giờ, không có trần",
+  "auto_renewal": true,
+  "renewal_notice_period": "15 ngày trước khi hết hạn",
+  "confidentiality": {
+    "duration": "1 năm sau khi chấm dứt",
+    "scope": "Thông tin hệ thống mạng và dữ liệu vận hành"
+  },
+  "liability_cap": "Giá trị hợp đồng của 01 (một) tháng = 150.000.000 VNĐ",
+  "dispute_resolution": null,
+  "insurance": "Bảo hiểm trách nhiệm nghề nghiệp tối thiểu 50% giá trị hợp đồng = 900.000.000 VNĐ",
+  "source_evidence": [
+    {
+      "field": "effective_date",
+      "quote": "Hợp đồng có hiệu lực kể từ ngày 01 tháng 03 năm 2026.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "expiry_date",
+      "quote": "Hợp đồng có thời hạn 12 tháng, hết hạn ngày 28 tháng 02 năm 2027.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "auto_renewal",
+      "quote": "Hợp đồng sẽ tự động gia hạn thêm 12 tháng mà không cần thông báo trước trừ khi một bên thông báo bằng văn bản chấm dứt trước 15 ngày so với ngày hết hạn.",
+      "section": "Điều 2"
+    },
+    {
+      "field": "contract_value",
+      "quote": "Giá trị hợp đồng: 1.800.000.000 VNĐ (Một tỷ tám trăm triệu đồng).",
+      "section": "Điều 3"
+    },
+    {
+      "field": "penalty_clause",
+      "quote": "Phạt 5% giá trị hợp đồng hàng tháng cho mỗi giờ vượt. Không giới hạn mức phạt tối đa.",
+      "section": "Điều 4"
+    },
+    {
+      "field": "liability_cap",
+      "quote": "Tổng trách nhiệm bồi thường của Bên B trong mọi trường hợp không vượt quá giá trị hợp đồng của 01 (một) tháng.",
+      "section": "Điều 5"
+    },
+    {
+      "field": "confidentiality.duration",
+      "quote": "Nghĩa vụ bảo mật áp dụng trong thời hạn hợp đồng và 1 năm sau khi chấm dứt.",
+      "section": "Điều 7"
+    },
+    {
+      "field": "insurance",
+      "quote": "Bên B phải mua bảo hiểm trách nhiệm nghề nghiệp với mức bảo hiểm tối thiểu bằng 50% giá trị hợp đồng.",
+      "section": "Điều 8"
+    }
+  ],
+  "confidence": 0.65,
+  "needs_human_review": true,
+  "red_flags": [
+    "Tự gia hạn với thời hạn thông báo quá ngắn: chỉ 15 ngày trước khi hết hạn — dễ bị lỡ deadline chấm dứt, đặc biệt với hợp đồng trị giá 1.8 tỷ",
+    "Phạt vi phạm KHÔNG GIỚI HẠN: không có mức trần phạt — nhà cung cấp chịu rủi ro không giới hạn, có thể vượt xa giá trị hợp đồng",
+    "Giới hạn trách nhiệm quá thấp: chỉ bằng 1 tháng = 150 triệu, trong khi hợp đồng trị giá 1.8 tỷ — tỷ lệ trách nhiệm/giá trị chỉ 8.3%, bất lợi nghiêm trọng cho Bên A nếu thiệt hại lớn"
+  ],
+  "missing_fields": [
+    "dispute_resolution — không có điều khoản giải quyết tranh chấp"
+  ],
+  "extraction_notes": "Phát hiện 3 cờ đỏ nghiêm trọng. Confidence thấp do: (1) auto-renewal với notice period quá ngắn, (2) penalty không giới hạn, (3) liability cap bất cân xứng. Thiếu điều khoản giải quyết tranh chấp. Đã bật needs_human_review=true. Khuyến nghị: luật sư xem xét trước khi ký."
+}
