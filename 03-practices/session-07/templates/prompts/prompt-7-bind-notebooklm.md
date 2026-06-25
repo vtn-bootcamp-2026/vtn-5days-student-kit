@@ -1,18 +1,18 @@
 ---
 mo-ta: Prompt yêu cầu Antigravity tích hợp NotebookLM vào cấu hình của Agent (Source Routing + Call Skill)
 trang-thai: active
-phien-ban: v1.0
+phien-ban: v1.1
 created-at: 2026-06-25 07:15 +07:00
-updated-at: 2026-06-25 07:15 +07:00
+updated-at: 2026-06-25 07:44 +07:00
 ---
 
-# Prompt 6: Tích hợp NotebookLM vào gói cấu hình của tác nhân (Agent)
+# Prompt 7: Tích hợp NotebookLM vào gói cấu hình của tác nhân (Agent)
 
 Sao chép toàn bộ nội dung trong khung dưới đây và gửi cho trợ lý ảo Antigravity:
 
 ```markdown
 Chào Antigravity, tôi muốn thực hiện Lab C để tích hợp NotebookLM vào tác nhân nhân sự: HR-Policy Agent. Hãy giúp tôi chỉnh sửa tệp hướng dẫn kỹ năng `SKILL.md` và tệp cấu hình `skill.json` trong gói kỹ năng của nhóm tại:
-`outputs/skills/hr-policy-qa-skill/`
+`03-practice/session-07/outputs/skills/hr-policy-qa-skill/`
 
 Hãy thực hiện các yêu cầu sau:
 1. Trong tệp `SKILL.md`, hãy chèn thêm bước **Định tuyến nguồn (định tuyến nguồn: source routing)** vào sau bước phân loại ý định (Intake) và trước bước truy xuất thông tin (Retrieval):

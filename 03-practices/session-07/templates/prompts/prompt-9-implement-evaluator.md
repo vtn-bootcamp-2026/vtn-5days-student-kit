@@ -1,21 +1,21 @@
 ---
 mo-ta: Prompt yêu cầu Antigravity hoàn thiện script đánh giá evaluator.py với kiểm tra trích dẫn nguyên văn và fix logic chấm điểm
 trang-thai: active
-phien-ban: v1.0
+phien-ban: v1.1
 created-at: 2026-06-25 07:15 +07:00
-updated-at: 2026-06-25 07:15 +07:00
+updated-at: 2026-06-25 07:44 +07:00
 ---
 
-# Prompt 8: Hoàn thiện công cụ đánh giá tự động (Evaluator)
+# Prompt 9: Hoàn thiện công cụ đánh giá tự động (Evaluator)
 
 Sao chép toàn bộ nội dung trong khung dưới đây và gửi cho trợ lý ảo Antigravity:
 
 ```markdown
 Chào Antigravity, tôi muốn hoàn thành Lab D bằng cách triển khai công cụ đánh giá tự động (đánh giá tự động: auto-evaluation) cho hệ thống RAG của chúng tôi. Hãy giúp tôi sao chép và hoàn thiện kịch bản đánh giá `evaluator.py` tại thư mục:
-`outputs/skills/hr-policy-qa-skill/scripts/evaluator.py`
+`03-practice/session-07/outputs/skills/hr-policy-qa-skill/scripts/evaluator.py`
 
 Hãy thực hiện các công việc sau:
-1. Sao chép tệp mẫu `templates/skills/hr-policy-qa-skill/scripts/evaluator.py` sang thư mục đích `outputs/skills/hr-policy-qa-skill/scripts/evaluator.py` (nếu chưa có).
+1. Sao chép tệp mẫu `03-practice/session-07/templates/skills/hr-policy-qa-skill/scripts/evaluator.py` sang thư mục đích `03-practice/session-07/outputs/skills/hr-policy-qa-skill/scripts/evaluator.py` (nếu chưa có).
 2. Kiểm tra và hoàn thiện hàm đối chiếu trích dẫn nguyên văn `cross_check_citation(quote, source_chunks)`. Hàm này phải đảm bảo:
    - Dọn dẹp khoảng trắng và viết thường hóa chuỗi.
    - Tìm kiếm chuỗi khớp tuyệt đối (exact match) của trích dẫn `quote` trong các phân đoạn nguồn `source_chunks`.
