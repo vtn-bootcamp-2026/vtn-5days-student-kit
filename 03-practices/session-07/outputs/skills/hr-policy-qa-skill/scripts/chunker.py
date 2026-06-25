@@ -245,7 +245,7 @@ def populate_chromadb(
     # Attempt ChromaDB
     if HAS_CHROMADB:
         try:
-            client = chromadb.PersistentClient(path="kb/chroma_db")
+            client = chromadb.Client()
             collection = client.get_or_create_collection(
                 name=collection_name,
                 metadata={"description": "HR Policy chunks for Agentic RAG"},

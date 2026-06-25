@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uncledao.local/schemas/theme.schema.json",
+  "title": "UDDS Theme Schema v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "base": {
+      "$ref": "#/$defs/baseTheme"
+    },
+    "moods": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/mood"
+      }
+    },
+    "layout_templates": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/layoutTemplate"
+      }
+    },
+    "motifs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "prompt_aesthetic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "typography": {
+      "$ref": "#/$defs/typography"
+    },
+    "colors": {
+      "$ref": "#/$defs/colors"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "allOf": [
+    {
+      "anyOf": [
+        {
+          "required": [
+            "base"
+          ]
+        },
+        {
+          "required": [
+            "typography",
+            "colors"
+          ]
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "tokenOrColor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "typography": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "colors": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/tokenOrColor"
+      }
+    },
+    "baseTheme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "typography": {
+          "$ref": "#/$defs/typography"
+        },
+        "colors": {
+          "$ref": "#/$defs/colors"
+        }
+      },
+      "required": [
+        "typography",
+        "colors"
+      ]
+    },
+    "mood": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt_aesthetic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "icon_style": {
+          "type": "string",
+          "minLength": 1
+        },
+        "color_overrides": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/tokenOrColor"
+          }
+        }
+      },
+      "required": [
+        "prompt_aesthetic",
+        "icon_style",
+        "color_overrides"
+      ]
+    },
+    "layoutTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "structure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "best_for": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "name",
+        "file",
+        "purpose",
+        "structure",
+        "best_for"
+      ]
+    }
+  }
+}

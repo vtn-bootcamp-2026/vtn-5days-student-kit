@@ -1,0 +1,28 @@
+/* ==========================================================================
+   UDDS DESIGN SYSTEM CODES - AUTOMATICALLY COMPILED FOR THEME: VIETTEL
+   ========================================================================== */
+
+:root {
+  --background-primary: #FFFFFF;
+  --background-deep: #1A1A1A;
+  --surface-dark: #333333;
+  --surface-muted: #F2F2F2;
+  --surface-light: #F8F9FA;
+  --accent-primary: #EE0033;
+  --accent-on-light: #EE0033;
+  --text-primary-on-dark: #FFFFFF;
+  --text-primary-on-light: #1A1A1A;
+  --text-secondary: #666666;
+  --text-secondary-on-dark: #CCCCCC;
+  --divider-line: #E5E5E5;
+  --success: #008D4C;
+  --danger: #EE0033;
+  --font-heading: 'FS Magistral';
+  --font-body: Inter;
+  --body-weight-default: Medium;
+  --body-size-default: medium-large;
+  --small-text-allowed-for: ['sources', 'captions', 'metadata', 'legal footnotes'];
+  --font-mono: 'JetBrains Mono';
+  --font-assets: '{'FS Magistral Light': 'themes/viettel/04_Fonts/FS Magistral/FS Magistral-Light.ttf', 'FS Magistral Book': 'themes/viettel/04_Fonts/FS Magistral/FS Magistral-Book.ttf', 'FS Magistral Medium': 'themes/viettel/04_Fonts/FS Magistral/FS Magistral-Medium.ttf', 'FS Magistral Bold': 'themes/viettel/04_Fonts/FS Magistral/FS Magistral-Bold.ttf', 'FS Magistral ExtraBold': 'themes/viettel/04_Fonts/FS Magistral/FS Magistral-ExtraBold.ttf'}';
+  --font-reference-image: themes/viettel/04_Fonts/FS-Magistral-font-specimen.png;
+}

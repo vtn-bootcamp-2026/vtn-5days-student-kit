@@ -1,0 +1,119 @@
+{
+  "name": "Viettel",
+  "scope": "Hệ thống slide đào tạo, workshop và báo cáo kỹ thuật dành cho tập đoàn Viettel. Ngôn ngữ thiết kế hiện đại, tập trung vào công nghệ và con người.",
+  "base": {
+    "typography": {
+      "font-heading": "FS Magistral",
+      "font-body": "Inter",
+      "body-weight-default": "Medium",
+      "body-size-default": "medium-large",
+      "small-text-allowed-for": ["sources", "captions", "metadata", "legal footnotes"],
+      "font-mono": "JetBrains Mono",
+      "font-assets": {
+        "FS Magistral Light": "themes/viettel/04_Fonts/FS Magistral/FS Magistral-Light.ttf",
+        "FS Magistral Book": "themes/viettel/04_Fonts/FS Magistral/FS Magistral-Book.ttf",
+        "FS Magistral Medium": "themes/viettel/04_Fonts/FS Magistral/FS Magistral-Medium.ttf",
+        "FS Magistral Bold": "themes/viettel/04_Fonts/FS Magistral/FS Magistral-Bold.ttf",
+        "FS Magistral ExtraBold": "themes/viettel/04_Fonts/FS Magistral/FS Magistral-ExtraBold.ttf"
+      },
+      "font-reference-image": "themes/viettel/04_Fonts/FS-Magistral-font-specimen.png"
+    },
+    "colors": {
+      "background-primary": "#FFFFFF",
+      "background-deep": "#1A1A1A",
+      "surface-dark": "#333333",
+      "surface-muted": "#F2F2F2",
+      "surface-light": "#F8F9FA",
+      "accent-primary": "#EE0033",
+      "accent-on-light": "#EE0033",
+      "text-primary-on-dark": "#FFFFFF",
+      "text-primary-on-light": "#1A1A1A",
+      "text-secondary": "#666666",
+      "text-secondary-on-dark": "#CCCCCC",
+      "divider-line": "#E5E5E5",
+      "success": "#008D4C",
+      "danger": "#EE0033"
+    }
+  },
+  "moods": {
+    "bootcamp_training": {
+      "prompt_aesthetic": "Viettel corporate technology training style. Clean white backgrounds with strategic Viettel Red (#EE0033) accents. Features: High-tech grid patterns, professional business environment, people collaborating with AI, and sharp, clean layouts. The vibe is 'Technology with a soul', innovative, and reliable.",
+      "icon_style": "Tower, chip, network, user, shield, rocket, globe, brain, code, checkmark.",
+      "color_overrides": {}
+    },
+    "digital_future": {
+      "prompt_aesthetic": "Futuristic digital transformation theme for Viettel. Darker tech backgrounds with vibrant red data flows and white interface elements. Features: 5G/6G connectivity motifs, smart city data visualizations, and advanced AI architectures.",
+      "icon_style": "Signal, cloud, database, infinity, gear, pulse, search, message.",
+      "color_overrides": {
+        "background-primary": "#1A1A1A",
+        "text-primary-on-light": "#FFFFFF"
+      }
+    },
+    "high_tech": {
+      "prompt_aesthetic": "Viettel High-Tech R&D and manufacturing style. Features: precision engineering, clean-room laboratories, advanced microchips with glowing Viettel Red (#EE0033) circuitry, technical blueprints, 5G/6G network grids, and restrained industrial surfaces. Use sharp focus, disciplined whitespace, professional lighting, and a human-centric technology tone. Slides must have generous breathing room and strong contrast on white backgrounds: use true dark text/structure (#1A1A1A or #333333) and Viettel Red, avoiding pale gray text or low-opacity details that disappear into white. Body text should be medium-large and readable from distance; small text is reserved only for sources, captions, metadata, or legal footnotes.",
+      "icon_style": "Chip, robot, gear, database, terminal, microscope, satellite, bolt, shield.",
+      "color_overrides": {}
+    },
+    "networks": {
+      "prompt_aesthetic": "Viettel Networks telecom infrastructure style. Clean white technical-grid backgrounds with decisive Viettel Red (#EE0033) structural panels, black high-contrast typography, and precise network motifs. Features: fiber backbone, 5G transport, NOC/OSS intelligence, edge cloud, signal towers, routers, radar rings, node-link paths, and disciplined operational dashboards. The mood should feel reliable, mission-critical, high-performance, and ready for real network operations.",
+      "icon_style": "Signal tower, fiber cable, router, globe, node graph, shield, NOC dashboard, edge cloud, 5G, performance gauge, AI chip.",
+      "color_overrides": {}
+    },
+    "viettel_high_tech": {
+      "prompt_aesthetic": "Viettel High-Tech R&D and manufacturing style. Features: Precision engineering, clean room laboratories, advanced microchips with glowing Viettel Red (#EE0033) circuitry, and technical blueprints. Minimalist industrial aesthetic, sharp focus, professional lighting, reflecting cutting-edge innovation. Slides must have generous breathing room and strong contrast on white backgrounds: use true dark text/structure (#1A1A1A or #333333) and Viettel Red, avoiding pale gray text or low-opacity details that disappear into white. Body text should be medium-large and readable from distance; small text is reserved only for sources, captions, metadata, or legal footnotes.",
+      "icon_style": "Chip, robot, gear, database, terminal, microscope, satellite, bolt, shield.",
+      "color_overrides": {}
+    }
+  },
+  "layout_templates": {
+    "LT-21": {
+      "name": "Viettel Bootcamp Roadmap",
+      "file": "core/layout-skeletons/LT-21-A-Bootcamp-Roadmap.png",
+      "purpose": "Hiển thị lộ trình đào tạo hoặc tiến trình của học viên Viettel.",
+      "structure": "Lộ trình 6 bước với điểm nhấn màu đỏ Viettel cho bước hiện tại.",
+      "best_for": ["lộ trình khóa học", "tiến độ học tập"]
+    },
+    "LT-22": {
+      "name": "Viettel Workflow Steps",
+      "file": "core/layout-skeletons/LT-22-A-Workflow-Steps.png",
+      "purpose": "Giải thích quy trình kỹ thuật, luồng AI hoặc quy trình vận hành tại Viettel.",
+      "structure": "Sơ đồ khối 3-5 bước kết nối với các thẻ tiêu đề màu đỏ.",
+      "best_for": ["quy trình vận hành", "luồng xử lý AI", "hướng dẫn kỹ thuật"]
+    },
+    "LT-23": {
+      "name": "Viettel Guardrails Checklist",
+      "file": "core/layout-skeletons/LT-23-A-Guardrails-Checklist.png",
+      "purpose": "Quy định các hành vi được phép và bị cấm khi sử dụng AI tại Viettel.",
+      "structure": "Bảng so sánh hai cột: Nên làm (Xanh) / Không nên làm (Đỏ Viettel).",
+      "best_for": ["nguyên tắc an toàn AI", "quy định nội bộ", "checklist"]
+    },
+    "LT-24": {
+      "name": "Viettel Lab Activity",
+      "file": "core/layout-skeletons/LT-24-A-Lab-Activity.png",
+      "purpose": "Bắt đầu bài thực hành lab với mục tiêu và các bước thực hiện cụ thể.",
+      "structure": "Bố cục chia hai phần: Mục tiêu bài Lab bên trái và các bước thực hiện bên phải.",
+      "best_for": ["thực hành nhóm", "bài tập lab", "hoạt động tại lớp"]
+    },
+    "LT-25": {
+      "name": "Viettel Use Case Card",
+      "file": "core/layout-skeletons/LT-25-A-Use-Case-Card.png",
+      "purpose": "Trình bày các trường hợp sử dụng AI trong thực tế tại các đơn vị của Viettel.",
+      "structure": "Hệ thống 1-3 thẻ thông tin chi tiết về bài toán, giải pháp và kết quả.",
+      "best_for": ["catalog use case", "giải pháp kỹ thuật", "phân tích bài toán"]
+    },
+    "LT-26": {
+      "name": "Viettel Prompt Compare",
+      "file": "core/layout-skeletons/LT-26-A-Prompt-Compare.png",
+      "purpose": "So sánh giữa prompt chưa tối ưu và prompt đã được cải thiện.",
+      "structure": "Chia đôi màn hình 50/50 để thấy rõ sự khác biệt trước và sau khi tối ưu.",
+      "best_for": ["so sánh prompt", "trước và sau", "tối ưu hóa câu lệnh"]
+    },
+    "LT-28": {
+      "name": "Viettel Code Terminal",
+      "file": "core/layout-skeletons/LT-28-A-Code-Terminal.png",
+      "purpose": "Hiển thị các đoạn code, cấu hình JSON hoặc kết quả từ terminal.",
+      "structure": "Cửa sổ dòng lệnh lớn với font chữ monospace trên nền tối chuyên nghiệp.",
+      "best_for": ["ví dụ code", "cấu hình JSON", "kết quả hệ thống"]
+    }
+  }
+}

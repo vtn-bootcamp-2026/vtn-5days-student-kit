@@ -1,20 +1,43 @@
 ---
-mo-ta: Bảng kiểm kê tài liệu thuộc kho tri thức (kho tri thức: knowledge base - KB) cho Kỹ năng Hỏi đáp Chính sách Nhân sự
+mo-ta: danh muc tai lieu kho tri thuc HR Policy QA Skill
 trang-thai: active
 phien-ban: v1.0
-created-at: 2026-06-25 09:35 +07:00
-updated-at: 2026-06-25 09:35 +07:00
+created-at: 2026-05-27 17:00 +07:00
+updated-at: 2026-05-27 17:00 +07:00
 ---
 
-# Kiểm kê tri thức nhân sự
+# KB Inventory: Chính sách Nhân sự VinaTel Network
 
-Tài liệu này kiểm kê các tài liệu chính sách nhân sự (tài liệu chính sách: policy document) được sử dụng làm cơ sở tri thức cho Kỹ năng Hỏi đáp Chính sách Nhân sự (HR Policy QA Skill).
+## Danh mục tài liệu
 
-## Danh sách tài liệu tri thức
+| doc_id | Tên tài liệu | Phiên bản | Ngày hiệu lực | Chủ sở hữu | Chu kỳ rà soát | Trạng thái | Mức truy cập |
+|---|---|---|---|---|---|---|---|
+| POL-LEAVE-001 | Chính sách nghỉ phép | v2.1 | 2026-01-01 | Phòng HR | 12 tháng | active | public |
+| POL-ALLOW-001 | Chính sách phụ cấp | v1.3 | 2026-01-01 | Phòng HR | 12 tháng | active | public |
+| POL-SENIOR-001 | Chính sách thâm niên | v1.0 | 2026-01-01 | Phòng HR | 12 tháng | active | internal |
+| POL-TRAIN-001 | Chính sách đào tạo | v1.1 | 2026-03-01 | Phòng HR | 12 tháng | active | internal |
 
-| Mã tài liệu | Tên tài liệu | Đường dẫn tệp | Phạm vi bao phủ (phạm vi bao phủ: coverage scope) |
-| :--- | :--- | :--- | :--- |
-| **POL-LEAVE-001** | Chính sách nghỉ phép năm, nghỉ ốm và nghỉ thai sản | `kb/hr-policies/policy-leave.md` | Quy định chi tiết về số ngày phép năm theo thâm niên, cách xử lý ngày phép còn dư cuối năm, các chế độ nghỉ ốm hưởng bảo hiểm xã hội (bảo hiểm xã hội: social insurance), và chế độ nghỉ thai sản/nghỉ chế độ cho cả nam và nữ. |
-| **POL-ALLOW-001** | Chính sách phụ cấp ăn trưa, đi lại và điện thoại | `kb/hr-policies/policy-allowance.md` | Định nghĩa mức hỗ trợ phụ cấp ăn trưa hàng ngày cho từng đối tượng (chính thức, thử việc, thực tập sinh), hạn mức phụ cấp đi lại và điện thoại theo cấp bậc nhân sự, cùng với quy trình thủ tục thanh toán. |
-| **POL-SENIOR-001** | Chính sách thâm niên và thưởng thâm niên | `kb/hr-policies/policy-seniority.md` | Phân loại các bậc thâm niên làm việc từ 1 đến trên 15 năm, cách thức tính thời gian làm việc để xét thâm niên, và các mức thưởng thâm niên hàng năm cũng như quà tặng dịp kỷ niệm. |
-| **POL-TRAIN-001** | Chính sách đào tạo và phát triển nhân lực | `kb/hr-policies/policy-training.md` | Xác định định mức ngân sách đào tạo cá nhân hàng năm, quy trình phê duyệt các khóa học bên ngoài, thời gian cam kết làm việc sau đào tạo và cơ chế bồi hoàn chi phí nếu vi phạm cam kết. |
+## Quy tắc quản lý tài liệu
+
+1. Chi su dung tai lieu co `status: active` de tra loi cau hoi
+2. Neu co nhieu phien ban cung `doc_id`, lay phien ban moi nhat
+3. Tai lieu `access_level: internal` chi dung noi bo, khong gui ra ngoai
+4. Moi thay doi chinh sach can cap nhat `version` va `effective_date`
+5. Tai lieu het hieu luc (`status: expired`) khong duoc trich dan
+
+## Phạm vi bao phủ
+
+Kho tri thuc hien co bao gom cac nhom chinh sach:
+- Nghi phep (nam, om, thai san, khac)
+- Phu cap (an trua, di lai, dien thoai)
+- Tham nien (bac, thuong, quyen loi)
+- Dao tao (ngan sach, quy trinh, cam ket)
+
+**Chua co (out-of-scope):**
+- Bảo hiểm xã hội / BHYT
+- Chuyển công tác / Điều động
+- Kỷ luật / Sa thải
+- Lương thưởng KPI
+- Làm thêm giờ / Overtime
+- Làm việc từ xa / Remote
+- Thử việc / Quy định thử việc (riêng biệt)

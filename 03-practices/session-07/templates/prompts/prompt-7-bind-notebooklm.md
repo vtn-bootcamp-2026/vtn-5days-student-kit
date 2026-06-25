@@ -1,9 +1,9 @@
 ---
 mo-ta: Prompt yêu cầu Antigravity tích hợp NotebookLM vào cấu hình của Agent (Source Routing + Call Skill)
 trang-thai: active
-phien-ban: v1.2
+phien-ban: v1.1
 created-at: 2026-06-25 07:15 +07:00
-updated-at: 2026-06-25 13:45 +07:00
+updated-at: 2026-06-25 07:44 +07:00
 ---
 
 # Prompt 7: Tích hợp NotebookLM vào gói cấu hình của tác nhân (Agent)
@@ -17,7 +17,7 @@ Chào Antigravity, tôi muốn thực hiện Lab C để tích hợp NotebookLM 
 Hãy thực hiện các yêu cầu sau:
 1. Trong tệp `SKILL.md`, hãy chèn thêm bước **Định tuyến nguồn (định tuyến nguồn: source routing)** vào sau bước phân loại ý định (Intake) và trước bước truy xuất thông tin (Retrieval):
    - Nếu câu hỏi thuộc phạm vi 4 tệp chính sách cốt lõi (dữ liệu nhỏ) hoặc cần độ chính xác từ khóa tuyệt đối -> Sử dụng bộ truy xuất lai `retriever.py` cục bộ (local hybrid retriever).
-   - Nếu câu hỏi phức tạp, quy mô lớn liên quan đến toàn bộ sổ tay nhân sự, các phụ lục chi tiết và tài liệu mở rộng -> Gọi kỹ năng tích hợp NotebookLM: `vibe-notebooklm-orchestrator` để truy xuất từ cloud notebook "HR-Policy Knowledge Base — Viettel Network" tại địa chỉ https://notebooklm.google.com/notebook/db35d68b-0961-4b14-b249-0d78d7239a83?authuser=2.
+   - Nếu câu hỏi phức tạp, quy mô lớn liên quan đến toàn bộ sổ tay nhân sự, các phụ lục chi tiết và tài liệu mở rộng -> Gọi kỹ năng tích hợp NotebookLM: `vibe-notebooklm-orchestrator` để truy xuất từ cloud notebook "HR-Policy Knowledge Base — Viettel Network".
    - Nếu câu hỏi mơ hồ, thực hiện chạy cục bộ trước, nếu bị từ chối (refused) thì chuyển sang NotebookLM làm phương án dự phòng.
 2. Trong tệp `skill.json`, hãy cập nhật trường quyền hạn `permissions` để cho phép tác nhân gọi kỹ năng ngoài:
    ```json

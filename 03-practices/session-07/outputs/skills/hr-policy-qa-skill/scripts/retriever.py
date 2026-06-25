@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-retriever.py — Hybrid Retrieval Tool for HR Policy Agentic RAG.
+retriever.py — Hybrid Retrieval Tool for HR Policy Agentic RAG (Lab A hoàn chỉnh).
 
-Provides vector search via ChromaDB with automatic fallback to keyword-based
-TF-IDF matching when ChromaDB is unavailable. Score normalisation and refusal
-threshold ensure the Agent only receives high-quality context.
+Hybrid thật sự: vector (ChromaDB, nghĩa) + BM25 (SQLite-FTS5, từ khóa), ghép bằng
+RRF (Reciprocal Rank Fusion). Fallback tự động:
+  - ChromaDB thiếu        -> chỉ BM25
+  - SQLite-FTS5 tắt       -> rank_bm25 (thuần Python)
+  - Cả hai rỗng            -> refused
 
 Supports Vietnamese text.
 
@@ -14,8 +16,8 @@ Usage:
 """
 
 import argparse
-import concurrent.futures
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -43,12 +45,27 @@ except ImportError:
     HAS_SENTENCE_TRANSFORMERS = False
     _EMBEDDING_MODEL = None
 
+# rank_bm25: fallback thuần Python khi SQLite-FTS5 không bật
 try:
     from rank_bm25 import BM25Okapi
+
     HAS_RANK_BM25 = True
 except ImportError:
     HAS_RANK_BM25 = False
 
+
+def _fts5_available() -> bool:
+    """Kiểm tra build SQLite hiện tại có bật FTS5 không."""
+    try:
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE VIRTUAL TABLE t USING fts5(x)")
+        conn.close()
+        return True
+    except sqlite3.OperationalError:
+        return False
+
+
+HAS_FTS5 = _fts5_available()
 
 
 # ---------------------------------------------------------------------------
@@ -64,6 +81,9 @@ KEYWORD_SCORE_MAX = 0.5
 # Refusal thresholds
 VECTOR_REFUSAL_THRESHOLD = 0.3
 KEYWORD_REFUSAL_THRESHOLD = 0.01
+
+# RRF (Reciprocal Rank Fusion) — Lab A bước A2
+RRF_K = 60  # hằng số chuẩn, k≈60 (Cormack et al., 2009)
 
 
 # ---------------------------------------------------------------------------
@@ -233,241 +253,168 @@ def keyword_search(
     return results
 
 
-def build_fts_index(chunks: list[dict[str, Any]], db_path: str = "kb/fts5.db") -> Any:
-    """Build keyword search index using SQLite FTS5 or fallback to rank_bm25."""
-    if db_path != ":memory:":
-        if db_path == "kb/fts5.db":
-            script_dir = Path(__file__).resolve().parent
-            db_path = str((script_dir / ".." / "kb" / "fts5.db").resolve())
-        Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+# ---------------------------------------------------------------------------
+# BM25 search (SQLite-FTS5, fallback rank_bm25) — Lab A bước A1
+# ---------------------------------------------------------------------------
 
-    has_fts5 = False
-    try:
-        # Check SQLite FTS5 support dynamically
-        import sqlite3
-        conn = sqlite3.connect(":memory:")
-        conn.execute("CREATE VIRTUAL TABLE test USING fts5(content);")
-        has_fts5 = True
-    except Exception:
-        has_fts5 = False
-
-    if has_fts5:
-        try:
-            import sqlite3
-            conn = sqlite3.connect(db_path, check_same_thread=False)
-            cursor = conn.cursor()
-            cursor.execute("DROP TABLE IF EXISTS chunks_fts;")
-            cursor.execute("""
-                CREATE VIRTUAL TABLE chunks_fts USING fts5(
-                    chunk_id,
-                    doc_id,
-                    section,
-                    content
-                );
-            """)
-            for chunk in chunks:
-                cursor.execute(
-                    "INSERT INTO chunks_fts (chunk_id, doc_id, section, content) VALUES (?, ?, ?, ?);",
-                    (
-                        chunk.get("chunk_id", ""),
-                        chunk.get("doc_id", ""),
-                        chunk.get("section", ""),
-                        chunk.get("content", "")
-                    )
-                )
-            conn.commit()
-            return {"type": "fts5", "connection": conn, "db_path": db_path}
-        except Exception as e:
-            print(f"[retriever] Error building SQLite FTS5 index: {e}. Falling back to rank_bm25.")
-    
-    # Fallback to rank_bm25
-    if HAS_RANK_BM25:
-        tokenized_corpus = [c.get("content", "").lower().split() for c in chunks]
-        bm25 = BM25Okapi(tokenized_corpus)
-        return {"type": "rank_bm25", "index": bm25, "chunks": chunks}
-    
-    # Ultimate fallback to simple TF-IDF (which operates directly on raw chunks)
-    return {"type": "simple_tfidf", "chunks": chunks}
+_FTS_CACHE: dict[str, tuple] = {}  # db_path -> (conn,) | (bm25_index, chunk_ids)
 
 
-def bm25_search(
-    conn_or_index: Any,
-    query: str,
-    top_k: int = 3,
-) -> list[dict[str, Any]]:
-    """Search for query using BM25.
-    
-    Supports SQLite FTS5 (if conn_or_index type is 'fts5' or is a sqlite3.Connection),
-    or rank_bm25 (if type is 'rank_bm25'),
-    or simple_tfidf (if type is 'simple_tfidf').
-    
-    Returns list of result dicts: {chunk_id, content, metadata, score, method}.
-    Scores are normalised to [0, 1].
+def _tokenize(text: str) -> list[str]:
+    """Tokenizer nhẹ cho tiếng Việt: giữ chữ/ số/ dấu, bỏ dấu câu."""
+    return re.findall(r"[0-9A-Za-zÀ-ỹ]+", text.lower())
+
+
+def _fts_match_query(query: str) -> str:
+    """Chuyển query tự do sang cú pháp FTS5 MATCH an toàn (token OR token)."""
+    tokens = _tokenize(query)
+    if not tokens:
+        return ""
+    return " OR ".join(tokens)
+
+
+def build_fts_index(chunks: list[dict[str, Any]], db_path: str = "kb/fts5.db"):
+    """Tạo index BM25 từ chunks.
+
+    Ưu tiên SQLite-FTS5 (built-in, nhanh). Nếu build SQLite không bật FTS5
+    -> fallback `rank_bm25` (BM25Okapi, thuần Python). Trả về một "index handle"
+    mà `bm25_search` biết cách dùng: (conn, "fts5") hoặc (bm25, "rank_bm25").
     """
-    if not conn_or_index:
+    if db_path in _FTS_CACHE:
+        return _FTS_CACHE[db_path]
+
+    # Đảm bảo thư mục cha tồn tại
+    Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+
+    if HAS_FTS5:
+        conn = sqlite3.connect(db_path)
+        conn.execute("DROP TABLE IF EXISTS policy_fts")
+        conn.execute(
+            "CREATE VIRTUAL TABLE policy_fts USING fts5"
+            "(content, doc_id UNINDEXED, section UNINDEXED, chunk_id UNINDEXED)"
+        )
+        for c in chunks:
+            conn.execute(
+                "INSERT INTO policy_fts(content, doc_id, section, chunk_id) VALUES (?,?,?,?)",
+                (c.get("content", ""), c.get("doc_id", ""), c.get("section", ""), c.get("chunk_id", "")),
+            )
+        conn.commit()
+        handle = (conn, "fts5")
+    elif HAS_RANK_BM25:
+        corpus_tokens = [_tokenize(c.get("content", "")) for c in chunks]
+        bm25 = BM25Okapi(corpus_tokens)
+        handle = (bm25, "rank_bm25", chunks)
+    else:
+        # Fallback cuối: TF-IDF (dùng keyword_search)
+        handle = (None, "none")
+
+    _FTS_CACHE[db_path] = handle
+    return handle
+
+
+def bm25_search(index_handle, query: str, top_k: int = 3) -> list[dict[str, Any]]:
+    """Tìm top-k chunk theo BM25. `index_handle` từ `build_fts_index`.
+
+    bm25() của SQLite trả score (càng âm càng liên quan) -> ta giữ nguyên để sort,
+    rồi chuẩn hóa về [0,1] theo rank để RRF dùng.
+    """
+    if index_handle is None:
         return []
-    
-    # Check index type
-    is_fts5 = False
-    conn = None
-    if isinstance(conn_or_index, sqlite3.Connection):
-        conn = conn_or_index
-        is_fts5 = True
-    elif isinstance(conn_or_index, dict) and conn_or_index.get("type") == "fts5":
-        conn = conn_or_index["connection"]
-        is_fts5 = True
+    backend = index_handle[1]
 
-    # 1. SQLite FTS5 Search
-    if is_fts5 and conn is not None:
-        import re
-        words = re.findall(r'\w+', query.lower())
-        if not words:
+    if backend == "fts5":
+        conn = index_handle[0]
+        match = _fts_match_query(query)
+        if not match:
             return []
-        # Safe escaping by double quoting each word and joining with OR
-        fts_query = " OR ".join(f'"{w}"' for w in words)
-        
-        try:
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT chunk_id, doc_id, section, content, bm25(chunks_fts)
-                FROM chunks_fts
-                WHERE chunks_fts MATCH ?
-                ORDER BY bm25(chunks_fts) ASC
-                LIMIT ?;
-            """, (fts_query, top_k))
-            rows = cursor.fetchall()
-            
-            if not rows:
-                return []
-            
-            raw_results = []
-            for row in rows:
-                chunk_id, doc_id, section, content, raw_score = row
-                raw_results.append({
-                    "chunk_id": chunk_id,
-                    "content": content,
-                    "metadata": {
-                        "doc_id": doc_id,
-                        "section": section,
-                    },
-                    "raw_score": raw_score,
-                })
-            
-            # Normalise negative BM25 score to [0, 1] range: y_i = max(0, -raw_score), norm = y_i / max_y
-            y_vals = [max(0.0, -r["raw_score"]) for r in raw_results]
-            max_y = max(y_vals) if y_vals else 0.0
-            
-            results = []
-            for r, y in zip(raw_results, y_vals):
-                norm_score = (y / max_y) if max_y > 0 else 0.0
-                if norm_score < KEYWORD_REFUSAL_THRESHOLD:
-                    continue
-                results.append({
-                    "chunk_id": r["chunk_id"],
-                    "content": r["content"],
-                    "metadata": r["metadata"],
-                    "score": round(norm_score, 4),
-                    "method": "bm25_fts5",
-                })
-            return results
-        except Exception as e:
-            print(f"[retriever] SQLite FTS5 search error: {e}")
-            return []
+        rows = conn.execute(
+            "SELECT chunk_id, doc_id, section, content, bm25(policy_fts) AS score "
+            "FROM policy_fts WHERE policy_fts MATCH ? ORDER BY score LIMIT ?",
+            (match, top_k),
+        ).fetchall()
+        ranked = [
+            {"chunk_id": r[0], "doc_id": r[1], "section": r[2], "content": r[3], "_raw": r[4]}
+            for r in rows
+        ]
+    elif backend == "rank_bm25":
+        bm25, chunks = index_handle[0], index_handle[2]
+        scores = bm25.get_scores(_tokenize(query))
+        order = sorted(range(len(scores)), key=lambda i: -scores[i])[:top_k]
+        ranked = [
+            {
+                "chunk_id": chunks[i].get("chunk_id", ""),
+                "doc_id": chunks[i].get("doc_id", ""),
+                "section": chunks[i].get("section", ""),
+                "content": chunks[i].get("content", ""),
+                "_raw": float(scores[i]),
+            }
+            for i in order
+            if scores[i] > 0
+        ]
+    else:
+        return []
 
-    # 2. rank_bm25 Search
-    elif isinstance(conn_or_index, dict) and conn_or_index.get("type") == "rank_bm25":
-        bm25_obj = conn_or_index["index"]
-        chunks = conn_or_index["chunks"]
-        
-        tokenized_query = query.lower().split()
-        if not tokenized_query:
-            return []
-            
-        raw_scores = bm25_obj.get_scores(tokenized_query)
-        scored_chunks = []
-        for idx, score in enumerate(raw_scores):
-            if score > 0:
-                scored_chunks.append((score, chunks[idx]))
-                
-        scored_chunks.sort(key=lambda x: x[0], reverse=True)
-        top_chunks = scored_chunks[:top_k]
-        
-        if not top_chunks:
-            return []
-            
-        max_score = max(x[0] for x in top_chunks) if top_chunks else 0.0
-        
-        results = []
-        for score, chunk in top_chunks:
-            norm_score = (score / max_score) if max_score > 0 else 0.0
-            if norm_score < KEYWORD_REFUSAL_THRESHOLD:
-                continue
-            results.append({
-                "chunk_id": chunk.get("chunk_id", "unknown"),
-                "content": chunk.get("content", ""),
-                "metadata": {
-                    k: v
-                    for k, v in chunk.items()
-                    if k not in ("content",)
-                },
-                "score": round(norm_score, 4),
-                "method": "bm25_library",
-            })
-        return results
+    # Chuẩn hóa score về [0,1] theo rank (rank 1 = 1.0) — chỉ để hiển thị/báo cáo
+    for rank, hit in enumerate(ranked, start=1):
+        hit["bm25_rank"] = rank
+        hit["bm25_score"] = round(1.0 / rank, 4)
+    return ranked
 
-    # 3. simple_tfidf fallback search
-    elif isinstance(conn_or_index, dict) and conn_or_index.get("type") == "simple_tfidf":
-        chunks = conn_or_index["chunks"]
-        return keyword_search(query, chunks, top_k)
-        
-    return []
 
+# ---------------------------------------------------------------------------
+# RRF (Reciprocal Rank Fusion) — Lab A bước A2
+# ---------------------------------------------------------------------------
 
 def rrf_fuse(
     vector_hits: list[dict[str, Any]],
     bm25_hits: list[dict[str, Any]],
-    k: int = 60,
+    k: int = RRF_K,
     top_k: int = 3,
 ) -> list[dict[str, Any]]:
-    """Reciprocal Rank Fusion (RRF) to combine vector and keyword search results.
-    
-    Formula: score(d) = sum(1 / (k + rank_i(d)))
-    """
-    rrf_scores: dict[str, float] = {}
-    chunk_map: dict[str, dict[str, Any]] = {}
-    
-    # Process vector hits
-    for rank, hit in enumerate(vector_hits, start=1):
-        chunk_id = hit["chunk_id"]
-        rrf_scores[chunk_id] = rrf_scores.get(chunk_id, 0.0) + (1.0 / (k + rank))
-        chunk_map[chunk_id] = hit
+    """Ghép 2 ranked list bằng RRF — không cần chuẩn hóa điểm giữa 2 hệ.
 
-    # Process bm25 hits
+    score(d) = Σ 1 / (k + rank_i(d))
+    """
+    scores: dict[str, float] = {}
+    payload: dict[str, dict[str, Any]] = {}
+
+    def _norm(hit: dict[str, Any]) -> dict[str, Any]:
+        """Chuẩn hóa hit (vector có nested metadata, bm25 flat) về cùng dạng flat."""
+        meta = hit.get("metadata", {})
+        return {
+            "chunk_id": hit.get("chunk_id") or meta.get("chunk_id", ""),
+            "doc_id": hit.get("doc_id") or meta.get("doc_id", ""),
+            "section": hit.get("section") or meta.get("section", ""),
+            "content": hit.get("content", ""),
+        }
+
+    for rank, hit in enumerate(vector_hits, start=1):
+        cid = _norm(hit)["chunk_id"]
+        if not cid:
+            continue
+        scores[cid] = scores.get(cid, 0.0) + 1.0 / (k + rank)
+        payload.setdefault(cid, _norm(hit))
+
     for rank, hit in enumerate(bm25_hits, start=1):
-        chunk_id = hit["chunk_id"]
-        rrf_scores[chunk_id] = rrf_scores.get(chunk_id, 0.0) + (1.0 / (k + rank))
-        if chunk_id not in chunk_map:
-            chunk_map[chunk_id] = hit
-            
-    # Sort chunks by RRF score descending
-    sorted_chunks = sorted(rrf_scores.keys(), key=lambda cid: rrf_scores[cid], reverse=True)
-    
-    fused_results: list[dict[str, Any]] = []
-    for cid in sorted_chunks[:top_k]:
-        hit = chunk_map[cid]
-        fused_results.append({
-            "chunk_id": cid,
-            "content": hit["content"],
-            "metadata": hit.get("metadata", {}),
-            "score": round(rrf_scores[cid], 6),
-            "method": "hybrid_rrf",
-        })
-        
-    return fused_results
+        cid = _norm(hit)["chunk_id"]
+        if not cid:
+            continue
+        scores[cid] = scores.get(cid, 0.0) + 1.0 / (k + rank)
+        payload.setdefault(cid, _norm(hit))
+
+    ordered = sorted(scores.items(), key=lambda x: -x[1])[:top_k]
+    fused: list[dict[str, Any]] = []
+    for cid, score in ordered:
+        item = dict(payload[cid])
+        item["chunk_id"] = cid
+        item["score"] = round(score, 4)
+        item["rrf_score"] = round(score, 4)
+        fused.append(item)
+    return fused
 
 
 # ---------------------------------------------------------------------------
-# Main retrieval function
+# Main retrieval function — HYBRID (vector + BM25 -> RRF)
 # ---------------------------------------------------------------------------
 
 def retrieve_chunks(
@@ -475,79 +422,66 @@ def retrieve_chunks(
     top_k: int = 3,
     chroma_collection=None,
     chunks_data: Optional[list[dict[str, Any]]] = None,
-    fts_index: Optional[Any] = None,
+    fts_db_path: str = "kb/fts5.db",
 ) -> dict[str, Any]:
-    """Hybrid retrieval: runs vector search and SQLite-FTS5/BM25 keyword search in parallel,
-    then applies Reciprocal Rank Fusion (RRF) to merge and rank results.
+    """Hybrid retrieval thật: vector (nghĩa) + BM25 (từ khóa) -> RRF.
 
-    Returns a dict with keys:
-        results  — list of scored chunks
-        method   — "hybrid", "vector", "keyword", or "none"
-        refused  — True if no results met the quality threshold
-        query    — the original query
+    Chiến lược:
+      1. vector_search (ChromaDB) nếu có collection.
+      2. bm25_search (FTS5 / rank_bm25) nếu có chunks_data.
+      3. RRF fuse 2 ranked list -> top_k.
+      4. Nếu chỉ 1 phía có kết quả -> dùng suất đó (vector-only hoặc bm25-only).
+      5. Nếu cả hai rỗng -> refused.
+
+    Returns dict: results, method ("hybrid"|"vector"|"bm25"|"none"),
+                  refused, query.
     """
-    # 1. Build FTS index dynamically if not provided but chunks_data is present
-    created_fts_dynamically = False
-    if fts_index is None and chunks_data:
-        fts_index = build_fts_index(chunks_data)
-        created_fts_dynamically = True
-
-    # 2. Run searches in parallel
-    vector_hits = []
+    vector_hits = vector_search(query, chroma_collection, top_k) if chroma_collection is not None else []
     bm25_hits = []
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-        futures = {}
-        if chroma_collection is not None:
-            futures["vector"] = executor.submit(vector_search, query, chroma_collection, top_k)
-        if fts_index is not None:
-            futures["bm25"] = executor.submit(bm25_search, fts_index, query, top_k)
-
-        # Wait and extract results
-        if "vector" in futures:
-            try:
-                vector_hits = futures["vector"].result()
-            except Exception as exc:
-                print(f"[retriever] Vector search thread error: {exc}")
-        if "bm25" in futures:
-            try:
-                bm25_hits = futures["bm25"].result()
-            except Exception as exc:
-                print(f"[retriever] BM25 search thread error: {exc}")
-
-    # 3. Clean up FTS connection if created dynamically to avoid file locks
-    if created_fts_dynamically and isinstance(fts_index, dict) and fts_index.get("type") == "fts5":
-        try:
-            fts_index["connection"].close()
-        except Exception:
-            pass
-
-    # 4. Fuse results using RRF
-    fused_results = rrf_fuse(vector_hits, bm25_hits, k=60, top_k=top_k)
-
-    # 5. Return results or refuse if empty
-    if fused_results:
-        # Determine effective method
-        if vector_hits and bm25_hits:
-            method = "hybrid"
-        elif vector_hits:
-            method = "vector"
+    if chunks_data:
+        index_handle = build_fts_index(chunks_data, fts_db_path)
+        if index_handle[1] == "none":
+            # FTS5 + rank_bm25 đều thiếu -> dùng keyword TF-IDF cũ
+            bm25_hits = keyword_search(query, chunks_data, top_k)
         else:
-            method = "keyword"
+            bm25_hits = bm25_search(index_handle, query, top_k)
 
-        return {
-            "results": fused_results,
-            "method": method,
-            "refused": False,
-            "query": query,
-        }
+    # RRF fuse khi CẢ hai phía đều có kết quả
+    if vector_hits and bm25_hits:
+        fused = rrf_fuse(vector_hits, bm25_hits, k=RRF_K, top_k=top_k)
+        # chuẩn hóa định dạng kết quả
+        results = []
+        for r in fused:
+            meta = {k: v for k, v in r.items() if k not in ("content", "_raw", "score", "rrf_score")}
+            results.append({
+                "chunk_id": r.get("chunk_id", "unknown"),
+                "content": r.get("content", ""),
+                "metadata": meta,
+                "score": r.get("rrf_score", 0),
+                "method": "hybrid",
+            })
+        return {"results": results, "method": "hybrid", "refused": False, "query": query}
 
-    return {
-        "results": [],
-        "method": "none",
-        "refused": True,
-        "query": query,
-    }
+    # Chỉ vector
+    if vector_hits:
+        return {"results": vector_hits, "method": "vector", "refused": False, "query": query}
+
+    # Chỉ BM25
+    if bm25_hits:
+        results = []
+        for r in bm25_hits:
+            meta = {k: v for k, v in r.items() if k not in ("content", "_raw", "score", "bm25_score", "bm25_rank")}
+            results.append({
+                "chunk_id": r.get("chunk_id", "unknown"),
+                "content": r.get("content", ""),
+                "metadata": meta,
+                "score": r.get("bm25_score", 0),
+                "method": "bm25",
+            })
+        return {"results": results, "method": "bm25", "refused": False, "query": query}
+
+    # Cả hai rỗng -> refused
+    return {"results": [], "method": "none", "refused": True, "query": query}
 
 
 # ---------------------------------------------------------------------------
@@ -625,11 +559,11 @@ def main():
 
     args = parser.parse_args()
 
-    # Try to connect to ChromaDB using persistent client
+    # Try to connect to ChromaDB
     chroma_collection = None
     if HAS_CHROMADB:
         try:
-            client = chromadb.PersistentClient(path="kb/chroma_db")
+            client = chromadb.Client()
             chroma_collection = client.get_or_create_collection(args.collection)
         except Exception as exc:
             print(f"[retriever] ChromaDB unavailable ({exc}), using keyword fallback.")
@@ -637,24 +571,13 @@ def main():
     # Load chunks data for keyword fallback
     chunks_data = _load_chunks_from_file(args.chunks)
 
-    # Build FTS index
-    fts_index = build_fts_index(chunks_data) if chunks_data else None
-
     # Retrieve
     result = retrieve_chunks(
         query=args.query,
         top_k=args.top_k,
         chroma_collection=chroma_collection,
         chunks_data=chunks_data,
-        fts_index=fts_index,
     )
-
-    # Clean up FTS connection in main CLI
-    if fts_index and fts_index.get("type") == "fts5":
-        try:
-            fts_index["connection"].close()
-        except Exception:
-            pass
 
     # Output
     formatted = format_retrieval_results(result)

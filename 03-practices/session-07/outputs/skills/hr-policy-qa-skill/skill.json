@@ -1,32 +1,51 @@
 {
   "name": "hr-policy-qa-skill",
   "version": "1.0.0",
-  "description": "Agentic RAG Skill: Trợ lý hỏi đáp chính sách nhân sự tự trị với trích dẫn nguồn và tự kiểm duyệt",
-  "author": "Nhóm 3 - Viettel Network",
-  "created_at": "2026-06-25",
+  "description": "Agentic RAG Skill: Tro ly hoi dap chinh sach nhan su tu tri voi trich dan nguon va tu kiem duyet",
+  "author": "Viettel Network AI Builders Bootcamp",
+  "created_at": "2026-05-27",
   "triggers": {
-    "keywords": ["nghỉ phép", "phụ cấp", "thâm niên", "đào tạo", "chính sách", "nhân sự", "HR", "Viettel Network", "quy chế nội bộ", "chế độ phúc lợi"],
-    "question_patterns": ["câu hỏi về chính sách HR", "hỏi về quy định nhân sự", "chính sách nhân sự Viettel Network", "chế độ phúc lợi Viettel Network", "quy chế nội bộ nhân sự"]
+    "keywords": ["nghi phep", "phu cap", "tham nien", "dao tao", "chinh sach", "nhan su", "HR", "nghi", "tro cap", "thuong"],
+    "question_patterns": [
+      "Cau hoi ve quyen loi nhan vien",
+      "Hoi ve quy dinh nhan su",
+      "Cau hoi ve che do HR"
+    ]
   },
   "permissions": {
-    "read_files": ["kb/hr-policies/*.md", "kb/kb-inventory.md"],
+    "read_files": [
+      "kb/hr-policies/*.md",
+      "kb/kb-inventory.md"
+    ],
     "write_files": [],
-    "execute_scripts": ["scripts/chunker.py", "scripts/retriever.py", "scripts/evaluator.py"],
+    "execute_scripts": [
+      "scripts/chunker.py",
+      "scripts/retriever.py",
+      "scripts/evaluator.py"
+    ],
     "network_access": true
   },
   "required_files": {
     "config": "skill.json",
     "instructions": "SKILL.md",
     "schema": "schemas/hr-response.schema.json",
-    "knowledge_base": ["kb/kb-inventory.md", "kb/hr-policies/"],
-    "scripts": ["scripts/chunker.py", "scripts/retriever.py", "scripts/evaluator.py"]
+    "knowledge_base": [
+      "kb/kb-inventory.md",
+      "kb/hr-policies/"
+    ],
+    "scripts": [
+      "scripts/chunker.py",
+      "scripts/retriever.py",
+      "scripts/evaluator.py"
+    ]
   },
   "quality_gates": {
-    "min_in_scope_accuracy": ">=75%",
-    "out_of_scope_refusal": "100%",
+    "min_in_scope_accuracy": ">=75% (6/8)",
+    "out_of_scope_refusal": "100% (2/2)",
     "citation_rate": ">=90%",
     "no_hallucinated_citations": "100%",
     "self_check_success": ">=80%",
-    "skill_package_completeness": "8/8 files"
+    "skill_package_completeness": "8/8 files",
+    "cross_team_run": ">=1 other team"
   }
 }

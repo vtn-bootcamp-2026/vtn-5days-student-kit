@@ -1,0 +1,368 @@
+{
+  "settings": {
+    "units": "inches",
+    "slide_width": 13.333,
+    "slide_height": 7.5,
+    "default_fonts": {
+      "heading": "Montserrat",
+      "body": "Open Sans"
+    }
+  },
+  "layouts": {
+    "LT-01": {
+      "name": "Agenda",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "items": { "x": 1.0, "y": 2.2, "w": 11, "h": 4.5, "font_size": 24, "color": "secondary" }
+      }
+    },
+    "LT-02": {
+      "name": "One insight",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "insight": { "x": 0.5, "y": 1.5, "w": 7.5, "h": 2.5, "font_size": 40, "bold": true, "color": "primary" },
+        "sub_insight": { "x": 0.5, "y": 4.2, "w": 7.5, "h": 1.5, "font_size": 20, "color": "secondary" },
+        "side_panel": { "x": 8.5, "y": 1.5, "w": 4, "h": 4, "font_size": 22, "color": "primary", "align": "center" }
+      }
+    },
+    "LT-03": {
+      "name": "Three-point",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "point_1": { "x": 0.5, "y": 2.5, "w": 3.8, "h": 4, "font_size": 20, "color": "primary" },
+        "point_2": { "x": 4.7, "y": 2.5, "w": 3.8, "h": 4, "font_size": 20, "color": "primary" },
+        "point_3": { "x": 8.9, "y": 2.5, "w": 3.8, "h": 4, "font_size": 20, "color": "primary" }
+      }
+    },
+    "LT-04": {
+      "name": "Two-column comparison",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "left_column": { "x": 0.5, "y": 2.2, "w": 6, "h": 4.5, "font_size": 22, "color": "primary" },
+        "right_column": { "x": 6.8, "y": 2.2, "w": 6, "h": 4.5, "font_size": 22, "color": "white" }
+      }
+    },
+    "LT-05": {
+      "name": "Framework or model",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "main_content": { "x": 0.5, "y": 2.0, "w": 12.3, "h": 5, "font_size": 18, "color": "primary" }
+      }
+    },
+    "LT-06": {
+      "name": "Data or chart",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "chart_label": { "x": 0.5, "y": 6.5, "w": 12, "h": 0.5, "font_size": 14, "italic": true, "color": "muted" }
+      }
+    },
+    "LT-07": {
+      "name": "Quote",
+      "zones": {
+        "quote": { "x": 1.5, "y": 2.0, "w": 10.3, "h": 3, "font_size": 36, "italic": true, "bold": true, "color": "primary", "align": "center" },
+        "author": { "x": 1.5, "y": 5.2, "w": 10.3, "h": 0.8, "font_size": 20, "color": "accent", "align": "center" }
+      }
+    },
+    "LT-08": {
+      "name": "Case study",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "context": { "x": 0.5, "y": 2.2, "w": 6, "h": 4.5, "font_size": 18, "color": "primary" },
+        "result": { "x": 6.8, "y": 2.2, "w": 6, "h": 4.5, "font_size": 22, "bold": true, "color": "accent" }
+      }
+    },
+    "LT-09": {
+      "name": "Action plan",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "steps": { "x": 1.0, "y": 2.2, "w": 11, "h": 4.5, "font_size": 20, "color": "primary" }
+      }
+    },
+    "LT-10-A": {
+      "name": "Image Left",
+      "zones": {
+        "title": { "x": 6.8, "y": 1.0, "w": 6, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 6.8, "y": 2.0, "w": 6, "h": 5, "font_size": 18, "color": "primary" },
+        "side_image": { "x": 0, "y": 0, "w": 6.3, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-10-B": {
+      "name": "Image Right",
+      "zones": {
+        "title": { "x": 0.5, "y": 1.0, "w": 6, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 0.5, "y": 2.0, "w": 6, "h": 5, "font_size": 18, "color": "primary" },
+        "side_image": { "x": 6.8, "y": 0, "w": 6.5, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-10-C": {
+      "name": "Full Image Overlay",
+      "zones": {
+        "overlay_text": { "x": 1.5, "y": 3.0, "w": 10.3, "h": 1.5, "font_size": 32, "bold": true, "color": "white", "align": "center" },
+        "background_image": { "x": 0, "y": 0, "w": 13.333, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-10-D": {
+      "name": "Split Image With Text",
+      "zones": {
+        "title": { "x": 0.5, "y": 0.5, "w": 12.3, "h": 0.8, "font_size": 28, "bold": true, "color": "primary", "align": "center" },
+        "content": { "x": 0.5, "y": 5.5, "w": 12.3, "h": 1.5, "font_size": 18, "color": "primary", "align": "center" },
+        "center_image": { "x": 0.5, "y": 1.5, "w": 12.3, "h": 3.8, "type": "image" }
+      }
+    },
+    "LT-10-E": {
+      "name": "Top Image Bottom Text",
+      "zones": {
+        "content": { "x": 0.5, "y": 4.5, "w": 12.3, "h": 2.5, "font_size": 20, "color": "primary" },
+        "top_image": { "x": 0, "y": 0, "w": 13.333, "h": 4.2, "type": "image" }
+      }
+    },
+    "LT-10-F": {
+      "name": "Top Text Bottom Image",
+      "zones": {
+        "title": { "x": 0.5, "y": 0.5, "w": 12.3, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 0.5, "y": 1.3, "w": 12.3, "h": 3.8, "font_size": 18, "color": "primary" },
+        "bottom_banner": { "x": 0, "y": 5.2, "w": 13.333, "h": 2.3, "type": "image" }
+      }
+    },
+    "Cover": {
+      "name": "Cover page",
+      "zones": {
+        "title": { "x": 1.0, "y": 2.0, "w": 10, "h": 2.0, "font_size": 48, "bold": true, "color": "white" },
+        "subtitle": { "x": 1.0, "y": 4.2, "w": 10, "h": 1.0, "font_size": 24, "color": "accent" },
+        "background_art": { "x": 0, "y": 0, "w": 13.333, "h": 7.5, "type": "image" }
+      }
+    },
+    "Summary": {
+      "name": "Summary",
+      "zones": {
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "takeaways": { "x": 1.0, "y": 2.2, "w": 11, "h": 4.5, "font_size": 22, "color": "primary" }
+      }
+    },
+    "Closing": {
+      "name": "Closing",
+      "zones": {
+        "message": { "x": 0, "y": 3.0, "w": 13.333, "h": 1.5, "font_size": 48, "bold": true, "color": "white", "align": "center" }
+      }
+    },
+    "Hero": {
+      "name": "Hero Visual",
+      "zones": {
+        "impact_text": { "x": 1.0, "y": 5.5, "w": 11, "h": 1.5, "font_size": 32, "bold": true, "color": "white", "align": "center" },
+        "hero_image": { "x": 0, "y": 0, "w": 13.333, "h": 7.5, "type": "image" }
+      }
+    },
+    "Section Divider": {
+      "name": "Section Divider",
+      "zones": {
+        "title": { "x": 1.5, "y": 3.0, "w": 10, "h": 1.5, "font_size": 42, "bold": true, "color": "white", "align": "center" }
+      }
+    },
+    "LT-11": {
+      "name": "Zen Statement",
+      "zones": {
+        "statement": { "x": 6.0, "y": 5.0, "w": 6.8, "h": 2.0, "font_size": 36, "italic": true, "color": "accent", "align": "right" }
+      }
+    },
+    "LT-12": {
+      "name": "Editorial Spread",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 5, "h": 1.5, "font_size": 36, "bold": true, "color": "primary" },
+        "column_text": { "x": 0.5, "y": 2.8, "w": 4.5, "h": 4.2, "font_size": 18, "color": "secondary" },
+        "editorial_image": { "x": 5.5, "y": 0.5, "w": 7.3, "h": 6.5, "type": "image" }
+      }
+    },
+    "LT-13": {
+      "name": "Dual Dialogue",
+      "zones": {
+        "left_voice": { "x": 0.5, "y": 1.5, "w": 5.5, "h": 4.5, "font_size": 24, "italic": true, "color": "primary", "align": "center" },
+        "right_voice": { "x": 7.3, "y": 1.5, "w": 5.5, "h": 4.5, "font_size": 24, "bold": true, "color": "accent", "align": "center" },
+        "vs_label": { "x": 6.1, "y": 3.5, "w": 1.1, "h": 0.5, "font_size": 14, "bold": true, "color": "muted", "align": "center" }
+      }
+    },
+    "LT-14-A": {
+      "name": "Liberal - Image Left",
+      "zones": {
+        "title": { "x": 6.8, "y": 1.0, "w": 6, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 6.8, "y": 2.0, "w": 6, "h": 5, "font_size": 18, "color": "primary" },
+        "side_illustration": { "x": 0, "y": 0, "w": 6.3, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-14-B": {
+      "name": "Liberal - Image Right",
+      "zones": {
+        "title": { "x": 0.5, "y": 1.0, "w": 6, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 0.5, "y": 2.0, "w": 6, "h": 5, "font_size": 18, "color": "primary" },
+        "side_illustration": { "x": 6.8, "y": 0, "w": 6.5, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-14-C": {
+      "name": "Liberal - Full Image Overlay",
+      "zones": {
+        "overlay_text": { "x": 1.5, "y": 3.0, "w": 10.3, "h": 1.5, "font_size": 32, "bold": true, "color": "white", "align": "center" },
+        "background_art": { "x": 0, "y": 0, "w": 13.333, "h": 7.5, "type": "image" }
+      }
+    },
+    "LT-14-D": {
+      "name": "Liberal - Split Image With Text",
+      "zones": {
+        "title": { "x": 0.5, "y": 0.5, "w": 12.3, "h": 0.8, "font_size": 28, "bold": true, "color": "primary", "align": "center" },
+        "content": { "x": 0.5, "y": 5.5, "w": 12.3, "h": 1.5, "font_size": 18, "color": "primary", "align": "center" },
+        "center_art": { "x": 0.5, "y": 1.5, "w": 12.3, "h": 3.8, "type": "image" }
+      }
+    },
+    "LT-14-E": {
+      "name": "Liberal - Top Image Bottom Text",
+      "zones": {
+        "content": { "x": 0.5, "y": 4.5, "w": 12.3, "h": 2.5, "font_size": 20, "color": "primary" },
+        "top_art": { "x": 0, "y": 0, "w": 13.333, "h": 4.2, "type": "image" }
+      }
+    },
+    "LT-14-F": {
+      "name": "Liberal - Top Text Bottom Image",
+      "zones": {
+        "title": { "x": 0.5, "y": 0.5, "w": 12.3, "h": 0.8, "font_size": 28, "bold": true, "color": "primary" },
+        "content": { "x": 0.5, "y": 1.3, "w": 12.3, "h": 3.8, "font_size": 18, "color": "primary" },
+        "bottom_banner_art": { "x": 0, "y": 5.2, "w": 13.333, "h": 2.3, "type": "image" }
+      }
+    },
+    "LT-21": {
+      "name": "Bootcamp Roadmap",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "roadmap_timeline": { "x": 0.5, "y": 2.2, "w": 12.3, "h": 4.5, "type": "image" }
+      }
+    },
+    "LT-22": {
+      "name": "Workflow Steps",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "steps_diagram": { "x": 0.5, "y": 2.5, "w": 12.3, "h": 4.0, "type": "image" }
+      }
+    },
+    "LT-23": {
+      "name": "Guardrails Checklist",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "do_column": { "x": 0.5, "y": 2.2, "w": 6, "h": 4.5, "font_size": 20, "color": "primary" },
+        "dont_column": { "x": 6.8, "y": 2.2, "w": 6, "h": 4.5, "font_size": 20, "color": "accent" }
+      }
+    },
+    "LT-24": {
+      "name": "Lab Activity",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "mission_objective": { "x": 0.5, "y": 2.2, "w": 4, "h": 4.5, "font_size": 20, "bold": true, "color": "primary" },
+        "action_steps": { "x": 5.0, "y": 2.2, "w": 7.8, "h": 4.5, "font_size": 22, "color": "primary" }
+      }
+    },
+    "LT-25": {
+      "name": "Use Case Card",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "cards_container": { "x": 0.5, "y": 2.2, "w": 12.3, "h": 4.5, "font_size": 18, "color": "primary" }
+      }
+    },
+    "LT-26": {
+      "name": "Prompt Compare",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "before_bad": { "x": 0.5, "y": 2.2, "w": 6, "h": 4.5, "font_size": 18, "italic": true, "color": "secondary" },
+        "after_good": { "x": 6.8, "y": 2.2, "w": 6, "h": 4.5, "font_size": 18, "bold": true, "color": "primary" }
+      }
+    },
+    "LT-27": {
+      "name": "Rubric Matrix",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "table_matrix": { "x": 0.5, "y": 2.2, "w": 12.3, "h": 4.5, "type": "image" }
+      }
+    },
+    "LT-28": {
+      "name": "Code Terminal",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "terminal_window": { "x": 0.5, "y": 2.2, "w": 12.3, "h": 4.8, "font_size": 16, "color": "white" }
+      }
+    },
+    "LT-29-A": {
+      "name": "Bootcamp - Image Left With Text",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "subtitle": { "x": 0.5, "y": 1.9, "w": 12, "h": 0.6, "font_size": 22, "color": "secondary" },
+        "image_left": { "x": 0.6, "y": 1.9, "w": 6.5, "h": 4.6, "type": "image" },
+        "content_right": { "x": 7.5, "y": 2.3, "w": 5.2, "h": 3.9, "font_size": 18, "color": "primary" },
+        "cta_right": { "x": 7.5, "y": 6.2, "w": 2.4, "h": 0.5, "font_size": 16, "bold": true, "color": "white" }
+      }
+    },
+    "LT-29-B": {
+      "name": "Bootcamp - Image Right With Text",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "subtitle": { "x": 0.5, "y": 1.9, "w": 12, "h": 0.6, "font_size": 22, "color": "secondary" },
+        "content_left": { "x": 0.7, "y": 2.3, "w": 5.1, "h": 3.9, "font_size": 18, "color": "primary" },
+        "cta_left": { "x": 0.7, "y": 6.2, "w": 2.4, "h": 0.5, "font_size": 16, "bold": true, "color": "white" },
+        "image_right": { "x": 6.2, "y": 1.9, "w": 6.5, "h": 4.6, "type": "image" }
+      }
+    },
+    "LT-29-C": {
+      "name": "Bootcamp - Full Image Overlay",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "background_image": { "x": 0.6, "y": 1.6, "w": 12.1, "h": 5.0, "type": "image" },
+        "overlay_title": { "x": 1.1, "y": 5.1, "w": 8.7, "h": 0.7, "font_size": 28, "bold": true, "color": "primary" },
+        "overlay_line": { "x": 1.1, "y": 5.9, "w": 8.7, "h": 0.4, "font_size": 18, "color": "secondary" },
+        "overlay_tag": { "x": 10.4, "y": 5.4, "w": 2.0, "h": 0.6, "font_size": 20, "bold": true, "color": "white" }
+      }
+    },
+    "LT-29-D": {
+      "name": "Bootcamp - Split Image With Text",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "title": { "x": 0.5, "y": 1.0, "w": 12, "h": 0.8, "font_size": 32, "bold": true, "color": "primary" },
+        "subtitle": { "x": 0.5, "y": 1.9, "w": 12, "h": 0.6, "font_size": 22, "color": "secondary" },
+        "image_a": { "x": 0.6, "y": 2.0, "w": 5.7, "h": 2.6, "type": "image" },
+        "image_b": { "x": 7.0, "y": 2.0, "w": 5.7, "h": 2.6, "type": "image" },
+        "insight_block": { "x": 0.6, "y": 4.9, "w": 12.1, "h": 1.7, "font_size": 20, "color": "primary" }
+      }
+    },
+    "LT-29-E": {
+      "name": "Bootcamp - Top Image Bottom Text",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "top_image": { "x": 0.6, "y": 1.6, "w": 12.1, "h": 3.0, "type": "image" },
+        "bottom_heading": { "x": 0.9, "y": 5.0, "w": 7.8, "h": 0.6, "font_size": 28, "bold": true, "color": "primary" },
+        "bottom_content": { "x": 0.9, "y": 5.7, "w": 10.8, "h": 1.0, "font_size": 18, "color": "secondary" },
+        "meta_tag": { "x": 10.4, "y": 5.0, "w": 2.0, "h": 0.6, "font_size": 16, "bold": true, "color": "white" }
+      }
+    },
+    "LT-29-F": {
+      "name": "Bootcamp - Top Text Bottom Image",
+      "zones": {
+        "eyebrow": { "x": 0.5, "y": 0.6, "w": 4, "h": 0.4, "font_size": 12, "bold": true, "color": "accent" },
+        "top_heading": { "x": 0.9, "y": 2.1, "w": 7.5, "h": 0.6, "font_size": 28, "bold": true, "color": "primary" },
+        "top_content": { "x": 0.9, "y": 2.8, "w": 10.8, "h": 1.6, "font_size": 18, "color": "secondary" },
+        "context_tag": { "x": 10.0, "y": 2.1, "w": 2.4, "h": 0.6, "font_size": 16, "bold": true, "color": "white" },
+        "bottom_image": { "x": 0.6, "y": 4.2, "w": 12.1, "h": 2.3, "type": "image" }
+      }
+    }
+  }
+}

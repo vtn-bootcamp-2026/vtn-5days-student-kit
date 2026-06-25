@@ -1,0 +1,17 @@
+{
+  "colors": {
+    "navy-900": "#0E1B2B",
+    "cerulean-500": "#006CB5",
+    "white": "#FFFFFF",
+    "off-white": "#F8F9FA",
+    "blue-gray-100": "#D8E3F0",
+    "steel-blue-500": "#5D7896"
+  },
+  "typography": {
+    "size-h1": "54pt",
+    "size-h2": "36pt",
+    "size-body": "24pt",
+    "weight-bold": "700",
+    "weight-normal": "400"
+  }
+}
