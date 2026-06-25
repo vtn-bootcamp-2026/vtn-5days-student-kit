@@ -1,4 +1,4 @@
-﻿---
+---
 mo-ta: "tong quan bai thuc hanh session 05 — 2 track song song: Track A (vibe-working, build skill review-contract) va Track B (lam tay, contract-term-extractor)"
 trang-thai: active
 phien-ban: v4.1

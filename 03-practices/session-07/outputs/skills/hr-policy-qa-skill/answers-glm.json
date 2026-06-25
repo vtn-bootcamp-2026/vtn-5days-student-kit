@@ -1,0 +1,160 @@
+[
+  {
+    "question": "Nhân viên chính thức được bao nhiêu ngày phép năm?",
+    "classification": "in-scope",
+    "answer": "Nhân viên chính thức được hưởng ngày phép năm theo thâm niên: dưới 5 năm được 12 ngày, từ 5 đến dưới 10 năm được 14 ngày, từ 10 năm trở lên được 16 ngày. Ngoài ra, nhân viên có thâm niên từ 5 năm trở lên được thêm ngày phép: 5-10 năm được +2 ngày, 10-15 năm được +4 ngày, trên 15 năm được +6 ngày.",
+    "citations": [
+      {
+        "doc_id": "POL-LEAVE-001",
+        "section": "1.1",
+        "quote": "Nhân viên chính thức được hưởng ngày phép năm theo thâm niên:\n\n| Thâm niên | Số ngày phép/năm |\n| --- | ---: |\n| Dưới 5 năm | 12 ngày |\n| Từ 5 đến dưới 10 năm | 14 ngày |\n| Từ 10 năm trở lên | 16 ngày |"
+      },
+      {
+        "doc_id": "POL-SENIOR-001",
+        "section": "3.1",
+        "quote": "Nhân viên ở bậc thâm niên 3 trở lên (5 năm+) được thêm ngày phép:\n\n| Thâm niên | Ngày phép thêm |\n| --- | ---: |\n| 5-10 năm | +2 ngày |\n| 10-15 năm | +4 ngày |\n| Trên 15 năm | +6 ngày |"
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Mức phụ cấp ăn trưa là bao nhiêu?",
+    "classification": "in-scope",
+    "answer": "Mức phụ cấp ăn trưa là: 30.000 VNĐ/ngày cho nhân viên chính thức và nhân viên thử việc, 20.000 VNĐ/ngày cho thực tập sinh.",
+    "citations": [
+      {
+        "doc_id": "POL-ALLOW-001",
+        "section": "1.1",
+        "quote": "| Đối tượng | Mức/ngày | Ghi chú |\n| --- | ---: | --- |\n| Nhân viên chính thức | 30.000 VNĐ | Trừ vào ngày nghỉ không lương |\n| Nhân viên thử việc | 30.000 VNĐ | Tương tự chính thức |\n| Thực tập sinh | 20.000 VNĐ | Chỉ áp dụng ngày làm việc thực tế |"
+      },
+      {
+        "is_out_of_scope": false,
+        "refusal_message": ""
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Quy trình xin nghỉ phép như thế nào?",
+    "classification": "in-scope",
+    "answer": "Quy trình xin nghỉ phép gồm các bước: 1. Gửi yêu cầu qua hệ thống nội bộ trước ít nhất 3 ngày làm việc. 2. Quản lý trực tiếp phê duyệt trong vòng 1 ngày làm việc. 3. Nhân sự xác nhận và ghi nhận vào hệ thống. 4. Nghỉ phép liên tục tối đa 5 ngày, quá 5 ngày cần phê duyệt thêm từ giám đốc bộ phận.",
+    "citations": [
+      {
+        "doc_id": "POL-LEAVE-001",
+        "section": "1.3",
+        "quote": "1. Gửi yêu cầu qua hệ thống nội bộ trước ít nhất 3 ngày làm việc.\n2. Quản lý trực tiếp phê duyệt trong vòng 1 ngày làm việc.\n3. Nhân sự xác nhận và ghi nhận vào hệ thống.\n4. Nghỉ phép liên tục tối đa 5 ngày, quá 5 ngày cần phê duyệt thêm từ giám đốc bộ phận."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Thâm niên 6 năm thì được bao nhiêu ngày phép?",
+    "classification": "in-scope",
+    "answer": "Nhân viên có thâm niên 6 năm được 16 ngày phép/năm (14 ngày theo POL-LEAVE-001 và 2 ngày thêm theo POL-SENIOR-001).",
+    "citations": [
+      {
+        "doc_id": "POL-LEAVE-001",
+        "section": "1.1",
+        "quote": "Nhân viên chính thức được hưởng ngày phép năm theo thâm niên:\n\n| Thâm niên | Số ngày phép/năm |\n| --- | ---: |\n| Dưới 5 năm | 12 ngày |\n| Từ 5 đến dưới 10 năm | 14 ngày |\n| Từ 10 năm trở lên | 16 ngày |"
+      },
+      {
+        "doc_id": "POL-SENIOR-001",
+        "section": "3.1",
+        "quote": "Nhân viên ở bậc thâm niên 3 trở lên (5 năm+) được thêm ngày phép:\n\n| Thâm niên | Ngày phép thêm |\n| --- | ---: |\n| 5-10 năm | +2 ngày |\n| 10-15 năm | +4 ngày |\n| Trên 15 năm | +6 ngày |\n\nNgày phép thêm này cộng vào số ngày phép năm theo chính sách nghỉ phép (xem POL-LEAVE-001)."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Nhân viên thử việc có được phụ cấp điện thoại không?",
+    "classification": "in-scope",
+    "answer": "Không",
+    "citations": [
+      {
+        "doc_id": "POL-ALLOW-001",
+        "section": "3.2",
+        "quote": "Nhân viên thử việc không được hưởng phụ cấp điện thoại."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Công ty có hỗ trợ học MBA không?",
+    "classification": "in-scope",
+    "answer": "Có",
+    "citations": [
+      {
+        "doc_id": "POL-TRAIN-001",
+        "section": "4.1",
+        "quote": "Công ty xem xét tài trợ một phần học phí cho chương trình MBA hoặc thạc sĩ liên quan đến ngành."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Nghỉ ốm quá 30 ngày thì lương như thế nào?",
+    "classification": "in-scope",
+    "answer": "Nghỉ ốm quá 30 ngày sẽ hưởng 70% lương, tối đa 180 ngày/năm.",
+    "citations": [
+      {
+        "doc_id": "POL-LEAVE-001",
+        "section": "2.1",
+        "quote": "Từ ngày thứ 31 trở đi hưởng 70% lương, tối đa 180 ngày/năm."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Tôi đã làm 3 năm muốn nghỉ việc thì phép dư có được quy đổi tiền không?",
+    "classification": "in-scope",
+    "answer": "Có, phép dư được quy đổi thành tiền khi nghỉ việc.",
+    "citations": [
+      {
+        "doc_id": "POL-LEAVE-001",
+        "section": "1.2",
+        "quote": "Phép dư không được quy đổi thành tiền trừ trường hợp nghỉ việc."
+      }
+    ],
+    "is_out_of_scope": false,
+    "refusal_message": ""
+  },
+  {
+    "question": "Chính sách của công ty có tốt không?",
+    "classification": "ambiguous",
+    "answer": "",
+    "citations": [],
+    "is_out_of_scope": true,
+    "refusal_message": "Kho tri thức chưa có thông tin về việc đánh giá chất lượng chính sách. Vui lòng liên hệ phòng Nhân sự."
+  },
+  {
+    "question": "Tôi nghỉ 1 ngày thì được hưởng lương không?",
+    "classification": "in-scope",
+    "answer": "Kho tri thức chưa có thông tin về việc nghỉ phép thông thường có được hưởng lương hay không.",
+    "citations": [],
+    "is_out_of_scope": false,
+    "refusal_message": "Kho tri thức chưa có thông tin về việc nghỉ phép thông thường có được hưởng lương hay không. Vui lòng liên hệ phòng Nhân sự."
+  },
+  {
+    "question": "Chính sách bảo hiểm xã hội của công ty như thế nào?",
+    "classification": "out-of-scope",
+    "answer": "",
+    "citations": [],
+    "is_out_of_scope": true,
+    "refusal_message": "Kho tri thức chưa có thông tin về chủ đề này. Vui lòng liên hệ phòng Nhân sự."
+  },
+  {
+    "question": "Tôi muốn xin chuyển công tác sang Hà Nội thì làm sao?",
+    "classification": "out-of-scope",
+    "answer": "",
+    "citations": [],
+    "is_out_of_scope": true,
+    "refusal_message": "Kho tri thức chưa có thông tin về chủ đề này. Vui lòng liên hệ phòng Nhân sự."
+  }
+]

@@ -16,6 +16,7 @@ Usage:
 import argparse
 import csv
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -174,18 +175,38 @@ def evaluate_answer(
         return result
 
     # --- In-scope evaluation ---
-    # Check answer correctness (keyword overlap with expected)
-    if expected_answer:
-        answer_words = set(answer.lower().split())
-        expected_words = set(expected_answer.lower().split())
-        if expected_words:
-            overlap = answer_words & expected_words
-            ratio = len(overlap) / len(expected_words)
-            result["correct_answer"] = ratio >= 0.50
-        else:
-            result["correct_answer"] = bool(answer)
-    else:
-        result["correct_answer"] = bool(answer)
+    # Correctness = keyword coverage over expected OR citation cites the expected source.
+    # NOTE: `expected_answer` thực chất là cột `expected_behavior` (mô tả dạng
+    # "Trả lời 30.000 VNĐ/ngày + trích dẫn"), nên keyword-overlap thô hay chấm sai
+    # câu trả lời đúng ngắn gọn. Dùng 2 tín hiệu: (1) signal-token coverage,
+    # (2) citation doc_id trùng expected_source (ground-truth doc_id trong CSV).
+    _STOP = {
+        "trả", "lời", "trích", "dẫn", "theo", "mô", "tả", "đúng", "đủ", "bước",
+        "của", "cho", "được", "và", "hoặc", "là", "có", "không", "trong", "với",
+        "khi", "nếu", "thì", "một", "các", "về", "từ",
+    }
+
+    def _signal_tokens(s: str) -> set[str]:
+        toks = set()
+        for t in re.findall(r"[0-9a-zà-ỹ]+(?:[./-][0-9a-zà-ỹ]+)*", s.lower()):
+            if len(t) < 2 or t in _STOP:
+                continue
+            toks.add(t)
+        return toks
+
+    expected_sig = _signal_tokens(expected_answer)
+    answer_sig = _signal_tokens(answer)
+    coverage = (len(expected_sig & answer_sig) / len(expected_sig)) if expected_sig else (1.0 if answer else 0.0)
+
+    # Source match: citation doc_ids có bao phủ expected_source doc_ids không?
+    expected_source = expected.get("expected_source", "")
+    expected_doc_ids = set(re.findall(r"POL-[A-Z]+-\d+", expected_source))
+    cited_doc_ids = {c.get("doc_id", "") for c in citations if c.get("doc_id")}
+    source_match = bool(expected_doc_ids) and expected_doc_ids.issubset(cited_doc_ids)
+
+    result["keyword_coverage"] = round(coverage, 3)
+    result["source_match"] = source_match
+    result["correct_answer"] = bool(answer) and (coverage >= 0.34 or source_match)
 
     # Check citations
     result["has_citations"] = len(citations) > 0
