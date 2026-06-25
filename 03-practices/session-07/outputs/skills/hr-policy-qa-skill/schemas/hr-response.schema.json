@@ -1,8 +1,81 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "HR Policy QA Response",
-  "description": "Schema for Agentic RAG response output from the HR Policy QA Skill",
+  "title": "HRResponseSchema",
+  "description": "Lược đồ phản hồi cấu trúc hóa câu trả lời của tác nhân Hỏi đáp Chính sách Nhân sự",
   "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "Câu hỏi gốc từ người dùng"
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["in-scope", "out-of-scope", "ambiguous", "prompt-injection"],
+      "description": "Phân loại ý định của câu hỏi"
+    },
+    "answer": {
+      "type": "string",
+      "description": "Câu trả lời chi tiết dựa trên kho tri thức chính sách nhân sự"
+    },
+    "citations": {
+      "type": "array",
+      "description": "Danh sách các nguồn trích dẫn từ tài liệu tri thức",
+      "items": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "type": "string",
+            "description": "Mã tài liệu tri thức (ví dụ: POL-LEAVE-001)"
+          },
+          "section": {
+            "type": "string",
+            "description": "Phần hoặc mục trong tài liệu nơi trích xuất thông tin"
+          },
+          "quote": {
+            "type": "string",
+            "description": "Đoạn văn bản trích dẫn trực tiếp từ tài liệu"
+          },
+          "relevance_score": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Điểm tương quan/độ phù hợp của đoạn trích dẫn (từ 0.0 đến 1.0)"
+          }
+        },
+        "required": ["doc_id", "section", "quote", "relevance_score"],
+        "additionalProperties": false
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Độ tin cậy của câu trả lời (từ 0.0 đến 1.0)"
+    },
+    "is_out_of_scope": {
+      "type": "boolean",
+      "description": "Chỉ định câu hỏi có nằm ngoài phạm vi chính sách nhân sự hay không"
+    },
+    "refusal_message": {
+      "type": "string",
+      "description": "Thông báo từ chối cung cấp câu trả lời khi câu hỏi được phân loại là ngoài phạm vi (out-of-scope)"
+    },
+    "self_check_result": {
+      "type": "string",
+      "enum": ["passed", "issues_found", "corrected"],
+      "description": "Kết quả quy trình tự kiểm duyệt chất lượng câu trả lời"
+    },
+    "retrieval_method": {
+      "type": "string",
+      "enum": ["vector", "keyword", "hybrid"],
+      "description": "Phương pháp truy xuất dữ liệu được sử dụng"
+    },
+    "top_chunks_used": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Số lượng đoạn văn bản hàng đầu đã được sử dụng để tổng hợp câu trả lời"
+    }
+  },
   "required": [
     "question",
     "classification",
@@ -15,96 +88,5 @@
     "retrieval_method",
     "top_chunks_used"
   ],
-  "properties": {
-    "question": {
-      "type": "string",
-      "description": "Câu hỏi gốc từ người dùng"
-    },
-    "classification": {
-      "type": "string",
-      "enum": ["in-scope", "out-of-scope", "ambiguous", "prompt-injection"],
-      "description": "Phân loại câu hỏi: trong phạm vi, ngoài phạm vi, mơ hồ, hoặc tiêm nhiễm prompt"
-    },
-    "answer": {
-      "type": "string",
-      "description": "Câu trả lời cho câu hỏi. Rỗng nếu ngoài phạm vi (out-of-scope)"
-    },
-    "citations": {
-      "type": "array",
-      "description": "Danh sách trích dẫn từ nguồn tài liệu",
-      "items": {
-        "type": "object",
-        "required": ["doc_id", "section", "quote", "relevance_score"],
-        "properties": {
-          "doc_id": {
-            "type": "string",
-            "description": "Mã tài liệu (ví dụ: POL-LEAVE-001)"
-          },
-          "section": {
-            "type": "string",
-            "description": "Tên mục/điều khoản trong tài liệu"
-          },
-          "quote": {
-            "type": "string",
-            "description": "Trích dẫn nguyên văn từ nguồn"
-          },
-          "relevance_score": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 1,
-            "description": "Điểm liên quan của trích dẫn (0-1)"
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "confidence": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "description": "Mức độ tin cậy của câu trả lời (0-1)"
-    },
-    "is_out_of_scope": {
-      "type": "boolean",
-      "description": "True nếu câu hỏi ngoài phạm vi kiến thức HR"
-    },
-    "refusal_message": {
-      "type": "string",
-      "description": "Thông báo từ chối trả lời. Rỗng nếu trong phạm vi (in-scope)"
-    },
-    "self_check_result": {
-      "type": "object",
-      "description": "Kết quả tự kiểm duyệt của agent trước khi trả lời",
-      "required": ["passed", "issues_found", "corrected"],
-      "properties": {
-        "passed": {
-          "type": "boolean",
-          "description": "True nếu self-check không phát hiện vấn đề"
-        },
-        "issues_found": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Danh sách các vấn đề phát hiện qua self-check"
-        },
-        "corrected": {
-          "type": "boolean",
-          "description": "True nếu agent đã tự sửa lỗi phát hiện được"
-        }
-      },
-      "additionalProperties": false
-    },
-    "retrieval_method": {
-      "type": "string",
-      "enum": ["vector", "keyword", "hybrid"],
-      "description": "Phương pháp truy xuất: vector similarity, keyword match, hoặc hybrid"
-    },
-    "top_chunks_used": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Số lượng chunk đã sử dụng để tạo câu trả lời"
-    }
-  },
   "additionalProperties": false
 }

@@ -9,3 +9,9 @@ desktop.ini
 *.local.*
 *.zip
 *.tar.gz
+.venv/
+.venv-*/
+node_modules/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

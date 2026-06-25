@@ -1,6 +1,6 @@
 [
   {
-    "chunk_id": "bd0a859e-ab3b-4138-96ae-16fead274a3a",
+    "chunk_id": "7d9989b3-076b-4dc3-bd84-803c992aa833",
     "doc_id": "POL-ALLOW-001",
     "section": "Tổng quan",
     "version": "1.0",
@@ -10,7 +10,7 @@
     "content": "# Chính sách phụ cấp ăn trưa, đi lại và điện thoại\n\n*(Tài liệu mô phỏng — không phải chính sách thật)*"
   },
   {
-    "chunk_id": "11e1ac17-4190-49d4-b1c8-9260510a5989",
+    "chunk_id": "ffef9316-d10c-4142-8ded-2ab46e517763",
     "doc_id": "POL-ALLOW-001",
     "section": "1. Phụ cấp ăn trưa",
     "version": "1.0",
@@ -20,7 +20,7 @@
     "content": "### 1.1 Mức phụ cấp\n\n| Đối tượng | Mức/ngày | Ghi chú |\n| --- | ---: | --- |\n| Nhân viên chính thức | 30.000 VNĐ | Trừ vào ngày nghỉ không lương |\n| Nhân viên thử việc | 30.000 VNĐ | Tương tự chính thức |\n| Thực tập sinh | 20.000 VNĐ | Chỉ áp dụng ngày làm việc thực tế |\n\n### 1.2 Điều kiện\n\n- Được hưởng trong ngày làm việc thực tế tại văn phòng.\n- Không được hưởng khi: nghỉ phép, nghỉ ốm, nghỉ thai sản, làm việc từ xa toàn thời gian.\n- Chi trả cùng lương hàng tháng, không cần yêu cầu riêng.\n\n### 1.3 Lưu ý\n\n- Phụ cấp ăn trưa không chịu thuế thu nhập cá nhân theo quy định hiện hành (mô phỏng).\n- Nhân viên được mời ăn trưa bởi công ty (sự kiện, họp) vẫn được nhận phụ cấp."
   },
   {
-    "chunk_id": "c22d8e68-8937-4b01-ab67-68665a264f02",
+    "chunk_id": "d91549b4-dff9-40a3-ab4a-fa3ef7c7655f",
     "doc_id": "POL-ALLOW-001",
     "section": "2. Phụ cấp đi lại",
     "version": "1.0",
@@ -30,7 +30,7 @@
     "content": "### 2.1 Mức phụ cấp\n\n| Đối tượng | Mức/tháng | Ghi chú |\n| --- | ---: | --- |\n| Nhân viên làm tại văn phòng | 500.000 VNĐ | Cố định hàng tháng |\n| Nhân viên thường xuyên đi công tác | 1.000.000 VNĐ | Cần xác nhận từ quản lý |\n| Thực tập sinh | 300.000 VNĐ | Chỉ áp dụng khi làm tại văn phòng |\n\n### 2.2 Điều kiện\n\n- Nhân viên chính thức và thử việc đều được hưởng.\n- Không áp dụng cho nhân viên được công ty cung cấp phương tiện đi lại riêng.\n- Chi trả cùng lương hàng tháng.\n\n### 2.3 Bồi hoàn chi phí đi lại công tác\n\nNhân viên đi công tác được bồi hoàn chi phí đi lại thực tế:\n\n- Máy bay: hạng phổ thông, đặt qua hệ thống nội bộ.\n- Tàu hỏa, xe khách: hạng tiêu chuẩn.\n- Taxi sân bay: bồi hoàn theo hóa đơn, tối đa 300.000 VNĐ/lượt.\n- Xăng xe cá nhân khi công tác: 5.000 VNĐ/km, tối đa 500.000 VNĐ/chuyến."
   },
   {
-    "chunk_id": "bf97d5a1-f4df-47c0-94ec-323bb62363a1",
+    "chunk_id": "c6cf9ae8-3ecb-4f9e-8719-937b4a15ec31",
     "doc_id": "POL-ALLOW-001",
     "section": "3. Phụ cấp điện thoại",
     "version": "1.0",
@@ -40,7 +40,7 @@
     "content": "### 3.1 Mức phụ cấp\n\n| Cấp bậc | Mức/tháng | Ghi chú |\n| --- | ---: | --- |\n| Trưởng phòng trở lên | 500.000 VNĐ | Cố định |\n| Quản lý / Trưởng nhóm | 300.000 VNĐ | Cố định |\n| Nhân viên | 200.000 VNĐ | Cố định |\n\n### 3.2 Điều kiện\n\n- Chỉ áp dụng cho nhân viên chính thức sau thời gian thử việc.\n- Nhân viên thử việc không được hưởng phụ cấp điện thoại.\n- Chi trả cùng lương hàng tháng, không cần nộp hóa đơn.\n\n### 3.3 Lưu ý\n\n- Nếu chi phí điện thoại thực tế vượt phụ cấp, nhân viên tự chi trả phần vượt.\n- Công ty không cung cấp sim hoặc điện thoại riêng cho nhân viên."
   },
   {
-    "chunk_id": "74ba60e3-1ba9-40f8-8616-534447ef5adc",
+    "chunk_id": "40144924-99aa-4ef5-a03e-ed872f112474",
     "doc_id": "POL-LEAVE-001",
     "section": "Tổng quan",
     "version": "1.0",
@@ -50,7 +50,7 @@
     "content": "# Chính sách nghỉ phép năm, nghỉ ốm và nghỉ thai sản\n\n*(Tài liệu mô phỏng — không phải chính sách thật)*"
   },
   {
-    "chunk_id": "dc4a63f4-ed66-425b-a321-75c14a826217",
+    "chunk_id": "44fc93b3-a781-4ef9-aeab-de96d5074313",
     "doc_id": "POL-LEAVE-001",
     "section": "1. Nghỉ phép năm",
     "version": "1.0",
@@ -60,7 +60,7 @@
     "content": "### 1.1 Số ngày phép\n\nNhân viên chính thức được hưởng ngày phép năm theo thâm niên:\n\n| Thâm niên | Số ngày phép/năm |\n| --- | ---: |\n| Dưới 5 năm | 12 ngày |\n| Từ 5 đến dưới 10 năm | 14 ngày |\n| Từ 10 năm trở lên | 16 ngày |\n\nNhân viên thử việc không được hưởng ngày phép năm.\n\n### 1.2 Điều kiện hưởng phép\n\n- Đã làm việc đủ 12 tháng tính từ ngày vào làm chính thức.\n- Phép năm chưa sử dụng có thể chuyển sang năm sau, tối đa 50% số ngày phép.\n- Phép dư không được quy đổi thành tiền trừ trường hợp nghỉ việc.\n\n### 1.3 Quy trình xin nghỉ phép\n\n1. Gửi yêu cầu qua hệ thống nội bộ trước ít nhất 3 ngày làm việc.\n2. Quản lý trực tiếp phê duyệt trong vòng 1 ngày làm việc.\n3. Nhân sự xác nhận và ghi nhận vào hệ thống.\n4. Nghỉ phép liên tục tối đa 5 ngày, quá 5 ngày cần phê duyệt thêm từ giám đốc bộ phận."
   },
   {
-    "chunk_id": "4c5e89bb-2f1d-4dd4-8785-60d0c4e03795",
+    "chunk_id": "6c2d1a64-d469-4038-914e-00335d9171e9",
     "doc_id": "POL-LEAVE-001",
     "section": "2. Nghỉ ốm",
     "version": "1.0",
@@ -70,7 +70,7 @@
     "content": "### 2.1 Điều kiện\n\n- Nghỉ ốm hưởng nguyên lương trong 30 ngày đầu mỗi năm.\n- Từ ngày thứ 31 trở đi hưởng 70% lương, tối đa 180 ngày/năm.\n- Cần giấy chứng nhận nghỉ ốm của bệnh viện hoặc phòng khám có giấy phép.\n\n### 2.2 Quy trình\n\n1. Thông báo cho quản lý trực tiếp trong vòng 24 giờ.\n2. Nộp giấy chứng nhận nghỉ ốm trong vòng 3 ngày làm việc sau khi trở lại.\n3. Nhân sự xác nhận và điều chỉnh lương nếu cần.\n\n### 2.3 Lưu ý\n\n- Nghỉ ốm quá 5 ngày liên tục cần thêm xác nhận của bác sĩ điều trị.\n- Nếu nghỉ ốm vào ngày đã xin phép trước, vẫn tính là nghỉ ốm (không trừ ngày phép)."
   },
   {
-    "chunk_id": "50c4345f-f54f-4b01-be72-d039a876f3a7",
+    "chunk_id": "9d7e8936-caa0-4a10-aa97-4fb41aff5d36",
     "doc_id": "POL-LEAVE-001",
     "section": "3. Nghỉ thai sản",
     "version": "1.0",
@@ -80,7 +80,7 @@
     "content": "### 3.1 Thời gian nghỉ\n\n- Thai sản thông thường: 6 tháng.\n- Sinh đôi trở lên: thêm 1 tháng cho mỗi bé từ bé thứ 2.\n- Sẩy thai, nạo phá thai: nghỉ theo chỉ định y tế, tối đa 30 ngày.\n\n### 3.2 Chế độ lương\n\n- Nghỉ thai sản hưởng 100% lương cơ bản.\n- Tiền thưởng tháng (nếu có) không được hưởng trong thời gian nghỉ thai sản.\n\n### 3.3 Quy trình\n\n1. Thông báo cho quản lý và nhân sự trước ít nhất 30 ngày trước ngày dự sinh.\n2. Nộp giấy chứng sinh trong vòng 15 ngày sau khi sinh.\n3. Nhân sự tính toán và chi trả chế độ thai sản theo quy định."
   },
   {
-    "chunk_id": "cc89604b-ae13-4bb2-b61b-e4c9c3f679d1",
+    "chunk_id": "51fbbc0e-8404-4324-9ca9-52b6d1b1d1b2",
     "doc_id": "POL-LEAVE-001",
     "section": "4. Các loại nghỉ khác",
     "version": "1.0",
@@ -90,7 +90,7 @@
     "content": "| Loại nghỉ | Số ngày | Lương |\n| --- | ---: | --- |\n| Nghỉ việc riêng (kết hôn, tang) | 3 ngày | 100% |\n| Nghỉ lễ, tết | Theo quy định nhà nước | 100% |\n| Nghỉ không lương | Thỏa thuận | 0% |\n\nNghỉ việc riêng cần thông báo trước ít nhất 1 ngày. Nghỉ không lương cần thỏa thuận trước với quản lý và phê duyệt từ giám đốc bộ phận."
   },
   {
-    "chunk_id": "fcbcd409-c548-4847-b35e-941acb948c26",
+    "chunk_id": "894170d1-fc08-4b79-b30f-d58010235bb3",
     "doc_id": "POL-SENIOR-001",
     "section": "Tổng quan",
     "version": "1.0",
@@ -100,7 +100,7 @@
     "content": "# Chính sách thâm niên và thưởng thâm niên\n\n*(Tài liệu mô phỏng — không phải chính sách thật)*"
   },
   {
-    "chunk_id": "093a0bfe-71e1-47ba-802c-e3b5fcf53f19",
+    "chunk_id": "dfea6f9e-fe5a-46c9-a572-b14b32504dc9",
     "doc_id": "POL-SENIOR-001",
     "section": "1. Bậc thâm niên",
     "version": "1.0",
@@ -110,7 +110,7 @@
     "content": "### 1.1 Phân loại\n\n| Bậc | Thâm niên | Mô tả |\n| --- | --- | --- |\n| Bậc 1 | 1-3 năm | Mới gia nhập |\n| Bậc 2 | 3-5 năm | Có kinh nghiệm |\n| Bậc 3 | 5-10 năm | Chuyên gia |\n| Bậc 4 | 10-15 năm | Cốt cán |\n| Bậc 5 | Trên 15 năm | Lâu năm |\n\n### 1.2 Cách tính thâm niên\n\n- Thâm niên tính từ ngày ký hợp đồng lao động chính thức.\n- Thời gian thử việc không tính vào thâm niên.\n- Thời gian nghỉ thai sản tính vào thâm niên.\n- Thời gian nghỉ không lương liên tục quá 30 ngày không tính vào thâm niên."
   },
   {
-    "chunk_id": "14362c6d-91cb-48aa-aef3-68f2e207fd04",
+    "chunk_id": "91f3ae76-d0c1-45af-b735-1e8c43504662",
     "doc_id": "POL-SENIOR-001",
     "section": "2. Thưởng thâm niên",
     "version": "1.0",
@@ -120,7 +120,7 @@
     "content": "### 2.1 Mức thưởng\n\n| Thâm niên | Mức thưởng | Thời điểm chi trả |\n| --- | --- | --- |\n| 5 năm | 1 tháng lương cơ bản | Tháng kỷ niệm 5 năm |\n| 10 năm | 2 tháng lương cơ bản | Tháng kỷ niệm 10 năm |\n| 15 năm | 3 tháng lương cơ bản + huy hiệu | Tháng kỷ niệm 15 năm |\n| 20 năm | 5 tháng lương cơ bản + huy hiệu | Tháng kỷ niệm 20 năm |\n\n### 2.2 Điều kiện\n\n- Đang làm việc tại thời điểm chi trả (không áp dụng nếu đã nghỉ việc).\n- Không trong thời gian thử việc.\n- Không đang bị kỷ luật từ mức cảnh cáo trở lên trong 12 tháng trước đó.\n\n### 2.3 Lương cơ bản dùng tính thưởng\n\nLương cơ bản dùng để tính thưởng thâm niên là mức lương cơ bản ghi trong hợp đồng lao động tại thời điểm chi trả,不包括 (không bao gồm) phụ cấp và tiền thưởng khác."
   },
   {
-    "chunk_id": "231c6f25-c7b8-4d70-b711-69db7e08c52b",
+    "chunk_id": "818fb30a-ec28-42e7-833c-2d1d65e85634",
     "doc_id": "POL-SENIOR-001",
     "section": "3. Phúc lợi theo thâm niên",
     "version": "1.0",
@@ -130,7 +130,7 @@
     "content": "### 3.1 Nghỉ phép thêm\n\nNhân viên ở bậc thâm niên 3 trở lên (5 năm+) được thêm ngày phép:\n\n| Thâm niên | Ngày phép thêm |\n| --- | ---: |\n| 5-10 năm | +2 ngày |\n| 10-15 năm | +4 ngày |\n| Trên 15 năm | +6 ngày |\n\nNgày phép thêm này cộng vào số ngày phép năm theo chính sách nghỉ phép (xem POL-LEAVE-001).\n\n### 3.2 Quà tặng kỷ niệm\n\n- 5 năm: quà tặng trị giá 1.000.000 VNĐ\n- 10 năm: quà tặng trị giá 3.000.000 VNĐ\n- 15 năm: quà tặng trị giá 5.000.000 VNĐ + huy hiệu vàng\n- 20 năm: chuyến du lịch nội địa cho nhân viên và 1 người thân"
   },
   {
-    "chunk_id": "ceeb6e6b-9749-46a7-b5c4-8310ab44749a",
+    "chunk_id": "42fbdd72-4b9e-401f-ba82-0e60960f6172",
     "doc_id": "POL-SENIOR-001",
     "section": "4. Cập nhật và xem xét",
     "version": "1.0",
@@ -140,7 +140,7 @@
     "content": "Chính sách này được xem xét cập nhật hàng năm vào tháng 12. Mọi thay đổi có hiệu lực từ ngày 1 tháng 1 năm sau."
   },
   {
-    "chunk_id": "969211fd-8312-4155-898a-ba9e9e9b8c9b",
+    "chunk_id": "6f9b3d50-077a-45f1-86c7-b76ae1a9f713",
     "doc_id": "POL-TRAIN-001",
     "section": "Tổng quan",
     "version": "1.0",
@@ -150,7 +150,7 @@
     "content": "# Chính sách đào tạo và phát triển nhân lực\n\n*(Tài liệu mô phỏng — không phải chính sách thật)*"
   },
   {
-    "chunk_id": "190dcb3a-a4d5-4a79-8594-2edf0fe76f08",
+    "chunk_id": "52040f27-47be-4b48-be57-40d182bf9d39",
     "doc_id": "POL-TRAIN-001",
     "section": "1. Ngân sách đào tạo",
     "version": "1.0",
@@ -160,7 +160,7 @@
     "content": "### 1.1 Ngân sách hàng năm\n\n- Mỗi nhân viên chính thức được ngân sách đào tạo: 5.000.000 VNĐ/năm.\n- Nhân viên thử việc: 2.000.000 VNĐ/năm (tính theo số tháng thử việc).\n- Thực tập sinh: 1.000.000 VNĐ/năm.\n- Ngân sách không chuyển sang năm sau nếu chưa dùng hết.\n\n### 1.2 Phạm vi sử dụng\n\nNgân sách đào tạo dùng cho:\n\n- Khóa học trực tuyến có chứng chỉ (Udemy, Coursera, LinkedIn Learning).\n- Hội thảo, workshop trong ngành.\n- Sách chuyên ngành, tài liệu học tập.\n- Chứng chỉ nghề nghiệp (PMP, AWS, Cisco, v.v.).\n\nKhông dùng cho:\n\n- Bằng cấp đại học, thạc sĩ, tiến sĩ (xem mục 4).\n- Khóa học không liên quan đến công việc.\n- Chi phí đi lại cho sự kiện tự nguyện."
   },
   {
-    "chunk_id": "8b89e002-e17d-45de-85c8-dac3a3353069",
+    "chunk_id": "6c9ee8fc-b5f8-45bf-8c5e-df08d514ad92",
     "doc_id": "POL-TRAIN-001",
     "section": "2. Quy trình xin đào tạo",
     "version": "1.0",
@@ -170,7 +170,7 @@
     "content": "### 2.1 Bước thực hiện\n\n1. Nhân viên gửi yêu cầu đào tạo qua hệ thống nội bộ trước ít nhất 14 ngày.\n2. Quản lý trực tiếp phê duyệt dựa trên liên quan đến công việc.\n3. Nhân sự kiểm tra ngân sách và xác nhận.\n4. Sau khi hoàn thành, nhân viên nộp chứng chỉ hoặc báo cáo kết quả trong 30 ngày.\n\n### 2.2 Tiêu chí phê duyệt\n\n- Nội dung đào tạo liên quan trực tiếp hoặc gián tiếp đến vị trí công tác hiện tại.\n- Không trùng lặp với khóa học đã được công ty tài trợ trong 12 tháng trước.\n- Chi phí trong hạn mức ngân sách cá nhân."
   },
   {
-    "chunk_id": "eca736e4-e9fd-4629-9d4e-caa4efa8e1eb",
+    "chunk_id": "b98ad740-271c-40f2-ab38-23db0dae6efc",
     "doc_id": "POL-TRAIN-001",
     "section": "3. Cam kết sau đào tạo",
     "version": "1.0",
@@ -180,7 +180,7 @@
     "content": "### 3.1 Cam kết làm việc\n\nKhi công ty tài trợ khóa đào tạo chi phí trên 10.000.000 VNĐ hoặc bằng cấp chuyên môn, nhân viên cam kết:\n\n| Chi phí đào tạo | Thời gian cam kết |\n| --- | ---: |\n| 10.000.000 - 30.000.000 VNĐ | 12 tháng |\n| 30.000.000 - 50.000.000 VNĐ | 24 tháng |\n| Trên 50.000.000 VNĐ | 36 tháng |\n\n### 3.2 Hoàn trả khi vi phạm cam kết\n\nNếu nhân viên nghỉ việc trước thời hạn cam kết:\n\n- Hoàn trả theo tỷ lệ thời gian còn lại.\n- Ví dụ: cam kết 12 tháng, nghỉ sau 6 tháng → hoàn trả 50% chi phí đào tạo.\n\n### 3.3 Miễn giảm\n\nKhông phải hoàn trả trong trường hợp:\n\n- Công ty chấm dứt hợp đồng theo Điều 36 BLLĐ (do thay đổi cơ cấu, công nghệ).\n- Nghỉ việc vì lý do sức khỏe có giấy xác nhận.\n- Công ty đồng ý miễn bằng văn bản."
   },
   {
-    "chunk_id": "b59071bd-1e92-4be2-b46c-dd1baebca83f",
+    "chunk_id": "dbfb4123-8907-4601-afed-78a2af4567df",
     "doc_id": "POL-TRAIN-001",
     "section": "4. Hỗ trợ học tập cao hơn",
     "version": "1.0",
@@ -190,7 +190,7 @@
     "content": "### 4.1 Hỗ trợ học MBA, thạc sĩ\n\n- Công ty xem xét tài trợ một phần học phí cho chương trình MBA hoặc thạc sĩ liên quan đến ngành.\n- Mức tài trợ tối đa: 50% học phí, không vượt quá 100.000.000 VNĐ.\n- Điều kiện: đã làm việc đủ 2 năm, có kết quả đánh giá hiệu suất đạt loại khá trở lên trong 2 năm gần nhất.\n- Yêu cầu nộp đề luận học tập và cam kết làm việc sau khi hoàn thành.\n\n### 4.2 Hỗ trợ học tiến sĩ\n\n- Xem xét theo từng trường hợp cụ thể.\n- Yêu cầu đề án nghiên cứu có liên quan đến lĩnh vực hoạt động của công ty.\n- Cam kết làm việc tối thiểu 36 tháng sau khi nhận bằng."
   },
   {
-    "chunk_id": "cf180798-c701-4a3d-ba55-8eb510dee769",
+    "chunk_id": "6091bfc5-eb11-4024-a407-56c8ad6eda57",
     "doc_id": "POL-TRAIN-001",
     "section": "5. Đào tạo nội bộ",
     "version": "1.0",
