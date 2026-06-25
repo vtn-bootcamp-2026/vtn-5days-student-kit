@@ -5,7 +5,6 @@ phien-ban: v1.1
 created-at: 2026-06-25 07:15 +07:00
 updated-at: 2026-06-25 07:44 +07:00
 ---
-
 # Prompt 2: Thiết lập kho tri thức và lược đồ phản hồi
 
 Sao chép toàn bộ nội dung trong khung dưới đây và gửi cho trợ lý ảo Antigravity:

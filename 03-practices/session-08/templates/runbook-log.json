@@ -1,9 +1,9 @@
 {
-  "profile_name": "HR_Admin_Assistant",
+  "profile_name": "hr_admin_assistant",
   "model_used": "openrouter/owl-alpha",
   "model_method": "Phương pháp 2 - OpenRouter",
   "SOUL_ver": "v1.0 - 5 dòng chuẩn",
-  "skills_list": ["Report-Summary-Admin"],
+  "skills_list": ["report-summary-admin"],
   "kb_integrated": "synthetic-data/",
   "cron_configured": "daily_digest_at_1700",
   "test_runs": [

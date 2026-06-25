@@ -1,0 +1,11 @@
+run_id,input_file,status,pii_count,needs_human_review,created_at
+
+20260526054342,pii-sample-01.txt,success,3,false,2026-05-26T05:43:42
+20260526054507,pii-sample-02-tricky.txt,success,3,true,2026-05-26T05:45:07
+20260526055112,pii-sample-02-tricky.txt,success,7,true,2026-05-26T05:51:12
+20260526055451,pii-sample-01.txt,success,3,false,2026-05-26T05:54:51
+20260526062322,pii-sample-02-tricky.txt,success (Gemini),6,false,2026-05-26T06:23:22
+20260526062336,pii-sample-02-tricky.txt,success (Gemini),6,false,2026-05-26T06:23:36
+20260526062634,pii-sample-02-tricky.txt,success (Gemini),6,false,2026-05-26T06:26:34
+20260526062807,pii-sample-02-tricky.txt,success (Gemini),6,false,2026-05-26T06:28:07
+20260526062908,pii-sample-02-tricky.txt,success (Gemini),9,true,2026-05-26T06:29:08

@@ -352,7 +352,7 @@ def main():
     chroma_collection = None
     if HAS_CHROMADB:
         try:
-            client = chromadb.Client()
+            client = chromadb.PersistentClient(path="kb/chroma_db")
             chroma_collection = client.get_or_create_collection(args.collection)
         except Exception as exc:
             print(f"[retriever] ChromaDB unavailable ({exc}), using keyword fallback.")

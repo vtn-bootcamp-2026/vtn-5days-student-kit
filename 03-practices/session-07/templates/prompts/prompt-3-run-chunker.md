@@ -1,9 +1,9 @@
 ---
 mo-ta: Prompt hướng dẫn thực thi script phân đoạn tài liệu (chunker) và kiểm tra tệp kết quả chunks.json
 trang-thai: active
-phien-ban: v1.1
+phien-ban: v1.2
 created-at: 2026-06-25 07:15 +07:00
-updated-at: 2026-06-25 07:44 +07:00
+updated-at: 2026-06-25 11:00 +07:00
 ---
 
 # Prompt 3: Thực thi và kiểm tra tệp phân đoạn (Chunker output)
@@ -16,7 +16,7 @@ Chào Antigravity, tôi muốn chạy công cụ phân đoạn tài liệu: chun
 1. Copy tệp kịch bản chia nhỏ: chunker.py từ `03-practice/session-07/templates/skills/hr-policy-qa-skill/scripts/chunker.py` sang thư mục code của nhóm tại `03-practice/session-07/outputs/skills/hr-policy-qa-skill/scripts/chunker.py`.
 2. Thực thi dòng lệnh chạy script `chunker.py` để chia nhỏ 4 tệp chính sách trong thư mục `03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/hr-policies/` và ghi kết quả ra tệp JSON:
    ```bash
-   python 03-practice/session-07/outputs/skills/hr-policy-qa-skill/scripts/chunker.py --kb-dir 03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/hr-policies --output 03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/chunks.json
+   python 03-practice/session-07/outputs/skills/hr-policy-qa-skill/scripts/chunker.py --kb-dir 03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/hr-policies --output 03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/chunks.json --chroma
    ```
 3. Sau khi chạy xong, hãy đọc tệp kết quả `03-practice/session-07/outputs/skills/hr-policy-qa-skill/kb/chunks.json` để kiểm tra và xác nhận:
    - Có bao nhiêu phân đoạn (chunks) được tạo ra? (Kỳ vọng khoảng 15-20 chunks).

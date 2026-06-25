@@ -20,10 +20,10 @@
 - [ ] **C2.** Đã tắt hẳn ứng dụng Hermes Desktop Client (kiểm tra System Tray / Task Manager) trước khi xóa tệp vật lý.
 - [ ] **C3.** Đã chạy lệnh PowerShell xóa tệp trạng thái SQLite thành công:
       ```powershell
-      Remove-Item -Path "$HOME\.hermes\profiles\HR_Admin_Assistant\state.db" -ErrorAction SilentlyContinue
-      Remove-Item -Path "$HOME\.hermes\profiles\HR_Admin_Assistant\hermes.db" -ErrorAction SilentlyContinue
+      Remove-Item -Path "$HOME\.hermes\profiles\hr_admin_assistant\state.db" -ErrorAction SilentlyContinue
+      Remove-Item -Path "$HOME\.hermes\profiles\hr_admin_assistant\hermes.db" -ErrorAction SilentlyContinue
       ```
-- [ ] **C4.** Đã làm tương tự cho Profile `HR_Recruitment_Assistant` (nếu có state.db / hermes.db riêng).
+- [ ] **C4.** Đã làm tương tự cho Profile `hr_recruitment_assistant` (nếu có state.db / hermes.db riêng).
 - [ ] **C5.** Đã khởi động lại Hermes Client và xác nhận 2 Trợ lý bị xóa sạch ký ức phiên cũ.
 
 ## D. Bàn giao
