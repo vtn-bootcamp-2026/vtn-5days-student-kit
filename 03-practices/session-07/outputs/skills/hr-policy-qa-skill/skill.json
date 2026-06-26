@@ -9,9 +9,20 @@
     "question_patterns": ["câu hỏi về chính sách HR", "hỏi về quy định nhân sự", "chính sách nhân sự Viettel Network", "chế độ phúc lợi Viettel Network", "quy chế nội bộ nhân sự"]
   },
   "permissions": {
-    "read_files": ["kb/hr-policies/*.md", "kb/kb-inventory.md"],
+    "read_files": [
+      "kb/hr-policies/*.md",
+      "kb/kb-inventory.md",
+      "kb/chunks.json"
+    ],
     "write_files": [],
-    "execute_scripts": ["scripts/chunker.py", "scripts/retriever.py", "scripts/evaluator.py"],
+    "execute_scripts": [
+      "scripts/chunker.py",
+      "scripts/retriever.py",
+      "scripts/evaluator.py"
+    ],
+    "call_skills": [
+      "vibe-notebooklm-orchestrator"
+    ],
     "network_access": true
   },
   "required_files": {

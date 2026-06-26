@@ -26,15 +26,26 @@ class BrowserFactory:
         and cookie workaround.
         """
         # Launch persistent context
-        context = playwright.chromium.launch_persistent_context(
-            user_data_dir=user_data_dir,
-            channel="chrome",  # Use real Chrome
-            headless=headless,
-            no_viewport=True,
-            ignore_default_args=["--enable-automation"],
-            user_agent=USER_AGENT,
-            args=BROWSER_ARGS
-        )
+        try:
+            context = playwright.chromium.launch_persistent_context(
+                user_data_dir=user_data_dir,
+                channel="chrome",  # Use real Chrome
+                headless=headless,
+                no_viewport=True,
+                ignore_default_args=["--enable-automation"],
+                user_agent=USER_AGENT,
+                args=BROWSER_ARGS
+            )
+        except Exception as e:
+            # Fallback to standard Chromium if Chrome is not installed
+            context = playwright.chromium.launch_persistent_context(
+                user_data_dir=user_data_dir,
+                headless=headless,
+                no_viewport=True,
+                ignore_default_args=["--enable-automation"],
+                user_agent=USER_AGENT,
+                args=BROWSER_ARGS
+            )
 
         # Cookie Workaround for Playwright bug #36139
         # Session cookies (expires=-1) don't persist in user_data_dir automatically
