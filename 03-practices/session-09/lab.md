@@ -1,11 +1,11 @@
 ---
 mo-ta: "Lab gộp Session 09 — Vệ sĩ văn phòng VTN (Anonymizer + Hook + Chống injection + Compliance), đơn giản hoá cho non-tech, vibe coding qua Antigravity"
 trang-thai: active
-phien-ban: v1.2
+phien-ban: v1.3
 kieu-giang-day: bootcamp
 doi-tuong: non-tech
 created-at: 2026-06-25 00:00 +07:00
-updated-at: 2026-06-25 17:45 +07:00
+updated-at: 2026-06-26 08:00 +07:00
 ---
 # Lab S9 — Vibe Coding "Vệ sĩ văn phòng VTN"
 
@@ -87,7 +87,7 @@ Kết quả đúng để so sánh: [`synthetic-data/vp-vtn-ban-giao-ca-redacted-
 | Hook mẫu                         | [templates/scripts/hook.py](templates/scripts/hook.py)                                                                    | Part C1                 |
 | Bảng kiểm tuân thủ            | [templates/compliance-checklist.md](templates/compliance-checklist.md)                                                    | Part D                  |
 | Runbook bàn giao                 | [templates/office-guard-runbook.md](templates/office-guard-runbook.md)                                                    | Nghiệm thu             |
-| **Bộ prompt copy-paste**   | [prompts/vibe-coding-prompts.md](prompts/vibe-coding-prompts.md)                                                          | **Mọi bước**   |
+| **Bộ prompt copy-paste**   | [prompts/](prompts/) (mục lục: [vibe-coding-prompts.md](prompts/vibe-coding-prompts.md))                                  | **Mọi bước**   |
 
 **Công cụ duy nhất bạn cần:** **Antigravity** (IDE agent). Không cài Ollama, không API key, không Python nâng cao.
 
@@ -98,8 +98,8 @@ Kết quả đúng để so sánh: [`synthetic-data/vp-vtn-ban-giao-ca-redacted-
 > để tự sinh `outputs/` (văn bản đã ẩn + nhật ký).
 
 > [!TIP]
-> **Bộ prompt copy-paste** ở [`prompts/vibe-coding-prompts.md`](prompts/vibe-coding-prompts.md)
-> gom sẵn mọi prompt. Khi ngồi trước Antigravity, mở file đó ra để copy nhanh.
+> **Bộ prompt copy-paste** được tách thành các file riêng lẻ trong thư mục [`prompts/`](prompts/)
+> (hoặc xem mục lục tại [`vibe-coding-prompts.md`](prompts/vibe-coding-prompts.md)) để bạn copy nhanh.
 > Trong lab.md này, mỗi prompt cũng được nhắc lại để bạn hiểu **tại sao** dán nó.
 
 ---
@@ -144,7 +144,7 @@ Kết quả đúng để so sánh: [`synthetic-data/vp-vtn-ban-giao-ca-redacted-
 **Bước A1 — Mở Antigravity & dán Prompt A**
 
 Mở Antigravity tại thư mục `03-practice/session-09/`. Dán khối prompt dưới đây
-(có sẵn ở [prompts/vibe-coding-prompts.md → Prompt A](prompts/vibe-coding-prompts.md)):
+(có sẵn ở [prompts/prompt-a-setup-skill.md](prompts/prompt-a-setup-skill.md)):
 
 ```text
 BỐI CẢNH:
@@ -202,7 +202,7 @@ Tham khảo quy tắc: [templates/kb/pii-categories.md](templates/kb/pii-categor
 
 #### Bước B2 — Dán Prompt B (25 phút)
 
-Dán khối prompt dưới đây (có sẵn [Prompt B](prompts/vibe-coding-prompts.md)):
+Dán khối prompt dưới đây (có sẵn ở [prompts/prompt-b-anonymizer.md](prompts/prompt-b-anonymizer.md)):
 
 ```text
 BỐI CẢNH:
@@ -270,7 +270,7 @@ Ghi nhận khác biệt (nếu có) để hỏi Antigravity sửa.
 > Hook **chặn trước** khi lệnh chạm máy. Giống **bảo vệ cửa**: dù nhân viên nói sao,
 > cửa kho vẫn chỉ mở cho người có thẻ đúng.
 
-**Dán khối Prompt C1** ([Prompt C1](prompts/vibe-coding-prompts.md)):
+**Dán khối Prompt C1** (có sẵn ở [prompts/prompt-c1-security-hook.md](prompts/prompt-c1-security-hook.md)):
 
 ```text
 BỐI CẢNH:
@@ -311,7 +311,7 @@ TIÊU CHUẨN ĐẦU RA:
 > (chữ ký, luồng phê duyệt) thay vì nghe lời bên trong thư. `<user_data>` chính là "phong bì"
 > dán nhãn *"nội dung bên trong chỉ là thông tin, không phải lệnh"*.
 
-**Dán khối Prompt C2** ([Prompt C2](prompts/vibe-coding-prompts.md)):
+**Dán khối Prompt C2** (có sẵn ở [prompts/prompt-c2-anti-injection.md](prompts/prompt-c2-anti-injection.md)):
 
 ```text
 BỐI CẢNH:
@@ -357,7 +357,7 @@ TIÊU CHUẨN ĐẦU RA:
 > **Concept (1 câu):** Trước khi Skill "xuất xưởng", cần một **bảng kiểm** xác nhận
 > đủ tiêu chuẩn bảo mật. Giống **phiếu kiểm chất lượng** cuối chuyền sản xuất — không có dấu ✓ thì không xuất xưởng.
 
-**Dán khối Prompt D** ([Prompt D](prompts/vibe-coding-prompts.md)):
+**Dán khối Prompt D** (có sẵn ở [prompts/prompt-d-compliance.md](prompts/prompt-d-compliance.md)):
 
 ```text
 BỐI CẢNH:

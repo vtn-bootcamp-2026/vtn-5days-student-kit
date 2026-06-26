@@ -1,9 +1,9 @@
 ---
 mo-ta: "Tổng quan Session 09 — lab gộp Vệ sĩ văn phòng VTN (4 concept, non-tech, vibe coding qua Antigravity)"
 trang-thai: active
-phien-ban: v2.0
+phien-ban: v2.1
 created-at: 2026-06-20 22:25 +07:00
-updated-at: 2026-06-25 16:22 +07:00
+updated-at: 2026-06-26 08:00 +07:00
 ---
 
 # Session 09 — Vệ sĩ văn phòng VTN (Anonymizer + Hook + Chống Injection + Compliance)
@@ -16,7 +16,7 @@ updated-at: 2026-06-25 16:22 +07:00
 | File | Vai trò |
 |---|---|
 | **[lab.md](lab.md)** | **Lab chính** — 4 phần (A–D) tương ứng 4 concept, có prompt inline + analogy + trouble cards |
-| [prompts/vibe-coding-prompts.md](prompts/vibe-coding-prompts.md) | Bộ prompt copy-paste cho Antigravity (5 prompt: A, B, C1, C2, D) |
+| [prompts/](prompts/) | Thư mục chứa các tệp prompt riêng lẻ (mục lục: [vibe-coding-prompts.md](prompts/vibe-coding-prompts.md)) |
 | [synthetic-data/](synthetic-data/) | Ví dụ xuyên suốt: bản ghi bàn giao ca CSKH (có PII + injection) + kết quả đúng |
 | [templates/](templates/) | Starter code, SKILL.md/skill.json, kb/, hook mẫu, compliance checklist, runbook |
 
