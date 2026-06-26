@@ -1,83 +1,84 @@
 ---
-mo-ta: "Tong quan bai thuc hanh session 06 - compliance capstone theo skill-based pattern"
+mo-ta: "Tổng quan bài thực hành Session 10 - hoàn thiện dự án Capstone và đóng gói hồ sơ"
 trang-thai: active
-phien-ban: v2.0
+phien-ban: v3.0
 created-at: "2026-05-17 13:37 +07:00"
-updated-at: "2026-05-27 19:00 +07:00"
+updated-at: "2026-06-26 10:00 +07:00"
 ---
 
-# Buổi 06: Kiểm thử, Compliance & Capstone
+# Session 10: Capstone — từ bài toán đến Implementation Kit
 
 ## Mục tiêu
 
-Buổi Capstone kéo dài 4 giờ, chuyển đổi Mini Tool Anonymizer (session-05) từ bản thử nghiệm thành giải pháp hoàn chỉnh sẵn sàng thí điểm tại VTN, thông qua 3 trụ cột: kiểm thử nghiêm ngặt, đánh giá tuân thủ + phòng thủ injection, và đóng gói hồ sơ triển khai.
+Buổi Capstone kéo dài 3 giờ 30 phút, giúp các nhóm hoàn thiện sản phẩm end-to-end (từ ý tưởng sơ bộ ở các session trước thành giải pháp hoàn chỉnh) thông qua việc đóng gói bộ hồ sơ thiết kế giải pháp (**Capstone Blueprint** / **Implementation Kit**) và thực hiện thuyết trình bảo vệ, phản biện trước hội đồng nghiệm thu.
 
 ## Cấu trúc bài thực hành
 
 | Phần | Hoạt động | Hình thức | Đầu ra |
 | --- | --- | --- | --- |
-| A | Thiết kế Test Cases + chạy test pass đầu | Thực hành có hướng dẫn | test-cases-specification.md |
-| B | Compliance Check + Prompt Injection Defense | Thực hành có hướng dẫn | compliance-checklist.md |
-| C | E2E Testing + Bug Fixing | Thực hành nhóm | execution-log.csv (10/10 PASS) |
-| D | Implementation Kit + Capstone Presentation | Bài tập nhóm | 7 templates + Capstone slides |
+| A | Hoàn thiện & Tích hợp sản phẩm kỹ thuật nhóm | Thực hành nhóm | Luồng n8n / Agent Skill / RAG hoàn chỉnh |
+| B | Đóng gói bộ 5 hồ sơ Capstone Blueprint | Thực hành nhóm | Bộ 5 tài liệu Blueprint hoàn chỉnh |
+| C | Chuẩn bị Slide báo cáo Capstone & Demo | Thực hành nhóm | Slide thuyết trình + Demo chạy thực tế |
+| D | Thuyết trình bảo vệ trước lớp & Phản biện | Nghiệm thu nhóm | Slide thuyết trình + Phản biện hội đồng |
 
 ## Đầu vào
 
-- **Từ session-05**: `anonymizer.py` (mã nguồn đã vibe coding), `anonymizer-skill/` (skill package)
-- [synthetic-data/edge-cases-sample.txt](synthetic-data/edge-cases-sample.txt): dữ liệu biên (tên trùng danh từ, CCCD lỗi)
-- [synthetic-data/prompt-injection-attacks.txt](synthetic-data/prompt-injection-attacks.txt): 3 kịch bản tấn công injection
-- [references/anonymizer-solution.py](references/anonymizer-solution.py): mã nguồn tham khảo
-- `03-practice/02-study-guides/safety-rules.md`: quy tắc an toàn dữ liệu
+- **Từ các session trước (S1–S9)**:
+  - Bản thảo Use case one-pager, Workflow design doc (Mermaid, ESIA)
+  - Luồng n8n tự động hóa, Agent Skill đã đóng gói (vibe-aiworkforce)
+  - Dữ liệu tri thức (Knowledge Base) và RAG tích hợp
+  - Công cụ ẩn danh hóa dữ liệu (Anonymizer) và Hook bảo mật
+- Các biểu mẫu mẫu tại thư mục [templates/](templates/)
 
 ## Đầu ra
 
-Mỗi nhóm nộp **`session-06-capstone-handover-[TenNhom].zip`** chứa:
-1. `anonymizer.py` — mã nguồn đã qua kiểm thử (10/10 PASS + 3/3 injection blocked)
-2. Implementation Kit — 7 templates đã điền đầy đủ
-3. Capstone slide deck
+Mỗi nhóm nộp gói sản phẩm **`session-10-capstone-handover-[TenNhom].zip`** chứa:
+1. Mã nguồn sản phẩm kỹ thuật (file `.zip` chứa luồng n8n, Agent Skill, mã anonymizer/hook).
+2. Bộ 5 hồ sơ Capstone Blueprint đã điền đầy đủ thông tin.
+3. Slide thuyết trình báo cáo Capstone.
 
 ## SLI/SLO kiểm soát chất lượng
 
 | SLI | Đo lường | SLO (Target) | Measurement |
 |-----|----------|-------------|-------------|
-| E2E test pass rate | 10 ca kiểm thử PASS | 10/10 (100%) | test-cases-specification.md |
-| Prompt injection defense | 3 kịch bản tấn công bị chặn | 3/3 (100%) | compliance-checklist.md |
-| Clean logs | PII trong execution-log.csv | 0 | Scan CSV |
-| Implementation Kit completeness | 7 templates điền đầy đủ | 7/7 (100%) | File count + content check |
-| Capstone presentation | Slide deck delivered | Yes/No | Manual |
+| Capstone Blueprint completeness | 5/5 tài liệu Capstone Blueprint hoàn chỉnh | 5/5 (100%) | Đăng kiểm qua validator checkpoint |
+| Technical E2E validation | Luồng chạy trơn tru, không gặp lỗi hệ thống | 100% PASS | Demo trực tiếp trước hội đồng |
+| Security compliance | Không rò rỉ dữ liệu nhạy cảm thực tế | 100% tuân thủ | Compliance checklist và log audit |
+| Presentation delivery | Thuyết trình và phản biện đúng hạn | Đúng thời gian quy định | Hội đồng đánh giá và chấm điểm |
 
-## Kiến trúc nghiệm thu
+## Kiến trúc nghiệm thu bài toán Capstone
 
 ```text
 +-------------------------------------------------------------------+
-|               TẦNG TEST INPUT                                      |
-|    [ edge-cases-sample.txt ]     [ prompt-injection-attacks.txt ] |
+|               TẦNG TRẢI NGHIỆM & ĐẦU VÀO                          |
+|       [ Use case one-pager ]       [ Dữ liệu thực tế nhóm ]       |
 +-------------------------------------------------------------------+
                                   |
 +-------------------------------------------------------------------+
-|           TẦNG CORE MINI TOOL (Regex + LLM + Schema)              |
-|    * Bộ lọc Regex + Local LLM    * Log phi nhạy cảm               |
-|    * Ép Schema nghiêm ngặt       * HITL phê duyệt                 |
+|            TẦNG CORE AI WORKFLOW & AGENTIC RAG                    |
+|    * Luồng tự động hóa n8n       * Tác tử AI Agent (Hermes/Cloud) |
+|    * Tri thức RAG tích hợp       * Bộ lọc Anonymizer & Hook       |
 +-------------------------------------------------------------------+
                                   |
 +-------------------------------------------------------------------+
-|           TẦNG IMPLEMENTATION KIT                                  |
-|    * Runbook    * Failure Modes    * One Pager    * 30/90 Plan     |
+|            TẦNG HỒ SƠ BÀN GIAO (IMPLEMENTATION KIT)               |
+|    * Runbook cài đặt             * Phân tích Failure Modes        |
+|    * Action Plan 30/90 ngày      * Biên bản bàn giao kỹ thuật     |
 +-------------------------------------------------------------------+
 ```
 
 ## Vai trò của ảnh thị phạm
 
-Thư mục `outputs/screenshots/` lưu ảnh giảng viên thị phạm. Không commit ảnh chụp thô có email, API key, token.
+Thư mục `outputs/screenshots/` lưu ảnh chụp demo sản phẩm. Tuyệt đối không commit ảnh chứa thông tin nhạy cảm, email thật, API key, token.
 
 ## Tiêu chí hoàn thành
 
-- [ ] 10/10 test cases PASS
-- [ ] 3/3 injection attacks blocked
-- [ ] execution-log.csv không chứa PII gốc
-- [ ] 7/7 Implementation Kit templates hoàn chỉnh
-- [ ] Capstone slide deck + demo trơn tru
+- [ ] Hoàn thiện tích hợp luồng sản phẩm AI chạy ổn định.
+- [ ] Điền đầy đủ bộ 5 tài liệu Capstone Blueprint.
+- [ ] Chuẩn bị slide báo cáo Capstone đúng cấu trúc.
+- [ ] Thực hiện demo chạy trực tế và thuyết trình trước hội đồng.
+- [ ] Đóng gói và nộp bài đúng hạn cấu trúc quy định.
 
 ## Quan hệ với session khác
 
-Session-05 xây anonymizer (vibe coding). Session-06 là Capstone — nghiệm thu, vá lỗi, đóng gói. Artifact cuối cùng là Implementation Kit hoàn chỉnh, sẵn sàng trình Ban giám đốc VTN phê duyệt thí điểm.
+Session 10 là chặng cuối (Capstone) của toàn bộ chương trình bootcamp. Nó kết hợp toàn bộ thành quả từ việc chọn bài toán (S1), thiết kế workflow (S2), cài đặt n8n (S3, S4), đóng gói Agent/Skill (S5), xây dựng RAG (S6, S7), cấu hình Local Assistant (S8) và bảo mật dữ liệu (S9) thành một gói giải pháp sẵn sàng trình Ban Giám đốc phê duyệt thí điểm.

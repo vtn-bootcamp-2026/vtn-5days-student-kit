@@ -34,10 +34,10 @@ vp-vtn-office-guard/
 ```
 
 ## Kiểm tra nhanh sau bàn giao
-- [x] Mở `outputs/vp-vtn-ban-giao-ca-redacted.txt` — PII đã ẩn, mã phiếu/tiền còn nguyên.
-- [x] Mở `outputs/execution-log.csv` — không có PII gốc.
-- [x] Email mục 2 bị vô hiệu hoá + cờ rà soát bật.
-- [x] Bảng kiểm tuân thủ đạt ≥ 7/8.
+- [ ] Mở `outputs/vp-vtn-ban-giao-ca-redacted.txt` — PII đã ẩn, mã phiếu/tiền còn nguyên.
+- [ ] Mở `outputs/execution-log.csv` — không có PII gốc.
+- [ ] Email mục 2 bị vô hiệu hoá + cờ rà soát bật.
+- [ ] Bảng kiểm tuân thủ đạt ≥ 7/8.
 
 ## Hạn chế đã biết
 - Tên người được nhận diện qua ngữ cảnh trong Antigravity; nếu văn bản quá tối nghĩa,
